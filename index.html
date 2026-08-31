@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/colors.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/typography.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/radii.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/elevation.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/motion.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/tokens/semantic.css">
+<link rel="stylesheet" href="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/styles.css">
+<script src="_ds/promet-source-design-system-b4bce03b-0653-4e18-b33c-7cc072d3ddde/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--white); }
+  a { color: var(--electric-blue-500); }
+  a:hover { color: var(--deep-space-900); }
+  *:focus-visible { outline: 3px solid rgba(65,18,253,.35); outline-offset: 2px; border-radius: 4px; }
+</style>
+</helmet>
+
+<div style="font-family: var(--font-body); color: var(--charcoal-700); background: var(--white); min-height: 100vh;">
+
+  <a href="#main" style="position: absolute; left: -9999px; top: 0; background: var(--white); color: var(--deep-space-900); padding: 12px 20px; border-radius: 999px; font-weight: 700; z-index: 50;" style-focus="left: 24px; top: 16px;">Skip to main content</a>
+
+  <header style="position: sticky; top: 0; z-index: 40; background: var(--deep-space-900); border-bottom: 1px solid rgba(255,255,255,.12);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; gap: 32px;">
+      <a href="#main" aria-label="Promet Source home" style="display: block;">
+        <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Logo" variant="onDark" base="." height="{{ 32 }}" hint-size="136px,32px"></x-import>
+      </a>
+      <nav aria-label="Course sections" style="display: flex; align-items: center; gap: 28px;">
+        <a href="#outcomes" style="font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none;" style-hover="color: var(--orange-500);">What you practice</a>
+        <a href="#exercises" style="font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none;" style-hover="color: var(--orange-500);">Exercises</a>
+        <a href="#logistics" style="font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none;" style-hover="color: var(--orange-500);">Logistics</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section style="background: var(--deep-space-900); color: var(--white); position: relative; overflow: hidden;">
+      <div aria-hidden="true" style="position: absolute; right: -160px; top: -180px; width: 620px; height: 620px; border: 1px solid rgba(255,133,0,.28); border-radius: 999px;"></div>
+      <div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 112px 32px 104px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: end;">
+        <div>
+          <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.10); font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 28px;">
+            <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="accessibility" size="{{ 16 }}" hint-size="16px,16px"></x-import>
+            <span>Hands-on workshop · WCAG 2.1 AA and Section 508</span>
+          </div>
+          <h1 style="font-family: var(--font-display); font-weight: 700; font-size: 64px; line-height: 1.08; letter-spacing: -0.02em; color: var(--white); margin: 0 0 24px;">Digital Accessibility Foundations Exercizes</h1>
+          <p style="font-size: 20px; line-height: 1.6; color: var(--lavendar-200); max-width: 46ch; margin: 0 0 40px; text-wrap: pretty; width: 694px; height: 142px">Compliance is the floor, not the goal. Over two days your team learns to find the barriers in your own pages, fix the patterns that produced them, and keep them fixed after we leave.</p>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+            <a href="{{ exerciseHref }}" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
+              <span>Open exercise 3.1</span>
+              <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="arrow-right" size="{{ 20 }}" hint-size="20px,20px"></x-import>
+            </a>
+            <a href="#exercises" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: rgba(255,255,255,.10); color: var(--white); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: rgba(255,255,255,.20); color: var(--white);">See the exercise list</a>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <section id="outcomes" style="background: var(--white);">
+      
+    </section>
+
+    <section id="exercises" style="background: var(--plaster-50); border-top: 1px solid var(--neutral-line); border-bottom: 1px solid var(--neutral-line);">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 96px 32px;">
+        <h2 style="font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0 0 16px;">Exercises</h2>
+        <p style="font-size: 18px; line-height: 1.6; max-width: 60ch; margin: 0 0 48px;">Exercise pages open in this browser. Work through them with a keyboard first, then a screen reader.</p>
+
+        <div style="display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start;">
+          <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--orange-10); display: grid; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Exercise 3.1</span>
+              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">Module 3 · Auditing a real page</span>
+            </div>
+            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Parks and events listing</h3>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 52ch;">A city parks and events page with a filter panel, a card grid and a registration form. Find the barriers a keyboard-only visitor hits, then write up each one against the success criterion it violates.</p>
+            <div>
+              <a href="{{ exerciseHref }}" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
+                <span>Open exercise 3.1</span>
+                <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 20 }}" hint-size="20px,20px"></x-import>
+              </a>
+            </div>
+            <p style="font-size: 14px; line-height: 1.5; margin: 0; color: var(--charcoal-700);">{{ exerciseHref }}</p>
+          </div>
+
+          <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--white); display: grid; gap: 16px;">
+            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1.2; color: var(--deep-space-900); margin: 0;">Before you start</h3>
+            <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 14px;">
+              <li style="display: flex; gap: 12px; align-items: start; font-size: 16px; line-height: 1.55;">
+                <span style="color: var(--deep-space-900); margin-top: 2px;"><x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="keyboard" size="{{ 18 }}" hint-size="18px,18px"></x-import></span>
+                <span>Put the mouse away. Tab, shift-tab, enter and space only.</span>
+              </li>
+              <li style="display: flex; gap: 12px; align-items: start; font-size: 16px; line-height: 1.55;">
+                <span style="color: var(--deep-space-900); margin-top: 2px;"><x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="audio-lines" size="{{ 18 }}" hint-size="18px,18px"></x-import></span>
+                <span>Have VoiceOver, NVDA or Narrator ready for the second pass.</span>
+              </li>
+              <li style="display: flex; gap: 12px; align-items: start; font-size: 16px; line-height: 1.55;">
+                <span style="color: var(--deep-space-900); margin-top: 2px;"><x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="notebook-pen" size="{{ 18 }}" hint-size="18px,18px"></x-import></span>
+                <span>Log each finding with the page element, the barrier and the criterion.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <sc-if value="{{ showRoadmap }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top: 48px; border-top: 1px solid var(--neutral-line-strong); padding-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            <div style="display: grid; gap: 6px;">
+              <span style="font-size: 13px; font-weight: 700; color: var(--deep-space-60);">Module 1</span>
+              <span style="font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--deep-space-900);">Why it matters, and to whom</span>
+            </div>
+            <div style="display: grid; gap: 6px;">
+              <span style="font-size: 13px; font-weight: 700; color: var(--deep-space-60);">Module 2</span>
+              <span style="font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--deep-space-900);">The standards you are held to</span>
+            </div>
+            <div style="display: grid; gap: 6px;">
+              <span style="font-size: 13px; font-weight: 700; color: var(--deep-space-60);">Module 3</span>
+              <span style="font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--deep-space-900);">Auditing a real page</span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section id="logistics" style="background: var(--white);">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 96px 32px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: start;">
+        <div>
+          <h2 style="font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0 0 20px;">How the training runs</h2>
+          <p style="font-size: 18px; line-height: 1.65; margin: 0 0 20px; max-width: 60ch; text-wrap: pretty;">We run the sessions against your own pages wherever we can. An audit tells you what is broken; this training hands your team the checks that keep it fixed.</p>
+          <p style="font-size: 18px; line-height: 1.65; margin: 0; max-width: 60ch; text-wrap: pretty;">Sessions cap at 20 participants so everyone gets time in the exercise pages. Recordings, exercise files and the remediation checklist stay with your team afterward.</p>
+        </div>
+        <div style="border: 1px solid var(--neutral-line); border-radius: 24px; padding: 32px; background: var(--plaster-50); display: grid; gap: 20px;">
+          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--deep-space-900); margin: 0;">Bring this to your team</h3>
+          <p style="font-size: 16px; line-height: 1.6; margin: 0;">Tell us your platform, your team's roles and the deadline you are working against. We will tell you plainly whether we are the right fit.</p>
+          <div>
+            <a href="https://www.prometsource.com/contact" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-weight: 700; font-size: 16px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #241765; color: var(--white);">Start a conversation</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background: var(--deep-space-900); color: var(--lavendar-200);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 56px 32px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;">
+      <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Logo" variant="onDark" base="." height="{{ 28 }}" hint-size="119px,28px"></x-import>
+      <p style="margin: 0; font-size: 14px; line-height: 1.5;">Promet Source · Digital accessibility training · WCAG 2.1 AA, Section 508, VPAT on request</p>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;exerciseHref&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;/demo-pages/parks-events/index.html&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Exercise&quot;},&quot;showRoadmap&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Exercise&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      exerciseHref: this.props.exerciseHref ?? "/demo-pages/parks-events/index.html",
+      showRoadmap: this.props.showRoadmap ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>
