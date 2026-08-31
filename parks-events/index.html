@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upcoming Events | Riverside Parks &amp; Recreation</title>
+<style>
+  :root {
+    --navy: #0d3b4f;
+    --teal: #1a7a6a;
+    --rust: #c84a1a;
+    --sand: #f6f3ee;
+    --ink: #23303a;
+    --line: #d8dfe3;
+    --alert: #b32020;
+    --alert-bright: #e8503c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--sand);
+    color: var(--ink);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  header.site {
+    background: var(--navy);
+    color: #fff;
+    padding: 18px 24px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  .brandline { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .seal {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #ffd166; color: var(--navy);
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 15px; letter-spacing: .5px;
+    flex: 0 0 auto;
+  }
+  .brandline h1 { font-size: 1.25rem; margin: 0; font-weight: 700; }
+  .brandline p { margin: 0; font-size: .85rem; color: #bcd4dd; }
+  nav.site { background: var(--teal); }
+  nav.site ul {
+    max-width: 980px; margin: 0 auto; padding: 0 24px;
+    list-style: none; display: flex; flex-wrap: wrap; gap: 4px;
+  }
+  nav.site a {
+    display: block; padding: 12px 16px;
+    color: #fff; text-decoration: none; font-size: .95rem;
+  }
+  nav.site a:hover, nav.site a:focus { background: rgba(0,0,0,.22); text-decoration: underline; }
+  nav.site a[aria-current="page"] { background: rgba(0,0,0,.3); font-weight: 700; }
+  main { padding: 32px 24px 56px; }
+  .crumbs { font-size: .85rem; color: #5b6b76; margin: 0 0 18px; }
+  .crumbs a { color: #145e78; }
+  h2.page { font-size: 2rem; margin: 0 0 6px; color: var(--navy); }
+  .lede { margin: 0 0 28px; color: #4a5b66; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    padding: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .card h3 { margin: 0 0 18px; font-size: 1.3rem; color: var(--navy); }
+  .flyer { text-align: center; }
+  .flyer img {
+    max-width: 100%; height: auto;
+    border: 1px solid var(--line); border-radius: 6px;
+  }
+  .details { margin: 22px 0 0; font-size: 1.05rem; }
+  aside.help {
+    margin-top: 32px; padding: 20px 24px;
+    background: #eef4f6; border-left: 5px solid var(--teal); border-radius: 0 8px 8px 0;
+  }
+  aside.help h3 { margin: 0 0 8px; font-size: 1.05rem; color: var(--navy); }
+  aside.help p { margin: 0; font-size: .95rem; }
+  footer.site {
+    background: var(--navy); color: #cfe0e7;
+    padding: 26px 24px; font-size: .9rem;
+  }
+  footer.site a { color: #ffd166; }
+
+  /* ---------------------------------------------------------------
+     TRAINING OVERLAY — not part of the simulated municipal page.
+     Delete this block (and the .a11y-* markup) to get the clean
+     "before" example with no instructor annotation.
+     --------------------------------------------------------------- */
+  .a11y-probe {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    cursor: help;
+  }
+  .a11y-probe > img { display: block; }
+  .a11y-badge {
+    position: absolute; top: 10px; left: 10px; z-index: 2;
+    background: var(--alert); color: #fff;
+    font-size: .8rem; font-weight: 700; letter-spacing: .3px;
+    padding: 6px 11px; border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.35);
+    pointer-events: none;
+  }
+  .a11y-probe::after {
+    content: "";
+    position: absolute; inset: 0;
+    border: 3px dashed transparent; border-radius: 6px;
+    transition: border-color .15s ease;
+    pointer-events: none;
+  }
+  .a11y-probe:hover::after,
+  .a11y-probe:focus-visible::after { border-color: var(--alert); }
+  .a11y-probe:focus-visible { outline: 3px solid var(--alert); outline-offset: 4px; }
+
+  .a11y-bubble {
+    display: block;
+    position: absolute;
+    top: 52px; left: 10px;
+    transform: translateY(-8px) scale(.98);
+    transform-origin: top left;
+    width: min(430px, calc(100% - 20px));
+    z-index: 3;
+    background: #17242e; color: #f2f6f8;
+    text-align: left;
+    border: 2px solid var(--alert-bright); border-radius: 12px;
+    padding: 18px 20px 16px;
+    box-shadow: 0 14px 40px rgba(0,0,0,.5);
+    opacity: 0; visibility: hidden;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+    pointer-events: none;
+  }
+  .a11y-probe:hover .a11y-bubble,
+  .a11y-probe:focus-visible .a11y-bubble,
+  .a11y-probe:focus-within .a11y-bubble {
+    opacity: 1; visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  /* pointer aimed up at the badge */
+  .a11y-bubble::before {
+    content: "";
+    position: absolute; top: -11px; left: 30px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 11px solid var(--alert-bright);
+  }
+  .a11y-bubble h4 {
+    margin: 0 0 4px; font-size: 1rem; color: #ff9d8a;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .a11y-bubble .sub {
+    margin: 0 0 12px; font-size: .8rem; color: #a9bcc7;
+    border-bottom: 1px solid #33454f; padding-bottom: 10px;
+  }
+  .a11y-bubble ol { margin: 0; padding-left: 20px; }
+  .a11y-bubble li { margin-bottom: 11px; font-size: .9rem; line-height: 1.55; }
+  .a11y-bubble li:last-child { margin-bottom: 0; }
+  .a11y-bubble strong { color: #ffd166; }
+  .a11y-bubble code {
+    background: #0c1a22; color: #a8e0d2;
+    padding: 1px 5px; border-radius: 3px;
+    font-size: .82em; word-break: break-word;
+  }
+  .a11y-bubble .sc {
+    display: inline-block; margin-top: 3px;
+    font-size: .8rem; color: #c9d8e0; font-style: italic;
+  }
+
+  @media (max-width: 700px) {
+    h2.page { font-size: 1.55rem; }
+    .card { padding: 18px; }
+    /* Bubble can't hover on touch — pin it below the flyer instead. */
+    .a11y-probe { display: block; }
+    .a11y-bubble {
+      display: block;
+      position: static; transform: none; width: 100%;
+      opacity: 1; visibility: visible; margin-top: 16px;
+      padding: 18px 18px 16px;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+    .a11y-bubble li { font-size: .95rem; }
+    .a11y-bubble .sc { font-size: .85rem; }
+    .a11y-bubble::before { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .a11y-bubble, .a11y-probe::after { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap brandline">
+    <span class="seal" aria-hidden="true">RPR</span>
+    <div>
+      <h1>Riverside Parks &amp; Recreation</h1>
+      <p>City of Riverside &middot; Department of Parks &amp; Recreation</p>
+    </div>
+  </div>
+</header>
+
+<nav class="site" aria-label="Main">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Parks &amp; Trails</a></li>
+    <li><a href="#">Programs</a></li>
+    <li><a href="#" aria-current="page">Events</a></li>
+    <li><a href="#">Facility Rentals</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="wrap">
+    <p class="crumbs"><a href="#">Home</a> &rsaquo; <a href="#">Events</a> &rsaquo; Upcoming Events</p>
+
+    <h2 class="page">Upcoming Events</h2>
+    <p class="lede">Concerts, camps, and community gatherings hosted in Riverside parks.</p>
+
+    <section class="card">
+      <h3>Summer Concert Series</h3>
+
+      <div class="flyer">
+        <span class="a11y-probe" tabindex="0">
+          <span class="a11y-badge">&#9888; 3 issues &mdash; hover to inspect</span>
+
+          <img src="summer-concert-flyer.jpg" width="1200" height="1600">
+
+          <span class="a11y-bubble" role="note">
+            <h4>&#9888; What a screen reader gets here</h4>
+            <p class="sub">Training annotation &mdash; not part of the page under review.</p>
+            <ol>
+              <li><strong>No alt attribute.</strong> The tag is
+                <code>&lt;img src="summer-concert-flyer.jpg"&gt;</code>, so assistive
+                tech falls back to announcing the file name.
+                <span class="sc">Fails WCAG 1.1.1 Non-text Content (Level A)</span></li>
+              <li><strong>Every detail is trapped in pixels.</strong> Date, time,
+                venue, the $8 price, and the (555) 214-7788 registration number
+                exist nowhere in text &mdash; so they can't be searched,
+                translated, copied, or read aloud.
+                <span class="sc">Fails WCAG 1.4.5 Images of Text (Level AA)</span></li>
+              <li><strong>The text can't reflow or resize.</strong> Zoom to 400% and
+                the flyer just gets blurry; there is no text to enlarge or rewrap.
+                <span class="sc">Fails WCAG 1.4.4 Resize Text and 1.4.10 Reflow (Level AA)</span></li>
+            </ol>
+          </span>
+        </span>
+      </div>
+
+      <p class="details">See flyer for details.</p>
+    </section>
+
+    <aside class="help">
+      <h3>Questions?</h3>
+      <p>The Parks &amp; Recreation office is open Monday through Friday, 8:00 a.m. to 4:30 p.m.</p>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>City of Riverside Parks &amp; Recreation &middot; 400 Riverbank Road, Riverside</p>
+    <p><a href="#">Accessibility Statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Site Map</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
