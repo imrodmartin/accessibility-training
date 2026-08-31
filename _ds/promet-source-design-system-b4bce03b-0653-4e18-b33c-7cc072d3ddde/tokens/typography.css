@@ -1,0 +1,31 @@
+/* Type Hierarchy — Figma node 364:3786. Headlines Plus Jakarta Sans, body Manrope, sentence case always. */
+:root{
+  --font-display:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
+  --font-body:"Manrope","Segoe UI",system-ui,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+
+  --weight-regular:400;
+  --weight-bold:700;
+
+  --size-display-1:64px;
+  --size-display-2:52px;
+  --size-h1:40px;
+  --size-h2:32px;
+  --size-h3:24px;
+  --size-h4:20px;
+  --size-body-lg:18px;
+  --size-body:16px;
+  --size-body-sm:14px;
+  --size-caption:13px;
+  --size-micro:12px;
+
+  --leading-tight:1.08;
+  --leading-snug:1.2;
+  --leading-normal:1.5;
+  --leading-relaxed:1.65;
+
+  --tracking-display:-0.02em;
+  --tracking-heading:-0.01em;
+  --tracking-normal:0;
+  --tracking-wide:0.01em;
+}
