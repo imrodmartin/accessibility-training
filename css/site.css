@@ -1,0 +1,4 @@
+body { margin: 0; background: var(--white); }
+  a { color: var(--electric-blue-500); }
+  a:hover { color: var(--deep-space-900); }
+  *:focus-visible { outline: 3px solid rgba(65,18,253,.35); outline-offset: 2px; border-radius: 4px; }
