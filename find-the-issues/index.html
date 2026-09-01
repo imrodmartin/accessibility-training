@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exercise 6.1 &middot; Find the issues</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Public+Sans:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F3F1;
+    --sheet: #FFFFFF;
+    --ink: #14213D;
+    --slate: #4E5A68;
+    --rule: #C9CED4;
+    --rule-soft: #E3E6E9;
+    --green: #1F5C3A;
+    --green-tint: #E4EFE8;
+    --red: #8A2222;
+    --red-tint: #F5E6E6;
+    --amber: #8A6A12;
+    --amber-tint: #F5EED8;
+    --orange: #E8730C;
+    --display: "Libre Caslon Text", "Iowan Old Style", Georgia, serif;
+    --body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "Courier Prime", "Courier New", Courier, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+  .skip {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--ink); color: #fff; padding: 12px 20px; z-index: 60;
+    font-weight: 700; text-decoration: none;
+  }
+  .skip:focus { left: 12px; top: 12px; }
+
+  /* ---------- page frame ---------- */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    background: var(--sheet);
+  }
+  .masthead-inner {
+    max-width: 1220px; margin: 0 auto; padding: 22px 24px;
+    display: flex; flex-wrap: wrap; gap: 12px 24px;
+    align-items: baseline; justify-content: space-between;
+  }
+  .kicker {
+    font-family: var(--mono); font-size: 13px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--slate); margin: 0 0 6px;
+  }
+  .masthead h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; }
+  .backlink {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--slate); text-decoration: none; margin-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .backlink:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .counter {
+    font-family: var(--mono); font-size: 14px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--slate);
+  }
+  .counter strong { color: var(--ink); font-size: 20px; }
+
+  .layout {
+    max-width: 1220px; margin: 0 auto; padding: 28px 24px 80px;
+    display: grid; grid-template-columns: minmax(0,1fr) 380px; gap: 32px; align-items: start;
+  }
+
+  /* ---------- instructions ---------- */
+  .brief {
+    background: var(--sheet); border: 1.5px solid var(--rule);
+    padding: 22px 24px; margin-bottom: 24px;
+  }
+  .brief h2 { font-family: var(--display); font-size: 22px; margin: 0 0 10px; }
+  .brief p { margin: 0 0 12px; max-width: 66ch; }
+  .brief ol { margin: 0; padding-left: 22px; max-width: 66ch; }
+  .brief li { margin-bottom: 8px; }
+  .brief li:last-child { margin-bottom: 0; }
+  .brief strong { font-weight: 700; }
+
+  /* ---------- the email ---------- */
+  .mail {
+    background: var(--sheet); border: 1.5px solid var(--rule);
+  }
+  .mail-head {
+    border-bottom: 1px solid var(--rule-soft); padding: 16px 28px;
+    font-size: 15px; color: var(--slate);
+  }
+  .mail-head dl { margin: 0; display: grid; grid-template-columns: 64px 1fr; gap: 4px 12px; }
+  .mail-head dt { font-family: var(--mono); text-transform: uppercase; font-size: 12px; letter-spacing: .1em; padding-top: 3px; }
+  .mail-head dd { margin: 0; color: var(--ink); }
+  .mail-body { padding: 8px 28px 32px; }
+
+  /* hotspots */
+  .spot { position: relative; border: 2px solid transparent; border-radius: 3px; }
+  .spot:hover, .spot.active { border-color: var(--rule); background: #FBFBF9; }
+  .spot.flagged { border-color: var(--amber); background: var(--amber-tint); }
+  .spot > .mark {
+    position: absolute; left: -30px; top: 4px;
+    width: 24px; height: 24px; padding: 0;
+    border: 1.5px solid var(--rule); background: var(--sheet); color: var(--slate);
+    font-family: var(--mono); font-size: 12px; font-weight: 700; line-height: 1;
+    cursor: pointer; border-radius: 999px;
+  }
+  .spot > .mark:hover { border-color: var(--ink); color: var(--ink); }
+  .spot .spot > .mark { top: 44px; }
+  .spot.flagged > .mark { background: var(--amber); border-color: var(--amber); color: #fff; }
+  .spot.graded.hit { border-color: var(--green); background: var(--green-tint); }
+  .spot.graded.miss { border-color: var(--red); background: var(--red-tint); }
+  .spot.graded.falsealarm { border-color: var(--red); background: var(--red-tint); }
+  .spot.graded.clean { border-color: var(--green); background: transparent; }
+
+  .verdict {
+    display: none; margin: 10px 0 0; padding: 12px 14px;
+    border-left: 4px solid var(--slate); background: var(--paper);
+    font-size: 15px; line-height: 1.5;
+  }
+  .graded .verdict { display: block; }
+  .verdict .tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px;
+    letter-spacing: .12em; text-transform: uppercase; font-weight: 700;
+    padding: 2px 8px; margin-right: 8px; color: #fff; background: var(--slate);
+  }
+  .hit .verdict .tag { background: var(--green); }
+  .miss .verdict .tag, .falsealarm .verdict .tag { background: var(--red); }
+  .clean .verdict .tag { background: var(--green); }
+  .verdict .sc { display: block; margin-top: 6px; font-family: var(--mono); font-size: 12px; color: var(--slate); }
+
+  /* email content styling (deliberately imperfect) */
+  .banner { font-size: 32px; font-weight: 800; color: var(--orange); margin: 22px 0 18px; line-height: 1.1; }
+  .fauxsub { font-size: 21px; font-weight: 800; color: #333; margin: 26px 0 10px; }
+  .mail-body p { margin: 0 0 16px; }
+  .flyer { display: block; width: 100%; max-width: 520px; height: auto; border: 1px solid var(--rule-soft); }
+  .faint { color: #9A9A9A; }
+  .full { color: #C22B2B; }
+  .proglist { margin: 0 0 16px; padding-left: 22px; }
+  .proglist li { margin-bottom: 6px; }
+  .mail-body a { color: #1155CC; }
+
+  /* ---------- inspector ---------- */
+  .rail { position: sticky; top: 24px; display: grid; gap: 16px; }
+  .panel { background: var(--sheet); border: 1.5px solid var(--rule); padding: 20px; }
+  .panel h2 {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--slate); margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft);
+  }
+  #readout-label { font-family: var(--display); font-size: 20px; line-height: 1.25; margin: 0 0 10px; }
+  #readout-format { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink); }
+  #readout-format .line { display: block; }
+  #readout-format .line + .line { margin-top: 6px; }
+  #readout-format b { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: .04em; }
+  .hintbar { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule-soft); font-size: 14px; color: var(--slate); }
+
+  .btn {
+    font-family: var(--body); font-size: 16px; font-weight: 700; line-height: 1.2;
+    padding: 14px 22px; border: 2px solid var(--ink); background: var(--ink); color: #fff;
+    cursor: pointer; width: 100%;
+  }
+  .btn:hover { background: #0C1730; }
+  .btn.secondary { background: var(--sheet); color: var(--ink); }
+  .btn.secondary:hover { background: var(--paper); }
+  .btn + .btn { margin-top: 10px; }
+
+  .score { margin: 0 0 12px; font-size: 15px; line-height: 1.6; }
+  .score .big { font-family: var(--display); font-size: 34px; display: block; line-height: 1.1; }
+  .tally { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+  .tally li { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px dotted var(--rule-soft); }
+  .tally li:last-child { border-bottom: 0; }
+  .tally b { font-family: var(--mono); }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  @media (max-width: 1080px) {
+    .layout { grid-template-columns: minmax(0,1fr); }
+    .rail { position: static; }
+    .mail-body { padding-left: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#email">Skip to the email</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <a class="backlink" href="../index.html"><span aria-hidden="true">&larr;</span> All exercises</a>
+      <p class="kicker">Accessibility Foundations &middot; Module 6</p>
+      <h1>Exercise 6.1 &mdash; Find the issues</h1>
+    </div>
+    <p class="counter">Flagged <strong id="flag-count">0</strong> of 13 items</p>
+  </div>
+</header>
+
+<div class="layout">
+
+  <main id="main">
+
+    <section class="brief" aria-labelledby="brief-h">
+      <h2 id="brief-h">How this works</h2>
+      <p>Below is a department email announcement. It looks completely normal. <strong>Nine accessibility issues are embedded in it.</strong> Find as many as you can before you open the answers.</p>
+      <ol>
+        <li><strong>Hover over any part of the email</strong> &mdash; or press <kbd>Tab</kbd> to the numbered button beside it &mdash; and the panel on the right tells you how that piece is actually built: the tag, the font, the color, the alt text.</li>
+        <li><strong>Decide from that description alone</strong> whether the formatting is sound. No browser inspector, no scanner, no code view needed.</li>
+        <li><strong>Flag the ones you think are broken</strong> by clicking the numbered button. Thirteen items are marked. Nine are problems. Four are fine &mdash; flagging those costs you.</li>
+        <li>When you are done, choose <strong>Check my answers</strong>.</li>
+      </ol>
+    </section>
+
+    <article class="mail" id="email" aria-label="Department email announcement">
+      <div class="mail-head">
+        <dl>
+          <dt>From</dt><dd>Riverbend Parks and Recreation &lt;parks@riverbendparks.gov&gt;</dd>
+          <dt>To</dt><dd>All Residents List</dd>
+          <dt>Date</dt><dd>Monday, February 24, 9:14 AM</dd>
+          <dt>Subject</dt><dd>Spring Programs Are Here!</dd>
+        </dl>
+      </div>
+
+      <div class="mail-body">
+
+        <!-- 1 -->
+        <div class="spot" id="s1" data-label="Announcement banner"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt; &mdash; an ordinary paragraph.</span><span class='line'><b>TYPE</b> Arial 32px, weight 800, color #E8730C on white.</span><span class='line'><b>OUTLINE</b> Contributes nothing. This document contains no h1&ndash;h6 elements at all.</span><span class='line'><b>ANNOUNCED AS</b> &ldquo;Spring programs are here&rdquo; &mdash; plain body text.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">1</span><span class="sr-only">Item 1, announcement banner. Flag as a problem</span></button>
+          <p class="banner">SPRING PROGRAMS ARE HERE!</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 3 wraps 2 -->
+        <div class="spot" id="s3" data-label="Flyer block, as a whole"
+          data-format="<span class='line'><b>BLOCK</b> One image, no caption, nothing after it.</span><span class='line'><b>TEXT IN THE IMAGE</b> &ldquo;Spring Programs &middot; Registration Opens March 3 &middot; Ages 5 to 14 &middot; $45 per session &middot; Call 555-0100.&rdquo;</span><span class='line'><b>SAME TEXT ELSEWHERE IN THE EMAIL</b> Search finds no match for &ldquo;March 3&rdquo;, &ldquo;Ages 5&rdquo;, &ldquo;$45&rdquo; or &ldquo;555-0100&rdquo; in the message body.</span><span class='line'><b>SELECTABLE / SEARCHABLE</b> No. The words are pixels.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">3</span><span class="sr-only">Item 3, the flyer block as a whole. Flag as a problem</span></button>
+
+          <!-- 2 -->
+          <div class="spot" id="s2" data-label="Flyer image"
+            data-format="<span class='line'><b>TAG</b> &amp;lt;img src=&quot;spring-flyer.png&quot;&amp;gt;, 1040 &times; 620 pixels.</span><span class='line'><b>ALT</b> attribute is absent. Not alt=&quot;&quot;, not a caption &mdash; simply missing.</span><span class='line'><b>ANNOUNCED AS</b> &ldquo;spring-flyer.png, image&rdquo; &mdash; the file name is read aloud.</span><span class='line'><b>ROLE</b> Treated as meaningful content, with nothing to convey.</span>">
+            <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">2</span><span class="sr-only">Item 2, flyer image. Flag as a problem</span></button>
+            <img class="flyer" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1040' height='620' viewBox='0 0 1040 620'><rect width='1040' height='620' fill='%23E8730C'/><circle cx='880' cy='120' r='190' fill='%23F2A03D' opacity='0.55'/><circle cx='120' cy='540' r='150' fill='%23C24E00' opacity='0.5'/><text x='60' y='150' font-family='Arial,Helvetica,sans-serif' font-size='86' font-weight='bold' fill='%23FFFFFF'>SPRING</text><text x='60' y='250' font-family='Arial,Helvetica,sans-serif' font-size='86' font-weight='bold' fill='%23FFFFFF'>PROGRAMS</text><rect x='60' y='292' width='360' height='6' fill='%23FFFFFF'/><text x='60' y='372' font-family='Arial,Helvetica,sans-serif' font-size='44' fill='%23FFFFFF'>Registration Opens March 3</text><text x='60' y='438' font-family='Arial,Helvetica,sans-serif' font-size='44' fill='%23FFFFFF'>Ages 5 to 14</text><text x='60' y='504' font-family='Arial,Helvetica,sans-serif' font-size='44' fill='%23FFFFFF'>$45 per session</text><text x='60' y='570' font-family='Arial,Helvetica,sans-serif' font-size='44' fill='%23FFFFFF'>Call 555-0100</text></svg>">
+            <div class="verdict"></div>
+          </div>
+
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 4 (decoy) -->
+        <div class="spot" id="s4" data-label="Greeting"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt; &mdash; a paragraph, used as a paragraph.</span><span class='line'><b>TYPE</b> Arial 17px, weight 400, color #14213D on white.</span><span class='line'><b>CONTRAST</b> 14.1:1.</span><span class='line'><b>ANNOUNCED AS</b> &ldquo;Hi everyone,&rdquo;</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">4</span><span class="sr-only">Item 4, greeting. Flag as a problem</span></button>
+          <p>Hi everyone,</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 5 -->
+        <div class="spot" id="s5" data-label="Opening paragraph"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt;. Markup is clean.</span><span class='line'><b>TYPE</b> Arial 17px, color #14213D. Contrast 14.1:1.</span><span class='line'><b>READING LEVEL</b> One sentence, 62 words, no full stop until the end. Grade 17 &mdash; postgraduate.</span><span class='line'><b>PHRASES</b> &ldquo;the slate of spring programming offerings&rdquo;, &ldquo;the materials attached herewith&rdquo;, &ldquo;subject to capacity limitations as determined on a first-come, first-served basis&rdquo;.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">5</span><span class="sr-only">Item 5, opening paragraph. Flag as a problem</span></button>
+          <p>We are pleased to announce that the Department of Parks and Recreation has finalized the slate of spring programming offerings for the upcoming season, and registration for these programs will be made available to residents beginning on the date indicated in the materials attached herewith, subject to capacity limitations as determined on a first-come, first-served basis.</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 6 -->
+        <div class="spot" id="s6" data-label="&ldquo;Registration&rdquo; subheading"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt; &mdash; an ordinary paragraph.</span><span class='line'><b>TYPE</b> Arial 21px, weight 800, color #333333.</span><span class='line'><b>OUTLINE</b> Contributes nothing. Nothing above it is a heading either, so there is no level for it to sit under.</span><span class='line'><b>FOUND BY</b> A screen reader&rsquo;s heading list: no. Skimming by heading skips straight past it.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">6</span><span class="sr-only">Item 6, Registration subheading. Flag as a problem</span></button>
+          <p class="fauxsub">Registration</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 7 -->
+        <div class="spot" id="s7" data-label="The three links"
+          data-format="<span class='line'><b>TAGS</b> Three &amp;lt;a&amp;gt; elements. Each is genuinely a link and reachable by keyboard.</span><span class='line'><b>LINK TEXT</b> &ldquo;click here&rdquo;, &ldquo;click here&rdquo;, &ldquo;click here&rdquo;.</span><span class='line'><b>TITLE / ARIA-LABEL</b> None on any of the three.</span><span class='line'><b>IN A LINKS LIST</b> Three identical entries reading &ldquo;click here&rdquo;, pointing at three different addresses.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">7</span><span class="sr-only">Item 7, the three links. Flag as a problem</span></button>
+          <p>To register, <a href="#0">click here</a>.<br>
+             For the full schedule, <a href="#0">click here</a>.<br>
+             For fee assistance information, <a href="#0">click here</a>.</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 8 -->
+        <div class="spot" id="s8" data-label="&ldquo;Marked in red&rdquo; sentence"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt;. Clean markup.</span><span class='line'><b>INSTRUCTION</b> Tells the reader to identify full programs by their color.</span><span class='line'><b>THE FULL PROGRAMS CARRY</b> color: #C22B2B and nothing else &mdash; no word, no symbol, no bold, no strikethrough.</span><span class='line'><b>IN PLAIN TEXT OR HIGH-CONTRAST MODE</b> Full and open programs are identical.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">8</span><span class="sr-only">Item 8, the marked in red sentence. Flag as a problem</span></button>
+          <p>Programs marked in red are already full.</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 9 (decoy) -->
+        <div class="spot" id="s9" data-label="Program list"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;ul&amp;gt; with five &amp;lt;li&amp;gt; children &mdash; a real list.</span><span class='line'><b>ANNOUNCED AS</b> &ldquo;list, 5 items&rdquo;, then each item in turn.</span><span class='line'><b>NOT</b> hyphens typed at the start of paragraphs, and not a table used for layout.</span><span class='line'><b>NOTE</b> The red on three items is described in the sentence above; judge the list structure here.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">9</span><span class="sr-only">Item 9, program list. Flag as a problem</span></button>
+          <ul class="proglist">
+            <li>Little Sprouts Play Group, ages 2 to 4</li>
+            <li class="full">Spring Youth Soccer, grades K through 6</li>
+            <li>Trailside Yoga, Saturday mornings</li>
+            <li class="full">Learn to Swim, levels 1 through 3</li>
+            <li class="full">After School Adventure Club, grades 3 through 8</li>
+          </ul>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 10 -->
+        <div class="spot" id="s10" data-label="Fee assistance paragraph"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt;. Markup is clean.</span><span class='line'><b>TYPE</b> Arial 17px, weight 400, color #9A9A9A on #FFFFFF.</span><span class='line'><b>CONTRAST</b> 2.8:1.</span><span class='line'><b>REQUIRED FOR BODY TEXT</b> 4.5:1.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">10</span><span class="sr-only">Item 10, fee assistance paragraph. Flag as a problem</span></button>
+          <p class="faint">Fee assistance is available to any household that asks for it. Scholarships cover up to 75 percent of a program fee and there is no deadline to apply.</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 11 -->
+        <div class="spot" id="s11" data-label="&ldquo;See the attached PDF&rdquo;"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt;. Clean markup.</span><span class='line'><b>THE ATTACHMENT</b> spring-2026-flyer.pdf, 1 page, 2.4 MB.</span><span class='line'><b>PDF CONTENTS</b> A single scanned photograph of a printed flyer. No text layer, no tags, no reading order.</span><span class='line'><b>SELECT ALL IN THE PDF RETURNS</b> nothing.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">11</span><span class="sr-only">Item 11, see the attached PDF. Flag as a problem</span></button>
+          <p>Questions? See the attached PDF.</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 12 (decoy) -->
+        <div class="spot" id="s12" data-label="Sign-off"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt;, two lines separated by &amp;lt;br&amp;gt;.</span><span class='line'><b>TYPE</b> Arial 17px, weight 400, color #14213D. Contrast 14.1:1.</span><span class='line'><b>PHONE NUMBER</b> Live text, selectable and searchable.</span><span class='line'><b>ANNOUNCED AS</b> the words as written.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">12</span><span class="sr-only">Item 12, sign-off. Flag as a problem</span></button>
+          <p>Thanks,<br>
+             Dana Whitfield, Recreation Office &middot; (555) 402-1188</p>
+          <div class="verdict"></div>
+        </div>
+
+        <!-- 13 (decoy) -->
+        <div class="spot" id="s13" data-label="Nondiscrimination notice"
+          data-format="<span class='line'><b>TAG</b> &amp;lt;p&amp;gt;. Clean markup.</span><span class='line'><b>TYPE</b> Arial 14px, weight 400, color #4E5A68 on white.</span><span class='line'><b>CONTRAST</b> 7.6:1.</span><span class='line'><b>READING LEVEL</b> Grade 10. Two sentences.</span>">
+          <button class="mark" type="button" aria-pressed="false"><span aria-hidden="true">13</span><span class="sr-only">Item 13, nondiscrimination notice. Flag as a problem</span></button>
+          <p style="font-size:14px;color:#4E5A68;">Riverbend Parks and Recreation does not discriminate on the basis of race, color, national origin, sex, age, or disability. To ask for an accommodation, call the Recreation Office at least five business days before your program begins.</p>
+          <div class="verdict"></div>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <aside class="rail" aria-label="Formatting inspector and controls">
+    <div class="panel">
+      <h2 id="readout-h">Formatting inspector</h2>
+      <p id="readout-label">Nothing selected</p>
+      <div id="readout-format" role="status" aria-live="polite">
+        <span class="line">Hover over a piece of the email, or press <kbd>Tab</kbd> to a numbered button, to see how it is actually built.</span>
+      </div>
+      <p class="hintbar">Judge each item from this description alone. If the description would trouble a screen reader user, a keyboard user, or someone with low vision, flag it.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Your answers</h2>
+      <div id="scorebox" hidden>
+        <p class="score"><span class="big" id="score-big">0 of 9</span> issues found</p>
+        <ul class="tally">
+          <li><span>Issues found</span> <b id="t-hit">0</b></li>
+          <li><span>Issues missed</span> <b id="t-miss">0</b></li>
+          <li><span>Sound items wrongly flagged</span> <b id="t-false">0</b></li>
+        </ul>
+        <p class="hintbar">Every item now carries its ruling. Scroll the email to read them.</p>
+      </div>
+      <button class="btn" type="button" id="check">Check my answers</button>
+      <button class="btn secondary" type="button" id="reset">Start over</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function () {
+  // id -> [isIssue, ruling, criterion]
+  var KEY = {
+    s1: [true,
+      "Bold orange 32-pixel text is a heading to the eye and a paragraph to everything else. Someone who navigates by headings — the way most screen reader users skim a message — finds nothing here. Make it an h1.",
+      "WCAG 1.3.1 Info and Relationships (A)"],
+    s2: [true,
+      "No alt attribute, so the file name gets read aloud instead. Every fact in the flyer is lost. This image carries content, so it needs alt text — or the same content in the email body, with the image marked decorative.",
+      "WCAG 1.1.1 Non-text Content (A)"],
+    s3: [true,
+      "The date, the ages, the fee and the phone number exist only as pixels. Nobody can search them, select them, translate them, or enlarge them without blurring. Put the flyer's content in the email as text; keep the image as decoration.",
+      "WCAG 1.1.1 Non-text Content (A) · 1.4.5 Images of Text (AA)"],
+    s4: [false,
+      "A paragraph used as a paragraph, at full contrast. Nothing to fix.",
+      ""],
+    s5: [true,
+      "One 62-word sentence in procurement English. This is the plain-language failure, and it hits everyone — readers with cognitive disabilities hardest, but also anyone reading on a phone in a hurry. Say: “Spring registration opens March 3. Programs fill on a first-come basis.”",
+      "Plain language · Section 508 program requirement; supports WCAG 3.1.5 Reading Level (AAA)"],
+    s6: [true,
+      "The second fake heading. Same fix as the banner: this is an h2 under the h1. Two visual headings and zero real ones means the message has no structure at all to anyone not looking at it.",
+      "WCAG 1.3.1 Info and Relationships (A)"],
+    s7: [true,
+      "Three links, one indistinguishable name. Screen reader users routinely pull up a list of a page's links and read them out of context; “click here, click here, click here” tells them nothing. Name the destination: “Register for a spring program.”",
+      "WCAG 2.4.4 Link Purpose in Context (A) · 2.4.9 Link Purpose, Link Only (AAA)"],
+    s8: [true,
+      "Color is the only thing carrying “full.” Anyone who cannot distinguish the red — color blindness, a monochrome display, high-contrast mode, plain-text email, a printout — sees five available programs. Add the word FULL to each one.",
+      "WCAG 1.4.1 Use of Color (A)"],
+    s9: [false,
+      "A real ul with real li children. Announced as “list, 5 items,” so a reader knows how much is coming and can skip it. Correct as built — the red is a separate problem, already covered above.",
+      ""],
+    s10: [true,
+      "2.8:1 against white, where body text needs 4.5:1. Grey-on-white looks refined on a designer's calibrated monitor and disappears on a phone in daylight. Darken it to at least #767676.",
+      "WCAG 1.4.3 Contrast, Minimum (AA)"],
+    s11: [true,
+      "A scanned PDF is a photograph of a document. No text layer, no tags, no reading order — a screen reader gets an empty page, and so does search. Publish the answers as text on a web page, or produce a properly tagged PDF from the source file.",
+      "WCAG 1.1.1 Non-text Content (A) · 1.3.1 Info and Relationships (A)"],
+    s12: [false,
+      "Plain text at full contrast, phone number selectable. Nothing to fix.",
+      ""],
+    s13: [false,
+      "14-pixel text at 7.6:1 clears the 4.5:1 requirement comfortably. Small is not the same as low contrast. Nothing to fix.",
+      ""]
+  };
+
+  var spots = Array.prototype.slice.call(document.querySelectorAll('.spot'));
+  var label = document.getElementById('readout-label');
+  var fmt = document.getElementById('readout-format');
+  var count = document.getElementById('flag-count');
+  var graded = false;
+
+  function show(spot) {
+    spots.forEach(function (s) { s.classList.remove('active'); });
+    spot.classList.add('active');
+    label.innerHTML = spot.dataset.label;
+    fmt.innerHTML = spot.dataset.format;
+  }
+
+  document.getElementById('email').addEventListener('mouseover', function (e) {
+    var spot = e.target.closest('.spot');
+    if (spot) show(spot);
+  });
+
+  spots.forEach(function (spot) {
+    var btn = spot.querySelector(':scope > .mark');
+    btn.addEventListener('focus', function () { show(spot); });
+    btn.addEventListener('click', function () {
+      if (graded) return;
+      var on = spot.classList.toggle('flagged');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      count.textContent = document.querySelectorAll('.spot.flagged').length;
+      show(spot);
+    });
+  });
+
+  document.getElementById('check').addEventListener('click', function () {
+    graded = true;
+    var hit = 0, miss = 0, wrong = 0;
+    spots.forEach(function (spot) {
+      var k = KEY[spot.id];
+      var flagged = spot.classList.contains('flagged');
+      var state;
+      if (k[0] && flagged) { state = 'hit'; hit++; }
+      else if (k[0] && !flagged) { state = 'miss'; miss++; }
+      else if (!k[0] && flagged) { state = 'falsealarm'; wrong++; }
+      else { state = 'clean'; }
+      var tag = { hit: 'Found it', miss: 'Missed', falsealarm: 'Not a problem', clean: 'Correctly left alone' }[state];
+      spot.classList.remove('flagged');
+      spot.classList.add('graded', state);
+      var v = spot.querySelector(':scope > .verdict');
+      v.innerHTML = '<span class="tag">' + tag + '</span>' + k[1] +
+        (k[2] ? '<span class="sc">' + k[2] + '</span>' : '');
+      spot.querySelector(':scope > .mark').disabled = true;
+    });
+    document.getElementById('score-big').textContent = hit + ' of 9';
+    document.getElementById('t-hit').textContent = hit;
+    document.getElementById('t-miss').textContent = miss;
+    document.getElementById('t-false').textContent = wrong;
+    document.getElementById('scorebox').hidden = false;
+    this.disabled = true;
+    document.getElementById('scorebox').scrollIntoView({ block: 'nearest' });
+  });
+
+  document.getElementById('reset').addEventListener('click', function () {
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>
