@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 508 Docket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F3F1;
+    --sheet: #FFFFFF;
+    --ink: #14213D;
+    --slate: #4E5A68;
+    --rule: #C9CED4;
+    --rule-soft: #E3E6E9;
+    --green: #1F5C3A;
+    --green-tint: #E4EFE8;
+    --red: #8A2222;
+    --red-tint: #F5E6E6;
+    --amber: #8A6A12;
+    --amber-tint: #F5EED8;
+    --display: "Libre Caslon Text", "Iowan Old Style", Georgia, serif;
+    --body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "Courier Prime", "Courier New", Courier, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--ink); }
+
+  /* ---------- frame ---------- */
+  .frame {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 10px;
+  }
+  .topbar strong { color: var(--ink); font-weight: 700; }
+
+  /* docket strip */
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin: 14px 0 28px;
+    list-style: none;
+    padding: 0;
+  }
+  .strip li {
+    height: 34px;
+    border: 1.5px solid var(--rule);
+    background: var(--sheet);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    color: var(--slate);
+  }
+  .strip li.current { border-color: var(--ink); border-width: 2px; }
+  .strip li.full { background: var(--green-tint); border-color: var(--green); color: var(--green); }
+  .strip li.half { background: var(--amber-tint); border-color: var(--amber); color: var(--amber); }
+  .strip li.none { background: var(--red-tint); border-color: var(--red); color: var(--red); }
+
+  /* sheet */
+  .sheet {
+    background: var(--sheet);
+    border: 1px solid var(--rule);
+    padding: 36px 40px 40px;
+  }
+  @media (max-width: 560px) {
+    .sheet { padding: 24px 20px 28px; }
+    body { font-size: 16px; }
+  }
+
+  .meta {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--slate);
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 4px 18px;
+    margin-bottom: 22px;
+  }
+  .meta dt { text-transform: uppercase; }
+  .meta dd { margin: 0; color: var(--ink); }
+
+  h1, h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0 0 14px;
+  }
+  h1 { font-size: 38px; }
+  h2 { font-size: 27px; }
+  @media (max-width: 560px) { h1 { font-size: 30px; } h2 { font-size: 23px; } }
+
+  p { margin: 0 0 14px; }
+  .lede { font-size: 19px; }
+
+  .step {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .step-label {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin: 0 0 12px;
+  }
+  .step-label b { color: var(--ink); }
+
+  /* option buttons */
+  .options { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .options.principles { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 480px) { .options.principles { grid-template-columns: 1fr; } }
+  .opt {
+    font: inherit;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    background: var(--sheet);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: background 120ms ease;
+  }
+  .opt .key {
+    font-family: var(--mono);
+    font-weight: 700;
+    flex: 0 0 auto;
+    color: var(--slate);
+  }
+  .opt:hover:not(:disabled) { background: var(--paper); }
+  .opt:disabled { cursor: default; }
+  .opt.chosen { background: var(--ink); color: var(--sheet); }
+  .opt.chosen .key { color: var(--rule); }
+  .opt.chosen.right { background: var(--green); border-color: var(--green); }
+  .opt.chosen.wrong { background: var(--red); border-color: var(--red); }
+  .opt.reveal { border-color: var(--green); border-style: dashed; }
+  .opt:disabled:not(.chosen):not(.reveal) { opacity: 0.55; }
+
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  h1:focus-visible, h2:focus-visible { outline: none; }
+  .opt.chosen:focus-visible { outline-color: var(--amber); }
+
+  /* feedback / ruling */
+  .ruling {
+    margin-top: 30px;
+    padding: 26px 0 0;
+    border-top: 2px solid var(--ink);
+    position: relative;
+  }
+  .stamp {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 14px 4px;
+    border: 3px solid currentColor;
+    transform: rotate(-3deg);
+    margin: 0 0 20px 4px;
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+  }
+  .stamp.full { color: var(--green); }
+  .stamp.half { color: var(--amber); }
+  .stamp.none { color: var(--red); }
+  @media (prefers-reduced-motion: no-preference) {
+    .stamp { animation: press 260ms cubic-bezier(.2,.9,.3,1.2) both; }
+    @keyframes press {
+      from { transform: rotate(-3deg) scale(1.6); opacity: 0; }
+      to   { transform: rotate(-3deg) scale(1); opacity: 0.9; }
+    }
+  }
+  .verdict { margin: 0 0 6px; display: flex; gap: 10px; }
+  .verdict .mark { font-family: var(--mono); font-weight: 700; flex: 0 0 1.2em; }
+  .verdict.ok .mark { color: var(--green); }
+  .verdict.no .mark { color: var(--red); }
+  .why { margin-top: 18px; }
+  .cite {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    color: var(--slate);
+    border-left: 3px solid var(--rule);
+    padding: 4px 0 4px 14px;
+    margin: 18px 0;
+  }
+  .cite b { color: var(--ink); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 8px; }
+
+  .btn {
+    font: inherit;
+    font-weight: 600;
+    background: var(--ink);
+    color: var(--sheet);
+    border: 1.5px solid var(--ink);
+    padding: 12px 22px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .btn:hover { background: #0E1730; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--paper); }
+
+  /* results */
+  .score {
+    font-family: var(--display);
+    font-size: 64px;
+    line-height: 1;
+    margin: 6px 0 4px;
+  }
+  .score small { font-size: 26px; color: var(--slate); }
+  .bars { list-style: none; padding: 0; margin: 26px 0; display: grid; gap: 12px; }
+  .bars li { display: grid; grid-template-columns: 140px 1fr 44px; gap: 14px; align-items: center; }
+  @media (max-width: 480px) { .bars li { grid-template-columns: 110px 1fr 44px; } }
+  .bars .track { display: block; height: 10px; background: var(--rule-soft); }
+  .bars .fill { display: block; height: 100%; background: var(--ink); }
+  .bars .n { font-family: var(--mono); text-align: right; }
+  .weak {
+    background: var(--paper);
+    border-left: 3px solid var(--ink);
+    padding: 14px 18px;
+    margin: 22px 0;
+  }
+  .weak p:last-child { margin: 0; }
+
+  .foot {
+    margin-top: 28px;
+    font-size: 13.5px;
+    color: var(--slate);
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+  }
+
+  /* confetti */
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+
+  /* certificate */
+  .claim { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--rule-soft); }
+  .claim label { display: block; font-weight: 600; margin-bottom: 6px; }
+  .claim input {
+    font: inherit; width: 100%; max-width: 380px; padding: 10px 12px;
+    border: 1.5px solid var(--ink); background: var(--sheet); color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .claim .err { color: var(--red); font-weight: 500; margin: -4px 0 12px; }
+  .cert { border: 3px double var(--ink); padding: 48px 44px; text-align: center; }
+  @media (max-width: 560px) { .cert { padding: 32px 18px; } }
+  .cert .eyebrow { font-family: var(--mono); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--slate); margin: 0 0 18px; }
+  .cert h1 { font-size: 44px; margin-bottom: 6px; }
+  .cert .sub { font-family: var(--display); font-style: italic; font-size: 20px; color: var(--slate); margin: 0 0 34px; }
+  .cert .line { margin: 14px auto 0; max-width: 520px; }
+  .cert .name { font-family: var(--display); font-size: 36px; margin: 8px 0 4px; border-bottom: 1.5px solid var(--ink); display: inline-block; padding: 0 24px 6px; min-width: 60%; overflow-wrap: anywhere; }
+  .cert .facts { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 36px; font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--slate); }
+  .cert .facts b { display: block; color: var(--ink); font-size: 15px; letter-spacing: 0; text-transform: none; font-family: var(--body); font-weight: 600; margin-top: 2px; }
+  .cert .seal { display: inline-block; margin-top: 34px; font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; border: 3px solid var(--green); color: var(--green); padding: 8px 14px 6px; transform: rotate(-3deg); }
+  .cert-actions { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
+  @media print {
+    @page { size: landscape; margin: 0.6in; }
+    html, body { background: #fff; }
+    .frame { max-width: none; padding: 0; }
+    .topbar, .strip, .foot, .cert-actions, #confetti { display: none !important; }
+    .sheet { border: 0; padding: 0; }
+    .cert { padding: 60px 50px; }
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti" aria-hidden="true" hidden></canvas>
+<div class="frame">
+  <header class="topbar">
+    <strong>The 508 Docket</strong>
+    <span id="counter" aria-live="polite">Briefing</span>
+  </header>
+  <ol class="strip" id="strip" aria-label="Docket progress"></ol>
+  <main class="sheet" id="main"></main>
+  <p class="foot">Section 508 · ADA Title II · WCAG 2.1 Level AA</p>
+</div>
+
+<script>
+/* ============================================================
+   CONTENT — edit freely. Logic below does not care about wording.
+   principle: P | O | U | R
+   decisions: 4 options, `answer` is index of the correct one (0-3)
+   ============================================================ */
+const PRINCIPLES = {
+  P: { name: "Perceivable",    gloss: "People can take in the content — see it, hear it, or have it read to them.",
+       revisit: "text alternatives, captions, colour and contrast" },
+  O: { name: "Operable",       gloss: "People can work the interface — with a keyboard, with enough time, without traps.",
+       revisit: "keyboard access, time limits, focus and navigation" },
+  U: { name: "Understandable", gloss: "People can follow it — predictable layout, clear errors, plain instructions.",
+       revisit: "error messages, consistent navigation, labels" },
+  R: { name: "Robust",         gloss: "It works with the assistive technology people actually use, today and next year.",
+       revisit: "vendor testing with screen readers, status messages, standards-based code" }
+};
+
+const MATTERS = [
+  {
+    principle: "P",
+    source: "Memo — Records Division",
+    title: "The benefit forms are pictures",
+    text: "Your county posts its housing-assistance application as a PDF. Records confirms it is a scan of the paper form — an image, not text. Screen-reader users hear the word “image” and nothing else. Records asks whether this is a problem, since a phone number is listed on the same page.",
+    decisions: [
+      "Add a bold notice beside the download: applicants who need help can call the office during business hours.",
+      "Direct Records to republish every application as a tagged, text-based PDF or an HTML form, name an owner, and set a deadline.",
+      "Ask the web vendor to install an accessibility overlay so the site is compliant while the forms stay as they are.",
+      "Hold the change until the portal redesign scheduled for next fiscal year, and fix the forms then."
+    ],
+    answer: 1,
+    why: "A scanned form has no text for assistive technology to read — the content is not perceivable at all. The phone line is a separate, less-equal path; ADA regulations require equal access, not a workaround. Overlays cannot add text to an image. Waiting a year leaves a known barrier on a benefits application, which is exactly the kind of fact a complaint cites.",
+    sc: "WCAG 2.1 SC 1.1.1 Non-text Content (A); 1.3.1 Info and Relationships (A)",
+    exposure: "DOJ’s 2024 Title II rule adopts WCAG 2.1 AA for state and local government web content and documents. Benefits forms are the highest-scrutiny category."
+  },
+  {
+    principle: "O",
+    source: "Ombudsman — citizen complaint",
+    title: "The application timed out",
+    text: "A resident spent forty minutes on the online SNAP renewal. The session expired after ten minutes of inactivity with no warning and no way to extend it; everything was lost. She uses a screen reader and reads more slowly than the form assumes. IT says the timeout is a security setting and cannot be removed.",
+    decisions: [
+      "Extend the timeout from ten minutes to fifteen across the portal.",
+      "Add a line to the FAQ advising applicants to gather their documents before starting.",
+      "Require a visible, announced warning before expiry with a one-click option to extend, and audit every timed flow in the portal.",
+      "Advise residents who need more time to complete the renewal in person at the field office."
+    ],
+    answer: 2,
+    why: "Time limits are an Operable problem: the interface has to give people enough time to act. WCAG does not forbid timeouts — it requires a warning and a simple way to extend or turn them off. Fifteen minutes is still arbitrary and still silent. The FAQ and the field office shift the burden back onto the resident.",
+    sc: "WCAG 2.1 SC 2.2.1 Timing Adjustable (A)",
+    exposure: "Lost applications are documented harm. Complaints about timeouts are among the easiest for an investigator to reproduce."
+  },
+  {
+    principle: "U",
+    source: "Call centre — monthly report",
+    title: "Forty percent of calls are about one form",
+    text: "The permit application rejects submissions with a single message at the top: “Invalid input.” It does not say which field or what is wrong. Call-centre volume is up and the digital team has proposed a red outline around the failing field. Your director asks whether that closes the issue.",
+    decisions: [
+      "Approve the red outline; it makes the error obvious.",
+      "Require errors to name the field in text, say what is wrong, and suggest how to fix it — next to the field and in the summary.",
+      "Commission a two-minute help video walking applicants through the form.",
+      "Add two temporary call-centre staff until the redesign lands."
+    ],
+    answer: 1,
+    why: "An error people cannot interpret is an Understandable failure. Colour alone is invisible to screen readers and to many colour-blind users, so the red outline fixes nothing for the people most affected. The video and the staffing are costs that treat the symptom. Clear, text-based errors reduce calls for everyone.",
+    sc: "WCAG 2.1 SC 3.3.1 Error Identification (A); 3.3.3 Error Suggestion (AA); 1.4.1 Use of Color (A)",
+    exposure: "Call volume is your own evidence that the form fails. Investigators ask for exactly this kind of internal data."
+  },
+  {
+    principle: "R",
+    source: "Procurement — contract acceptance",
+    title: "The VPAT says it works",
+    text: "A new case-management portal is ready for acceptance. The vendor’s VPAT marks every WCAG criterion as “Supports.” During a pilot, two screen-reader users could not choose a county from the custom dropdown — it announced nothing — and could not tell whether their submission went through. Procurement asks whether to sign.",
+    decisions: [
+      "Accept the VPAT as the vendor’s attestation and sign; remediation can be a change order later.",
+      "Ask the vendor for a letter of assurance that the product is Section 508 compliant.",
+      "Offer a phone-based intake path for anyone who cannot use the portal.",
+      "Withhold acceptance until an independent test with assistive technology passes, and make remediation a contractual obligation."
+    ],
+    answer: 3,
+    why: "Robust means the product actually works with assistive technology, not that a document says it does. A custom control that announces nothing has no accessible name or role — a build defect. VPATs are self-reported and routinely wrong. Signing first moves all leverage to the vendor. The phone path is a separate, unequal service.",
+    sc: "WCAG 2.1 SC 4.1.2 Name, Role, Value (A); 4.1.3 Status Messages (AA)",
+    exposure: "Once accepted, the barrier is yours, not the vendor’s. Acceptance testing is your cheapest control point."
+  },
+  {
+    principle: "P",
+    source: "Communications Director",
+    title: "The council livestream has no captions",
+    text: "Council meetings are streamed and archived on the agency site. None of the recordings are captioned; live sessions have no captions either. Communications notes the platform offers auto-captions “at about 80% accuracy” and asks whether that would be sufficient.",
+    decisions: [
+      "Turn on the platform’s automatic captions for live and archived video.",
+      "Require accurate captions on all archived recordings, provide live captioning for meetings, and publish transcripts.",
+      "Post the agenda and minutes alongside each video so the substance is available in text.",
+      "Provide an ASL interpreter on request for residents who ask in advance."
+    ],
+    answer: 1,
+    why: "Video without captions is not perceivable to deaf and hard-of-hearing residents. WCAG requires captions for prerecorded video at Level A and for live video at Level AA. Auto-captions at 80% accuracy garble names, motions, and numbers — the parts that matter. Minutes are a summary, not the meeting. Interpreters on request do not fix the archive.",
+    sc: "WCAG 2.1 SC 1.2.2 Captions (Prerecorded) (A); 1.2.4 Captions (Live) (AA)",
+    exposure: "Public meetings are core government function. Uncaptioned council video is a frequent subject of Title II complaints."
+  },
+  {
+    principle: "O",
+    source: "IT Director — pre-launch demo",
+    title: "The new site launches Monday",
+    text: "The redesigned agency site looks sharp. In the demo you notice the main menu opens only on mouse hover, and the permit map requires dragging a pin to set an address. IT confirms neither works with a keyboard alone but says the vendor’s VPAT is clean and the launch date has been announced.",
+    decisions: [
+      "Launch as planned and log keyboard support as a phase-two item.",
+      "Add an “accessibility mode” link that opens a text-only version of the site.",
+      "Make keyboard-only operation a launch gate: test the full site with no mouse before go-live, and slip the date if it fails.",
+      "Rely on the VPAT and ask the vendor to confirm in writing that the site is compliant."
+    ],
+    answer: 2,
+    why: "If it cannot be done with a keyboard, it cannot be done by many people with motor disabilities or by screen-reader users — an Operable failure at Level A, the most basic level. A text-only shadow site is a separate, unequal experience that drifts out of date. A launch date is a choice; a known barrier at launch is a documented decision to exclude.",
+    sc: "WCAG 2.1 SC 2.1.1 Keyboard (A); 2.1.2 No Keyboard Trap (A)",
+    exposure: "Launching a known keyboard failure creates a timestamped record that leadership was informed."
+  },
+  {
+    principle: "U",
+    source: "Constituent survey — annual results",
+    title: "Every department is a different website",
+    text: "Residents report they cannot find things. Each department controls its own section: Public Works puts navigation on the left and calls it “Services”; Health puts it on top and calls it “Programs”; Parks uses a hamburger icon. Search is different on each. Departments say their audiences are different and want to keep their layouts.",
+    decisions: [
+      "Adopt one shared template with consistent navigation, labels, and search across every department, and set a migration date.",
+      "Add a site-wide search bar so residents can bypass the navigation.",
+      "Publish a comprehensive site map page linking every service.",
+      "Let departments keep their designs but require each to pass an accessibility scan."
+    ],
+    answer: 0,
+    why: "Predictability is an Understandable requirement: navigation that appears in the same place with the same names lets people — especially those with cognitive disabilities or using screen readers — learn the site once. Search and a site map are useful additions, not substitutes. Automated scans do not detect inconsistency; that is a governance decision only leadership can make.",
+    sc: "WCAG 2.1 SC 3.2.3 Consistent Navigation (AA); 3.2.4 Consistent Identification (AA)",
+    exposure: "Consistency is the cheapest accessibility win available and one of the few that improves metrics for every resident."
+  },
+  {
+    principle: "R",
+    source: "Digital Services lead",
+    title: "Did my application go through?",
+    text: "After a resident submits a licence renewal, a green banner appears: “Application received.” Screen-reader users hear nothing and often submit again — Digital Services counts roughly two hundred duplicate submissions a month. Staff have been sending confirmation emails by hand. Your lead asks for direction.",
+    decisions: [
+      "Make the banner larger and add a checkmark icon so it is harder to miss.",
+      "Automate the confirmation email so every applicant receives one within a minute.",
+      "Play a chime when the submission succeeds.",
+      "Require status messages to be announced to assistive technology without moving focus, and add that check to acceptance testing."
+    ],
+    answer: 3,
+    why: "A message shown visually but never exposed to assistive technology is a Robust failure — the code does not communicate with the tools people use. Bigger banners and chimes are still invisible to a screen reader. The email is good practice but arrives after the person has already resubmitted. The fix is small and technical; the decision to require it is yours.",
+    sc: "WCAG 2.1 SC 4.1.3 Status Messages (AA)",
+    exposure: "Duplicate submissions are measurable cost. Two hundred a month is the number that goes in the audit finding."
+  }
+];
+
+/* ============================================================
+   GAME
+   ============================================================ */
+const KEYS = ["P", "O", "U", "R"];
+const LETTERS = ["A", "B", "C", "D"];
+const main = document.getElementById("main");
+const strip = document.getElementById("strip");
+const counter = document.getElementById("counter");
+
+let order, i, results, picked;
+
+function shuffle(a) {
+  for (let k = a.length - 1; k > 0; k--) {
+    const j = Math.floor(Math.random() * (k + 1));
+    [a[k], a[j]] = [a[j], a[k]];
+  }
+  return a;
+}
+
+function start() {
+  order = shuffle(MATTERS.map((_, k) => k));
+  i = 0;
+  results = [];   // { principle: bool, decision: bool, key }
+  picked = null;
+  renderStrip();
+  renderIntro();
+}
+
+function renderStrip() {
+  strip.innerHTML = order ? order.map((_, k) => {
+    const r = results[k];
+    let cls = "", label = `Matter ${k + 1}: not yet answered`;
+    if (r) {
+      const n = (r.principle ? 1 : 0) + (r.decision ? 1 : 0);
+      cls = n === 2 ? "full" : n === 1 ? "half" : "none";
+      label = `Matter ${k + 1}: ${PRINCIPLES[r.key].name}, ${n} of 2`;
+    } else if (k === i && i < order.length) {
+      cls = "current";
+    }
+    return `<li class="${cls}" aria-label="${label}">${r ? r.key : ""}</li>`;
+  }).join("") : "";
+}
+
+function renderIntro() {
+  counter.textContent = "Briefing";
+  main.innerHTML = `
+    <dl class="meta">
+      <dt>Docket</dt><dd>Eight matters</dd>
+      <dt>Standard</dt><dd>WCAG 2.1 Level AA</dd>
+    </dl>
+    <h1 tabindex="-1" id="focus">The 508 Docket</h1>
+    <p class="lede">Eight situations, each of the kind that lands on a public-sector leader’s desk. None of them are hypothetical.</p>
+    <p>For each matter you will make two calls: <strong>which POUR principle is at stake</strong>, and <strong>what you would direct your team to do</strong>. Each ruling cites the WCAG 2.1 success criterion and names the exposure.</p>
+    <p>There is no clock. Read as you would read a memo.</p>
+    <button class="btn" id="go">Open the docket</button>`;
+  document.getElementById("go").addEventListener("click", () => { renderMatter(); });
+}
+
+function renderMatter() {
+  picked = null;
+  const m = MATTERS[order[i]];
+  counter.textContent = `Matter ${i + 1} of ${order.length}`;
+  renderStrip();
+  main.innerHTML = `
+    <dl class="meta">
+      <dt>Matter</dt><dd>No. 2026-000${i + 1}</dd>
+      <dt>Source</dt><dd>${m.source}</dd>
+    </dl>
+    <h2 tabindex="-1" id="focus">${m.title}</h2>
+    <p>${m.text}</p>
+
+    <section class="step" aria-labelledby="s1">
+      <p class="step-label" id="s1"><b>First</b> — which principle is at stake?</p>
+      <ul class="options principles" id="principles">
+        ${KEYS.map(k => `<li><button class="opt" data-key="${k}"><span class="key">${k}</span><span>${PRINCIPLES[k].name}</span></button></li>`).join("")}
+      </ul>
+    </section>
+
+    <section class="step" id="step2" hidden aria-labelledby="s2">
+      <p class="step-label" id="s2"><b>Second</b> — what do you direct?</p>
+      <ul class="options" id="decisions">
+        ${m.decisions.map((d, k) => `<li><button class="opt" data-idx="${k}"><span class="key">${LETTERS[k]}</span><span>${d}</span></button></li>`).join("")}
+      </ul>
+    </section>
+
+    <div id="ruling" aria-live="polite"></div>`;
+
+  document.getElementById("focus").focus();
+
+  document.getElementById("principles").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || picked) return;
+    picked = b.dataset.key;
+    b.classList.add("chosen");
+    document.querySelectorAll("#principles .opt").forEach(x => x.disabled = true);
+    const s2 = document.getElementById("step2");
+    s2.hidden = false;
+    s2.querySelector("button").focus();
+  });
+
+  document.getElementById("decisions").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    rule(m, Number(b.dataset.idx));
+  });
+}
+
+function rule(m, idx) {
+  const pOK = picked === m.principle;
+  const dOK = idx === m.answer;
+  results[i] = { principle: pOK, decision: dOK, key: m.principle };
+
+  // mark principle buttons
+  document.querySelectorAll("#principles .opt").forEach(b => {
+    if (b.dataset.key === picked) b.classList.add(pOK ? "right" : "wrong");
+    else if (b.dataset.key === m.principle) b.classList.add("reveal");
+  });
+  // mark decision buttons
+  document.querySelectorAll("#decisions .opt").forEach(b => {
+    b.disabled = true;
+    const k = Number(b.dataset.idx);
+    if (k === idx) b.classList.add("chosen", dOK ? "right" : "wrong");
+    else if (k === m.answer) b.classList.add("reveal");
+  });
+
+  const n = (pOK ? 1 : 0) + (dOK ? 1 : 0);
+  const cls = n === 2 ? "full" : n === 1 ? "half" : "none";
+  const stamp = n === 2 ? "Correct" : n === 1 ? "Half right" : "Reconsider";
+  const P = PRINCIPLES[m.principle].name;
+  const last = i === order.length - 1;
+
+  document.getElementById("ruling").innerHTML = `
+    <div class="ruling">
+      <div class="stamp ${cls}" role="img" aria-label="Ruling: ${stamp}">${stamp}</div>
+      <h2 tabindex="-1" id="rfocus" class="sr-only">Ruling</h2>
+      <p class="verdict ${pOK ? "ok" : "no"}"><span class="mark" aria-hidden="true">${pOK ? "✓" : "✗"}</span>
+        <span>Principle: <strong>${P}</strong>${pOK ? "" : ` — you chose ${PRINCIPLES[picked].name}`}. ${PRINCIPLES[m.principle].gloss}</span></p>
+      <p class="verdict ${dOK ? "ok" : "no"}"><span class="mark" aria-hidden="true">${dOK ? "✓" : "✗"}</span>
+        <span>Direction: ${dOK ? "the right call." : `the stronger direction is <strong>${LETTERS[m.answer]}</strong>.`}</span></p>
+      <p class="why">${m.why}</p>
+      <p class="cite"><b>Cites</b>${m.sc}</p>
+      <p class="cite"><b>Exposure</b>${m.exposure}</p>
+      <button class="btn" id="next">${last ? "Close the docket" : "Next matter"}</button>
+    </div>`;
+  renderStrip();
+  document.getElementById("rfocus").focus();
+  document.getElementById("next").addEventListener("click", () => {
+    i++;
+    if (last) renderEnd(); else renderMatter();
+  });
+}
+
+const PASS = 12;
+
+function renderEnd(quiet) {
+  counter.textContent = "Docket closed";
+  renderStrip();
+  const total = results.reduce((s, r) => s + (r.principle ? 1 : 0) + (r.decision ? 1 : 0), 0);
+  const per = {};
+  KEYS.forEach(k => per[k] = { got: 0, of: 0 });
+  results.forEach(r => { per[r.key].of += 2; per[r.key].got += (r.principle ? 1 : 0) + (r.decision ? 1 : 0); });
+  const weakest = KEYS.slice().sort((a, b) => (per[a].got / per[a].of) - (per[b].got / per[b].of))[0];
+  const perfect = total === results.length * 2;
+  const max = results.length * 2;
+  const passed = total >= PASS;
+
+  main.innerHTML = `
+    <dl class="meta">
+      <dt>Docket</dt><dd>Closed</dd>
+      <dt>Standard</dt><dd>WCAG 2.1 Level AA</dd>
+    </dl>
+    <h1 tabindex="-1" id="focus">Determination</h1>
+    <p class="score">${total}<small> / ${results.length * 2}</small></p>
+    <p>${perfect
+        ? "Every principle named, every direction sound. The next step is making sure your teams would make the same calls without you in the room."
+        : "Each matter scored one point for the principle and one for the direction."}</p>
+    <ul class="bars" aria-label="Score by principle">
+      ${KEYS.map(k => `<li><span>${PRINCIPLES[k].name}</span><span class="track" aria-hidden="true"><span class="fill" style="width:${per[k].got / per[k].of * 100}%"></span></span><span class="n">${per[k].got}/${per[k].of}</span></li>`).join("")}
+    </ul>
+    ${perfect ? "" : `<div class="weak">
+      <p><strong>Revisit: ${PRINCIPLES[weakest].name}.</strong> ${PRINCIPLES[weakest].gloss}</p>
+      <p>Ask your teams about ${PRINCIPLES[weakest].revisit}.</p>
+    </div>`}
+    <p>The pattern across all eight: the wrong answers were rarely unreasonable. They were workarounds, deferrals, and assurances — each one leaves the barrier in place and puts your name on the decision.</p>
+    ${passed ? `
+    <section class="claim" aria-labelledby="cl">
+      <p class="step-label" id="cl"><b>Certificate</b> — earned at ${PASS} of ${max}</p>
+      <label for="name">Name as it should appear</label>
+      <input id="name" type="text" autocomplete="name" maxlength="80" aria-describedby="name-err">
+      <p class="err" id="name-err" hidden>Enter a name for the certificate.</p>
+      <div><button class="btn" id="cert">Prepare certificate</button></div>
+    </section>` : `
+    <p class="cite"><b>Certificate</b>Issued at ${PASS} of ${max}. Reopen the docket to try again.</p>`}
+    <p><button class="btn ghost" id="again">Reopen the docket</button></p>`;
+  document.getElementById("focus").focus();
+  document.getElementById("again").addEventListener("click", start);
+  if (passed) {
+    const input = document.getElementById("name");
+    document.getElementById("cert").addEventListener("click", () => {
+      const name = input.value.trim();
+      if (!name) {
+        document.getElementById("name-err").hidden = false;
+        input.setAttribute("aria-invalid", "true");
+        input.focus();
+        return;
+      }
+      renderCert(name, total, max);
+    });
+  }
+  if (!quiet) confetti();
+}
+
+function esc(str) {
+  return str.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function renderCert(name, total, max) {
+  counter.textContent = "Certificate";
+  strip.innerHTML = "";
+  const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  main.innerHTML = `
+    <div class="cert">
+      <p class="eyebrow">Certificate of completion</p>
+      <h1 tabindex="-1" id="focus">The POUR Principles</h1>
+      <p class="sub">Perceivable · Operable · Understandable · Robust</p>
+      <p class="line">This certifies that</p>
+      <p class="name">${esc(name)}</p>
+      <p class="line">has completed <em>The 508 Docket</em> and demonstrated working command of the four principles of WCAG 2.1 Level AA as they apply to public-sector leadership.</p>
+      <div class="facts">
+        <div>Date<b>${date}</b></div>
+        <div>Score<b>${total} of ${max}</b></div>
+        <div>Standard<b>WCAG 2.1 AA</b></div>
+      </div>
+      <div class="seal">Section 508 · ADA Title II</div>
+    </div>
+    <div class="cert-actions">
+      <button class="btn" id="print">Print or save as PDF</button>
+      <button class="btn ghost" id="back">Back to results</button>
+    </div>`;
+  document.getElementById("focus").focus();
+  document.getElementById("print").addEventListener("click", () => window.print());
+  document.getElementById("back").addEventListener("click", () => renderEnd(true));
+}
+
+/* ------------------------------------------------------------
+   Confetti — fires from the bottom, flutters, gone in 4 seconds.
+   ------------------------------------------------------------ */
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = document.getElementById("confetti");
+  const ctx = c.getContext("2d");
+  const W = c.width = innerWidth, H = c.height = innerHeight;
+  c.hidden = false;
+  const colors = ["#14213D", "#1F5C3A", "#8A6A12", "#8A2222", "#4E5A68"];
+  const ps = [];
+  for (let k = 0; k < 180; k++) {
+    const a = -Math.PI / 2 + (Math.random() - 0.5) * 1.1;   // mostly straight up
+    const v = 16 + Math.random() * 12;
+    ps.push({
+      x: W * (0.15 + Math.random() * 0.7), y: H + 10,
+      vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+      w: 6 + Math.random() * 5, h: 9 + Math.random() * 7,
+      rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.25,
+      sway: Math.random() * Math.PI * 2,
+      color: colors[k % colors.length],
+      delay: Math.random() * 700
+    });
+  }
+  const DUR = 4000, t0 = performance.now();
+  function frame(t) {
+    const el = t - t0;
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = el > DUR - 900 ? Math.max(0, (DUR - el) / 900) : 1;
+    for (const p of ps) {
+      if (el < p.delay) continue;
+      p.vy += 0.35;                     // gravity
+      p.vx *= 0.985; p.vy *= 0.985;     // drag
+      p.sway += 0.12;
+      p.x += p.vx + Math.sin(p.sway) * 1.6;
+      p.y += p.vy;
+      p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(1, Math.cos(p.sway));   // flutter: card tumbles edge-on
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    }
+    if (el < DUR) requestAnimationFrame(frame);
+    else { ctx.clearRect(0, 0, W, H); c.hidden = true; }
+  }
+  requestAnimationFrame(frame);
+}
+
+start();
+</script>
+</body>
+</html>

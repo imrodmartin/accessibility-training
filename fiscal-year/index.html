@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiscal Year</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F7FB; --card: #FFFFFF; --ink: #1B1F3B; --muted: #5A6078; --line: #D9DEE9; --line-soft: #EBEEF5;
+    --band: #23285A; --band-2: #2E3575;
+    --P: #0E7C86; --P-t: #DDF3F4;
+    --O: #C2410C; --O-t: #FCE7DC;
+    --U: #6D28D9; --U-t: #ECE4FB;
+    --R: #166534; --R-t: #DCF2E3;
+    --gold: #B7791F; --gold-t: #FBF0D9;
+    --red: #B91C1C; --red-t: #FBE3E3;
+    --green: #15803D; --green-t: #DCF5E5;
+    --amber: #B45309; --amber-t: #FDEBD3;
+    --display: "Bricolage Grotesque", "Avenir Next", "Helvetica Neue", sans-serif;
+    --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body { margin: 0; font-family: var(--body); font-size: 18px; line-height: 1.5; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.01em; }
+  h1 { font-size: 52px; font-weight: 800; }
+  h2 { font-size: 32px; font-weight: 700; }
+  h3 { font-size: 21px; font-weight: 700; }
+  p { margin: 0 0 12px; }
+  button { font: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  h1:focus-visible, h2:focus-visible, h3:focus-visible { outline: none; }
+  .mono { font-family: var(--mono); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  /* ---------- band ---------- */
+  .band { background: linear-gradient(100deg, var(--band), var(--band-2)); color: #fff; }
+  .band-in { max-width: 1080px; margin: 0 auto; padding: 16px 22px; display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: space-between; }
+  .brand { font-family: var(--display); font-weight: 800; font-size: 24px; letter-spacing: -0.01em; }
+  .brand small { display: block; font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; margin-top: 2px; }
+  .meters { display: flex; gap: 22px; flex-wrap: wrap; }
+  .meter { min-width: 170px; }
+  .meter .lab { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; display: flex; justify-content: space-between; }
+  .meter .val { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1.2; }
+  .meter .track { height: 8px; background: rgba(255,255,255,0.18); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+  .meter .fill { height: 100%; border-radius: 99px; transition: width 500ms ease, background 500ms ease; }
+  .fill.gold { background: #F2C14E; }
+  .fill.trust { background: #7DD3FC; }
+  .fill.exp-lo { background: #4ADE80; } .fill.exp-mid { background: #FBBF24; } .fill.exp-hi { background: #F87171; }
+  @media (max-width: 600px) {
+    .band-in { padding: 12px 14px; gap: 10px 14px; }
+    .brand { font-size: 20px; }
+    .meters { display: flex; flex-wrap: wrap; gap: 10px 16px; width: 100%; order: 3; }
+    .meter { min-width: 0; flex: 1 1 120px; }
+    .meter .lab { font-size: 11px; letter-spacing: 0.08em; }
+    .meter .val { font-size: 22px; }
+    .heat { flex: 1 1 100%; order: 4; }
+    .heat .h { width: 40px; }
+  }
+  .qtag { font-family: var(--mono); font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; background: rgba(255,255,255,0.14); padding: 6px 12px; border-radius: 99px; }
+
+  /* ---------- page ---------- */
+  .page { max-width: 1080px; margin: 0 auto; padding: 28px 22px 120px; }
+  @media (max-width: 600px) { .page { padding: 20px 14px 130px; } h1 { font-size: 38px; } h2 { font-size: 27px; } body { font-size: 17px; } }
+
+  /* intro */
+  .hero { max-width: 760px; }
+  .hero .lede { font-size: 22px; margin-bottom: 20px; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; list-style: none; padding: 0; margin: 34px 0 26px; counter-reset: step; }
+  @media (max-width: 900px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; border-top: 8px solid var(--band); }
+  .step .n { font-family: var(--display); font-weight: 800; font-size: 40px; line-height: 1; color: var(--band); }
+  .step h3 { font-size: 22px; margin: 6px 0 6px; text-transform: uppercase; letter-spacing: 0.02em; }
+  .step p { margin: 0; font-size: 17px; }
+  .step .mini { display: flex; gap: 3px; margin: 10px 0 4px; }
+  .step .mini i { flex: 1; height: 8px; border-radius: 3px; }
+  .step .mini i:nth-child(1) { background: #9CA3AF; } .step .mini i:nth-child(2) { background: #F59E0B; } .step .mini i:nth-child(3) { background: #EA580C; } .step .mini i:nth-child(4) { background: #B91C1C; }
+  .qs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; list-style: none; padding: 0; margin: 0 0 30px; }
+  @media (max-width: 900px) { .qs { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .qs { grid-template-columns: 1fr; } }
+  .qs li { border-radius: 12px; padding: 14px 16px; color: #fff; }
+  .qs li.P { background: var(--P); } .qs li.O { background: var(--O); } .qs li.U { background: var(--U); } .qs li.R { background: var(--R); }
+  .qs .k { font-family: var(--mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; opacity: .9; }
+  .qs .q { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.2; margin-top: 4px; }
+  .sect { font-family: var(--mono); font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 22px; }
+  .pill { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 10px; border-radius: 99px; color: #fff; }
+  .pill.P { background: var(--P); } .pill.O { background: var(--O); } .pill.U { background: var(--U); } .pill.R { background: var(--R); }
+
+  /* buttons */
+  .btn { background: var(--ink); color: #fff; border: 2px solid var(--ink); border-radius: 10px; padding: 12px 20px; font-weight: 600; }
+  .btn:hover { background: #2A3060; }
+  .btn.ghost { background: transparent; color: var(--ink); } .btn.ghost:hover { background: #fff; }
+  .btn.big { font-size: 20px; padding: 14px 26px; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* event / headline */
+  .herald { background: var(--card); border: 1px solid var(--line); border-left: 8px solid var(--gold); border-radius: 12px; padding: 16px 20px; margin: 0 0 24px; display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: baseline; }
+  .herald .kicker { grid-column: 1 / -1; font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .herald h3 { font-size: 26px; grid-column: 1 / -1; margin: 0 0 4px; }
+  .herald p { grid-column: 1 / -1; margin: 0; color: var(--muted); }
+  .herald.bad { border-left-color: var(--red); } .herald.good { border-left-color: var(--green); }
+
+  .desk-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .desk-head p { color: var(--muted); margin: 0; }
+
+  /* cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 0 0 32px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 10px; position: relative; border-top: 6px solid var(--muted); }
+  .card.P { border-top-color: var(--P); } .card.O { border-top-color: var(--O); } .card.U { border-top-color: var(--U); } .card.R { border-top-color: var(--R); }
+  .card.offer { border-top-color: var(--gold); background: linear-gradient(180deg, var(--gold-t), #fff 60%); }
+  .card.invest { border-top-color: var(--band); background: linear-gradient(180deg, #E4E7F7, #fff 60%); }
+  .card.funded { box-shadow: 0 0 0 3px var(--ink); }
+  @media (prefers-reduced-motion: no-preference) {
+    .card { animation: rise 380ms ease both; animation-delay: calc(var(--i) * 45ms); }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  }
+  .card .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .tag { font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 9px; border-radius: 99px; }
+  .tag.P { background: var(--P-t); color: var(--P); } .tag.O { background: var(--O-t); color: var(--O); }
+  .tag.U { background: var(--U-t); color: var(--U); } .tag.R { background: var(--R-t); color: var(--R); }
+  .tag.gold { background: var(--gold-t); color: var(--gold); } .tag.band { background: #E4E7F7; color: var(--band); }
+  .cost { font-family: var(--mono); font-weight: 600; font-size: 18px; }
+  .card h3 { margin: 0; font-size: 22px; }
+  .card .src { font-size: 15px; color: var(--muted); margin: -4px 0 0; }
+  .card .blurb { margin: 0; font-size: 17px; }
+  .facts { display: flex; gap: 14px; flex-wrap: wrap; font-size: 15px; color: var(--muted); margin: 0; }
+  .facts b { color: var(--ink); font-weight: 600; }
+  .sev { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 4px; }
+  .sev i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: inline-block; }
+  .sev i.on { background: var(--red); }
+  /* escalation ladder */
+  .ladder { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin: 2px 0 0; padding: 0; list-style: none; }
+  .ladder li { height: 7px; border-radius: 3px; background: var(--line-soft); }
+  .ladder li.s0 { background: #9CA3AF; } .ladder li.s1 { background: #F59E0B; } .ladder li.s2 { background: #EA580C; } .ladder li.s3 { background: #B91C1C; }
+  .stage { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; }
+  .stage.s0 { color: var(--muted); } .stage.s1 { color: #B45309; } .stage.s2 { color: #C2410C; } .stage.s3 { color: var(--red); }
+  .fund { margin-top: auto; align-self: stretch; background: #fff; color: var(--ink); border: 2px solid var(--ink); border-radius: 9px; padding: 10px 14px; font-weight: 600; display: flex; justify-content: space-between; gap: 12px; text-align: left; }
+  .fund span:first-child { flex: 1; }
+  .fund .chk { flex: 0 0 auto; }
+  .fund[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  .fund:disabled { opacity: 0.4; cursor: not-allowed; }
+  .fund .chk { font-family: var(--mono); }
+
+  /* dock */
+  .dock { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -6px 24px rgba(27,31,59,0.08); z-index: 5; }
+  .dock-in { max-width: 1080px; margin: 0 auto; padding: 12px 22px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .dock .alloc { flex: 1; min-width: 220px; }
+  .dock .alloc .lab { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 15px; font-weight: 600; }
+  .dock .track { height: 10px; background: var(--line-soft); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+  .dock .fill { height: 100%; background: var(--gold); border-radius: 99px; transition: width 250ms ease; }
+  .dock .fill.over { background: var(--red); }
+  .dock .warn { color: var(--red); font-weight: 600; font-size: 16px; }
+
+  /* results */
+  .res { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
+  .res li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+  @media (prefers-reduced-motion: no-preference) {
+    .res li { animation: rise 320ms ease both; animation-delay: calc(var(--i) * 90ms); }
+  }
+  .res .ic { font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 9px; border-radius: 99px; white-space: nowrap; }
+  .ic.fixed { background: var(--green-t); color: var(--green); }
+  .ic.esc { background: var(--red-t); color: var(--red); }
+  .ic.same { background: var(--line-soft); color: var(--muted); }
+  .ic.note { background: var(--gold-t); color: var(--gold); }
+  .ic.invest { background: #E4E7F7; color: var(--band); }
+  .res li p { margin: 0; }
+  .res li .sub { font-size: 16px; color: var(--muted); margin-top: 2px; }
+  .delta { font-family: var(--mono); font-size: 15px; font-weight: 600; margin-left: 8px; }
+  .delta.up { color: var(--green); } .delta.dn { color: var(--red); }
+
+  /* year end */
+  .tier { border-radius: 16px; padding: 26px 28px; color: #fff; margin-bottom: 24px; }
+  .tier .kicker { font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.85; }
+  .tier h1 { color: #fff; margin: 6px 0 8px; }
+  .tier p { margin: 0; max-width: 60ch; font-size: 19px; }
+  .tier.t0 { background: linear-gradient(120deg, #166534, #15803D); }
+  .tier.t1 { background: linear-gradient(120deg, #0E7C86, #0891B2); }
+  .tier.t2 { background: linear-gradient(120deg, #B45309, #D97706); }
+  .tier.t3 { background: linear-gradient(120deg, #991B1B, #B91C1C); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .stat .k { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .stat .v { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1.1; }
+  .prin { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
+  .prin li { display: grid; grid-template-columns: 150px 1fr auto; gap: 14px; align-items: center; }
+  @media (max-width: 480px) { .prin li { grid-template-columns: 110px 1fr auto; } }
+  .prin .bar { height: 14px; background: var(--line-soft); border-radius: 99px; overflow: hidden; display: flex; }
+  .prin .bar span { height: 100%; display: block; }
+  .prin .n { font-family: var(--mono); font-size: 15px; }
+  .debrief { background: var(--card); border: 1px solid var(--line); border-left: 8px solid var(--band); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; }
+  .debrief p:last-child { margin: 0; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* certificate */
+  .claim { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 24px; }
+  .claim label { display: block; font-weight: 600; margin-bottom: 6px; }
+  .claim input { font: inherit; width: 100%; max-width: 380px; padding: 10px 12px; border: 2px solid var(--ink); border-radius: 9px; background: #fff; color: var(--ink); margin-bottom: 12px; }
+  .claim .err { color: var(--red); font-weight: 500; margin: -4px 0 12px; }
+  .cert { border: 3px double var(--band); border-radius: 6px; padding: 48px 44px; text-align: center; background: #fff; }
+  @media (max-width: 560px) { .cert { padding: 32px 18px; } }
+  .cert .eyebrow { font-family: var(--mono); font-size: 14px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+  .cert h1 { font-size: 46px; margin-bottom: 8px; }
+  .cert .sub { display: flex; gap: 8px; justify-content: center; margin: 0 0 30px; }
+  .cert .line { margin: 14px auto 0; max-width: 520px; }
+  .cert .name { font-family: var(--display); font-weight: 700; font-size: 36px; margin: 8px 0 4px; border-bottom: 2px solid var(--ink); display: inline-block; padding: 0 24px 6px; min-width: 60%; overflow-wrap: anywhere; }
+  .cert .facts2 { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 34px; font-family: var(--mono); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .cert .facts2 b { display: block; color: var(--ink); font-size: 18px; letter-spacing: 0; text-transform: none; font-family: var(--body); font-weight: 600; margin-top: 2px; }
+  .cert .seal { display: inline-block; margin-top: 32px; font-family: var(--mono); font-weight: 600; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; border: 3px solid var(--green); color: var(--green); padding: 8px 14px 6px; border-radius: 6px; transform: rotate(-3deg); }
+  /* diagnosis */
+  .card.unk { border-top-color: #9CA3AF; }
+  .tag.unk { background: var(--line-soft); color: var(--muted); }
+  .dxrow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .dxq { font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); width: 100%; }
+  .dx { font-size: 15px; font-weight: 600; padding: 6px 12px; border-radius: 99px; background: #fff; border: 2px solid; }
+  .dx.P { color: var(--P); border-color: var(--P); } .dx.P:hover { background: var(--P-t); }
+  .dx.O { color: var(--O); border-color: var(--O); } .dx.O:hover { background: var(--O-t); }
+  .dx.U { color: var(--U); border-color: var(--U); } .dx.U:hover { background: var(--U-t); }
+  .dx.R { color: var(--R); border-color: var(--R); } .dx.R:hover { background: var(--R-t); }
+  .dxnote { border-radius: 8px; padding: 8px 12px; font-size: 15px; margin: 0; }
+  .dxnote.P { background: var(--P-t); color: var(--P); } .dxnote.O { background: var(--O-t); color: var(--O); }
+  .dxnote.U { background: var(--U-t); color: var(--U); } .dxnote.R { background: var(--R-t); color: var(--R); }
+  .dxnote.wrong { background: var(--amber-t); color: var(--amber); }
+  .cost small { font-family: var(--body); font-weight: 500; font-size: 12px; color: var(--amber); }
+  .ic.misdx { background: var(--amber-t); color: var(--amber); }
+
+  /* heat by principle (header) */
+  .heat { display: flex; gap: 10px; align-items: flex-end; }
+  .heat .h { width: 46px; text-align: center; }
+  .heat .hk { display: block; font-family: var(--display); font-weight: 800; font-size: 16px; line-height: 1; }
+  .heat .hv { display: block; font-size: 15px; font-weight: 600; line-height: 1.4; }
+  .heat .ht { display: block; height: 6px; background: rgba(255,255,255,0.18); border-radius: 99px; overflow: hidden; }
+  .heat .hf { display: block; height: 100%; border-radius: 99px; transition: width 500ms ease; }
+  .heat .P .hk, .heat .P .hf { color: #7FD8DF; background: #7FD8DF; } .heat .P .hk { background: none; }
+  .heat .O .hk, .heat .O .hf { color: #FDBA8C; background: #FDBA8C; } .heat .O .hk { background: none; }
+  .heat .U .hk, .heat .U .hf { color: #C4B5FD; background: #C4B5FD; } .heat .U .hk { background: none; }
+  .heat .R .hk, .heat .R .hf { color: #86EFAC; background: #86EFAC; } .heat .R .hk { background: none; }
+  .heat .htot { margin-left: 8px; }
+  .heat .htot .lab { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; display: block; }
+  .heat .htot .val { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1.1; }
+  .heat .htot .hw { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; margin-left: 6px; }
+
+  /* year-end lanes */
+  .lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  @media (max-width: 900px) { .lanes { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .lanes { grid-template-columns: 1fr; } }
+  .lane { background: #fff; border: 1px solid var(--line); border-top: 8px solid; border-radius: 14px; padding: 14px; }
+  .lane.P { border-top-color: var(--P); } .lane.O { border-top-color: var(--O); } .lane.U { border-top-color: var(--U); } .lane.R { border-top-color: var(--R); }
+  .lane h3 { margin: 0; }
+  .lane .q { color: var(--muted); font-size: 15px; margin: 2px 0 10px; }
+  .lane ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 15px; }
+  .lane li { padding: 6px 9px; border-radius: 8px; background: var(--line-soft); }
+  .lane li.c { background: var(--green-t); } .lane li.o { background: var(--red-t); } .lane li.pv { color: var(--muted); }
+  .lane .mis { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); margin-left: 6px; white-space: nowrap; }
+  .lane .lane-n { font-family: var(--mono); font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+  .lane .heatbar { height: 8px; background: var(--line-soft); border-radius: 99px; overflow: hidden; margin: 0 0 10px; }
+  .lane .heatbar span { display: block; height: 100%; background: var(--red); }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+  @media print {
+    @page { size: landscape; margin: 0.6in; }
+    html, body { background: #fff; }
+    .band, .dock, .actions, #confetti { display: none !important; }
+    .page { max-width: none; padding: 0; }
+    .cert { border-color: var(--band); padding: 60px 50px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti" aria-hidden="true" hidden></canvas>
+<header class="band">
+  <div class="band-in">
+    <div class="brand">Fiscal Year<small>Harbor County · Digital Services</small></div>
+    <div class="meters" id="meters" aria-live="polite"></div>
+    <span class="qtag" id="qtag">Briefing</span>
+  </div>
+</header>
+<main class="page" id="page"></main>
+<div class="dock" id="dock" hidden></div>
+
+<script>
+/* ============================================================
+   CONTENT — edit freely. cost in $ thousands. sev 1–3.
+   ============================================================ */
+const PR = {
+  P: { name: "Perceivable",    q: "Can residents take it in?",              gloss: "residents can see it, hear it, or have it read to them" },
+  O: { name: "Operable",       q: "Can residents work it?",                 gloss: "residents can work it — keyboard, enough time, no traps" },
+  U: { name: "Understandable", q: "Can residents follow it?",               gloss: "residents can follow it — predictable, clear errors, plain labels" },
+  R: { name: "Robust",         q: "Does it work with their assistive tech?", gloss: "it works with the assistive technology residents actually use" }
+};
+const KEYS = Object.keys(PR);
+const MISDX = 1.25;   // rework surcharge for a misdiagnosed barrier
+
+const BARRIERS = [
+  // Perceivable
+  { id: "scanpdf",  p: "P", sev: 3, cost: 45, reach: 18000,  src: "Records Division",        title: "Benefit forms are scanned images",           blurb: "Housing-assistance applications are image PDFs. Screen readers say “image.”", fix: "Republish as tagged PDFs and HTML forms.", sc: "1.1.1" },
+  { id: "captions", p: "P", sev: 2, cost: 60, reach: 9000,   src: "Communications",          title: "Council video has no captions",              blurb: "Live and archived meetings, none captioned. Auto-captions are 80% accurate on names and motions.", fix: "Captioning contract plus live CART.", sc: "1.2.2 / 1.2.4" },
+  { id: "evacmap",  p: "P", sev: 3, cost: 20, reach: 120000, src: "Emergency Management",    title: "Evacuation map uses colour alone",           blurb: "Zones are red or green. Colour-blind residents and screen-reader users cannot tell which is which.", fix: "Patterns, labels, and a text list of zones.", sc: "1.4.1" },
+  { id: "contrast", p: "P", sev: 1, cost: 15, reach: 200000, src: "Communications",          title: "New brand palette fails contrast",           blurb: "The refreshed grey-on-teal body text is 2.9:1. Low-vision residents cannot read it in daylight.", fix: "Adjust palette to 4.5:1 and reissue templates.", sc: "1.4.3" },
+  { id: "reflow",   p: "P", sev: 2, cost: 55, reach: 40000,  src: "Digital Services",        title: "Benefits portal breaks when zoomed",         blurb: "At 200% or on a phone, the form scrolls sideways and the Submit button disappears.", fix: "Responsive rebuild of the form layer.", sc: "1.4.10" },
+  { id: "captcha",  p: "P", sev: 2, cost: 15, reach: 6000,   src: "Clerk’s Office",          title: "Records requests blocked by image CAPTCHA",  blurb: "The public-records form ends with a distorted-text CAPTCHA. Blind residents cannot pass it.", fix: "Replace with an accessible challenge.", sc: "1.1.1" },
+  // Operable
+  { id: "timeout",  p: "O", sev: 3, cost: 25, reach: 22000,  src: "Ombudsman",               title: "SNAP renewal times out silently",            blurb: "Ten minutes, no warning, no extend. Slower readers lose everything.", fix: "Warning with one-click extend; audit all timed flows.", sc: "2.2.1" },
+  { id: "hover",    p: "O", sev: 3, cost: 40, reach: 200000, src: "IT Director",             title: "Main menu opens only on hover",              blurb: "The redesigned site’s navigation cannot be reached with a keyboard at all.", fix: "Rebuild navigation to be keyboard-operable.", sc: "2.1.1" },
+  { id: "dragmap",  p: "O", sev: 2, cost: 30, reach: 12000,  src: "Planning",                title: "Permit map needs a mouse to drag a pin",     blurb: "No way to enter an address by typing. Keyboard and switch users are stuck.", fix: "Add address entry and keyboard pin placement.", sc: "2.1.1" },
+  { id: "flash",    p: "O", sev: 3, cost: 5,  reach: 200000, src: "Emergency Management",    title: "Alert banner flashes three times a second",  blurb: "The new emergency banner strobes red. That rate can trigger seizures.", fix: "Remove the flash. One afternoon of work.", sc: "2.3.1" },
+  { id: "focus",    p: "O", sev: 1, cost: 20, reach: 30000,  src: "Treasurer",               title: "Tax form tab order jumps around",            blurb: "Tab goes from Name to Submit to ZIP. Keyboard users cannot tell where they are.", fix: "Fix DOM order and focus management.", sc: "2.4.3" },
+  // Understandable
+  { id: "errors",   p: "U", sev: 2, cost: 20, reach: 15000,  src: "Call Centre",             title: "Permit form says only “Invalid input”",      blurb: "No field named, no reason given. Forty percent of calls are about this form.", fix: "Errors name the field, say what’s wrong, suggest a fix.", sc: "3.3.1 / 3.3.3" },
+  { id: "nav",      p: "U", sev: 1, cost: 80, reach: 200000, src: "Constituent Survey",      title: "Every department is a different website",   blurb: "Navigation moves and renames itself from Parks to Health to Public Works.", fix: "One shared template and navigation.", sc: "3.2.3" },
+  { id: "labels",   p: "U", sev: 2, cost: 15, reach: 30000,  src: "Treasurer",               title: "Tax payment fields have no labels",          blurb: "Placeholder text disappears on typing. Screen readers announce “edit text” for every field.", fix: "Add visible, programmatic labels.", sc: "3.3.2" },
+  { id: "lang",     p: "U", sev: 2, cost: 10, reach: 25000,  src: "Language Access Office",  title: "Spanish pages are read aloud as English",   blurb: "The page language is never set. Screen readers mangle every Spanish word.", fix: "Set the language attribute across templates.", sc: "3.1.1" },
+  { id: "autosub",  p: "U", sev: 1, cost: 10, reach: 8000,   src: "Planning",                title: "Choosing a district submits the form",       blurb: "Selecting from a dropdown fires the form without warning. Keyboard users cannot browse the options.", fix: "Add an explicit Submit; stop change-triggered submits.", sc: "3.2.2" },
+  // Robust
+  { id: "vpat",     p: "R", sev: 3, cost: 70, reach: 35000,  src: "Procurement",             title: "Case portal dropdowns say nothing",          blurb: "Vendor VPAT says “Supports.” Pilot screen-reader users could not pick a county.", fix: "Contractual remediation to standard controls.", sc: "4.1.2" },
+  { id: "status",   p: "R", sev: 2, cost: 15, reach: 20000,  src: "Digital Services",        title: "“Application received” is never announced", blurb: "Green banner only. Screen-reader users resubmit — two hundred duplicates a month.", fix: "Announce status messages to assistive technology.", sc: "4.1.3" },
+  { id: "cms",      p: "R", sev: 1, cost: 50, reach: 200000, src: "IT Director",             title: "Legacy CMS emits broken markup",             blurb: "Duplicate IDs and unclosed tags across the site. Screen readers lose their place.", fix: "Template cleanup and validation gate.", sc: "4.1.1" },
+  { id: "payment",  p: "R", sev: 3, cost: 40, reach: 30000,  src: "Treasurer",               title: "Payment widget unusable with screen readers", blurb: "The third-party card form has custom controls with no names. Residents cannot pay taxes online.", fix: "Swap to an accessible payment provider.", sc: "4.1.2" }
+];
+
+const OFFERS = [
+  { id: "overlay",   cost: 25, title: "Accessibility overlay widget",  pitch: "One line of code. “WCAG-compliant overnight.” A green compliance badge for the footer.", src: "Vendor pitch" },
+  { id: "letter",    cost: 0,  title: "Vendor assurance letter",       pitch: "The portal vendor will confirm in writing that their product is Section 508 compliant.", src: "Procurement" },
+  { id: "statement", cost: 5,  title: "Accessibility statement page",  pitch: "A public page affirming the county’s commitment to accessibility, with a feedback address.", src: "Communications" },
+  { id: "phase2",    cost: 10, title: "Phase-two remediation plan",    pitch: "A consultant-written roadmap scheduling all open barriers for next fiscal year.", src: "Consultant" }
+];
+
+const INVESTMENTS = [
+  { id: "training", cost: 30, title: "Staff accessibility training",       pitch: "Developers, content authors, and procurement learn the standard. Every future fix gets cheaper.", effect: "Every fix costs 30% less for the rest of the year." },
+  { id: "attest",   cost: 35, title: "Assistive-tech acceptance testing",  pitch: "No vendor product is accepted until real screen-reader users have tried it. Vendors fix their own defects.", effect: "Unshipped vendor defects never arrive; open ones cost half." },
+  { id: "system",   cost: 40, title: "Shared design system",               pitch: "One set of accessible templates, components, and navigation for every department.", effect: "Unshipped template barriers never arrive; open ones cost half." }
+];
+
+const EVENTS = [
+  { id: "grant",  tone: "good", title: "State digital-equity grant approved",         text: "An extra $50k lands in the budget this quarter.", budget: 50 },
+  { id: "cut",    tone: "bad",  title: "Mid-year budget correction",                   text: "The Board trims $30k from Digital Services.", budget: -30 },
+  { id: "audit",  tone: "bad",  title: "DOJ opens a Title II compliance review",       text: "Anything in that principle already under complaint escalates faster this quarter." },
+  { id: "news",   tone: "bad",  title: "Harbor Herald runs a front-page story",        text: "A reporter found your most severe open barrier. Trust takes a hit and the complaint escalates." },
+  { id: "elect",  tone: "good", title: "Election year",                                text: "Every change in public trust counts double this quarter." },
+  { id: "quiet",  tone: "good", title: "A quiet quarter",                              text: "No surprises. Use it." }
+];
+
+const STAGES = ["Reported", "Formal complaint", "DOJ inquiry", "Lawsuit"];
+const STAGE_EXPOSURE = [1, 3, 6, 10];
+let ESC_CHANCE = [0.4, 0.65, 0.9];            // by severity 1–3
+let SEVW = [1, 2, 3];                          // exposure multiplier by severity
+let TH = [12, 30, 60];                         // exposure ceilings: Commendation / On track / Under inquiry
+let Q_BUDGET = 90;
+let DRAW = [5, 4, 3, 3];
+const TIERS = [
+  { name: "Commendation",   text: "Exposure contained, trust up, no lawsuits. The Board will want to know how you did it." },
+  { name: "On track",       text: "Most severe barriers cleared. What remains is manageable — if next year’s budget holds." },
+  { name: "Under inquiry",  text: "DOJ is asking questions and at least one matter is in court. The record shows what you were told and when." },
+  { name: "Consent decree", text: "Multiple lawsuits. The county now remediates on a federal timeline, at a federal price, with a monitor." }
+];
+const PASS_TIER = 1;   // certificate at this tier or better
+const PASS_ACC = 0.6;  // ...and this diagnosis accuracy
+
+/* ============================================================
+   GAME
+   ============================================================ */
+const page = document.getElementById("page");
+const dock = document.getElementById("dock");
+const metersEl = document.getElementById("meters");
+const qtag = document.getElementById("qtag");
+const $ = id => document.getElementById(id);
+const money = n => "$" + n + "k";
+const fmt = n => n.toLocaleString("en-US");
+const esc = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function shuffle(a) { for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; }
+
+let S;   // game state
+
+function newGame() {
+  S = {
+    q: 0, budget: Q_BUDGET, trust: 55, extra: 0,
+    deck: shuffle(BARRIERS.map(b => ({ ...b, stage: 0 }))),
+    open: [], fixed: [], prevented: [],
+    offers: shuffle(OFFERS.slice()), invest: INVESTMENTS.slice(),
+    offer: null, inv: null, event: null,
+    costMult: 1, attest: false, system: false,
+    funded: new Set(), log: [], lawsuits: 0
+  };
+}
+
+function cost(b) { return Math.round(b.cost * S.costMult * (b.dx === "wrong" ? MISDX : 1) / 5) * 5; }
+function heat() { const h = { P: 0, O: 0, U: 0, R: 0 }; S.open.forEach(b => h[b.p] += STAGE_EXPOSURE[b.stage] * SEVW[b.sev - 1]); return h; }
+function exposure() { return S.open.reduce((s, b) => s + STAGE_EXPOSURE[b.stage] * SEVW[b.sev - 1], 0) + S.extra; }
+function tier() {
+  const e = exposure();
+  if (S.lawsuits >= 2 || e > TH[2]) return 3;
+  if (S.lawsuits >= 1 || e > TH[1]) return 2;
+  if (e > TH[0]) return 1;
+  return 0;
+}
+
+function renderMeters() {
+  const e = exposure(), h = heat();
+  const word = e <= TH[0] ? "low" : e <= TH[1] ? "rising" : e <= TH[2] ? "high" : "critical";
+  metersEl.innerHTML = `
+    <div class="meter"><div class="lab"><span>Budget</span></div><div class="val mono">${money(S.budget)}</div>
+      <div class="track"><div class="fill gold" style="width:${Math.min(100, S.budget / 2)}%"></div></div></div>
+    <div class="heat" role="group" aria-label="Exposure by principle. Total ${e}, ${word}. ${KEYS.map(k => PR[k].name + " " + h[k]).join(", ")}${S.extra ? `, overlay ${S.extra}` : ""}">
+      ${KEYS.map(k => `<div class="h ${k}" aria-hidden="true"><span class="hk">${k}</span><span class="hv mono">${h[k]}</span><span class="ht"><span class="hf" style="width:${Math.min(100, h[k] / (TH[2] / 2) * 100)}%"></span></span></div>`).join("")}
+      <div class="htot" aria-hidden="true"><span class="lab">Exposure</span><span class="val mono">${e}</span><span class="hw">${word}</span></div>
+    </div>
+    <div class="meter"><div class="lab"><span>Public trust</span></div><div class="val mono">${S.trust}</div>
+      <div class="track"><div class="fill trust" style="width:${S.trust}%"></div></div></div>`;
+}
+
+/* ---------- intro ---------- */
+function renderIntro() {
+  newGame();
+  renderMeters();
+  qtag.textContent = "Briefing";
+  dock.hidden = true;
+  page.innerHTML = `
+    <div class="hero">
+      <h1 tabindex="-1" id="focus">You have one year.</h1>
+      <p class="lede"><strong>Your job:</strong> keep Harbor County out of court. Fix the accessibility barriers on your desk before residents complain, the DOJ calls, or someone sues.</p>
+      <p class="lede">You get <strong>4 quarters</strong> and <strong>${money(Q_BUDGET)} a quarter</strong>. That is not enough to fix everything. Choose well.</p>
+    </div>
+    <ol class="steps" aria-label="How the year works">
+      <li class="step"><div class="n" aria-hidden="true">1</div><h3>Diagnose</h3><p>Read each card. Tap the principle it breaks.</p><p style="margin-top:6px;color:var(--muted)">Wrong guess? The fix costs <strong>25% more</strong>.</p></li>
+      <li class="step"><div class="n" aria-hidden="true">2</div><h3>Fund</h3><p>Tap <strong>Fund</strong> on the barriers you want fixed. Stay under budget.</p><p style="margin-top:6px;color:var(--muted)">Leftover money rolls into next quarter.</p></li>
+      <li class="step"><div class="n" aria-hidden="true">3</div><h3>Close</h3><p>Tap <strong>Close</strong>. Funded barriers are fixed. Ignored ones get worse:</p><div class="mini" aria-hidden="true"><i></i><i></i><i></i><i></i></div><p style="font-size:14px;color:var(--muted)">Reported → Complaint → DOJ → Lawsuit</p></li>
+      <li class="step"><div class="n" aria-hidden="true">4</div><h3>Year end</h3><p>After 4 quarters you get a grade.</p><p style="margin-top:6px;color:var(--muted)"><strong>On track</strong> or better + <strong>${Math.round(PASS_ACC * 100)}%</strong> correct diagnoses = certificate.</p></li>
+    </ol>
+    <p class="sect">The four questions</p>
+    <ul class="qs" aria-label="The four POUR principles">
+      ${KEYS.map(k => `<li class="${k}"><div class="k">${PR[k].name}</div><div class="q">${PR[k].q}</div></li>`).join("")}
+    </ul>
+    <button class="btn big" id="go">Take the job</button>`;
+  $("focus").focus();
+  $("go").addEventListener("click", startQuarter);
+}
+
+/* ---------- quarter ---------- */
+function startQuarter() {
+  S.q++;
+  S.funded = new Set();
+  // draw barriers
+  const n = DRAW[S.q - 1];
+  for (let k = 0; k < n && S.deck.length; k++) S.open.push(S.deck.shift());
+  // offer + investment
+  S.offer = S.offers.length ? S.offers.shift() : null;
+  S.inv = S.invest.length ? S.invest.shift() : null;
+  // event
+  S.event = { ...(S.q === 1 ? EVENTS.find(e => e.id === "quiet") : shuffle(EVENTS.filter(e => e.id !== "quiet")).pop()) };
+  if (S.event.id === "audit") {
+    const h = heat(), counts = { P: 0, O: 0, U: 0, R: 0 };
+    S.open.forEach(b => counts[b.p]++);
+    S.event.p = KEYS.slice().sort((a, b) => counts[b] - counts[a] || h[b] - h[a])[0];
+  }
+  if (S.event.budget) S.budget = Math.max(0, S.budget + S.event.budget);
+  if (S.event.id === "news") {
+    const t = S.open.slice().sort((a, b) => b.sev - a.sev || b.stage - a.stage)[0];
+    if (t) { t.stage = Math.min(3, t.stage + 1); t.news = true; S.trust = Math.max(0, S.trust - 6); if (t.stage === 3) S.lawsuits++; }
+  }
+  renderDesk();
+}
+
+function renderDesk() {
+  renderMeters();
+  qtag.textContent = `Q${S.q} of 4`;
+  const ev = S.event;
+  const cards = [];
+  let i = 0;
+  S.open.forEach(b => cards.push(barrierCard(b, i++)));
+  if (S.inv) cards.push(investCard(S.inv, i++));
+  if (S.offer) cards.push(offerCard(S.offer, i++));
+
+  page.innerHTML = `
+    <div class="herald ${ev.tone}">
+      <span class="kicker">Harbor Herald · Q${S.q} briefing</span>
+      <h3 id="focus" tabindex="-1">${ev.title}</h3>
+      <p>${ev.p ? `The review focuses on <strong>${PR[ev.p].name}</strong> — ${PR[ev.p].q.toLowerCase()} ` : ""}${ev.text}${ev.id === "news" ? " The escalated item is marked on your desk." : ""}</p>
+    </div>
+    <div class="desk-head">
+      <h2>Your desk</h2>
+      <p>${S.open.length} open barrier${S.open.length === 1 ? "" : "s"}${S.inv ? " · 1 investment" : ""}${S.offer ? " · 1 offer" : ""}</p>
+    </div>
+    <ul class="grid" id="grid">${cards.join("")}</ul>`;
+  $("focus").focus();
+
+  dock.hidden = false;
+  dock.innerHTML = `
+    <div class="dock-in">
+      <div class="alloc">
+        <div class="lab"><span>Allocated</span><span id="alloc-n"></span></div>
+        <div class="track"><div class="fill" id="alloc-bar"></div></div>
+      </div>
+      <span class="warn" id="warn" role="status"></span>
+      <button class="btn big" id="close">Close Q${S.q}</button>
+    </div>`;
+  updateAlloc();
+
+  $("grid").addEventListener("click", e => {
+    const d = e.target.closest(".dx");
+    if (d) {
+      const li = d.closest(".card"), bar = S.open.find(x => x.id === li.dataset.id);
+      bar.guess = d.dataset.dx; bar.dx = bar.guess === bar.p ? "ok" : "wrong"; bar.dxQ = S.q;
+      if (bar.dx === "wrong") S.trust = Math.max(0, S.trust - 2);
+      renderMeters();
+      li.outerHTML = barrierCard(bar, 0);
+      $("grid").querySelector(`.card[data-id="${bar.id}"] .fund`).focus();
+      updateAlloc();
+      return;
+    }
+    const b = e.target.closest(".fund"); if (!b) return;
+    const id = b.dataset.id;
+    if (S.funded.has(id)) S.funded.delete(id); else S.funded.add(id);
+    b.setAttribute("aria-pressed", S.funded.has(id));
+    b.querySelector(".chk").textContent = S.funded.has(id) ? "Funded ✓" : "Fund";
+    b.closest(".card").classList.toggle("funded", S.funded.has(id));
+    updateAlloc();
+  });
+  $("close").addEventListener("click", closeQuarter);
+}
+
+function allocated() {
+  let t = 0;
+  S.open.forEach(b => { if (S.funded.has(b.id)) t += cost(b); });
+  if (S.inv && S.funded.has(S.inv.id)) t += S.inv.cost;
+  if (S.offer && S.funded.has(S.offer.id)) t += S.offer.cost;
+  return t;
+}
+function updateAlloc() {
+  const a = allocated(), over = a > S.budget;
+  $("alloc-n").textContent = `${money(a)} of ${money(S.budget)}`;
+  const bar = $("alloc-bar");
+  bar.style.width = Math.min(100, a / Math.max(1, S.budget) * 100) + "%";
+  bar.classList.toggle("over", over);
+  $("warn").textContent = over ? `Over budget by ${money(a - S.budget)}` : "";
+  $("close").disabled = over;
+}
+
+function barrierCard(b, i) {
+  const f = S.funded.has(b.id), dx = b.dx;
+  return `<li class="card ${dx ? b.p : "unk"} ${f ? "funded" : ""}" style="--i:${i}" data-id="${b.id}">
+    <div class="top">${dx ? `<span class="tag ${b.p}">${PR[b.p].name}</span>` : `<span class="tag unk">Undiagnosed</span>`}<span class="cost">${money(cost(b))}${dx === "wrong" ? ` <small>incl. rework</small>` : ""}</span></div>
+    <h3>${b.title}</h3>
+    <p class="src">${b.src}${b.news ? " · in the Herald" : ""}${S.event.p && S.event.p === b.p && b.stage >= 1 ? " · under DOJ review" : ""}</p>
+    <p class="blurb">${b.blurb}</p>
+    <p class="facts"><span>Severity <span class="sev" aria-label="${b.sev} of 3">${[1,2,3].map(k => `<i class="${k <= b.sev ? "on" : ""}"></i>`).join("")}</span></span><span><b>${fmt(b.reach)}</b> residents</span>${dx ? `<span>SC ${b.sc}</span>` : ""}</p>
+    <ul class="ladder" aria-hidden="true">${[0,1,2,3].map(k => `<li class="${k <= b.stage ? "s" + b.stage : ""}"></li>`).join("")}</ul>
+    <p class="stage s${b.stage}">${STAGES[b.stage]}</p>
+    ${!dx ? `<div class="dxrow" role="group" aria-label="Which principle is at stake?"><span class="dxq">Which principle is at stake?</span>${KEYS.map(k => `<button class="dx ${k}" data-dx="${k}">${PR[k].name}</button>`).join("")}</div>`
+      : dx === "ok" ? `<p class="dxnote ${b.p}" role="status"><strong>${PR[b.p].name}.</strong> ${PR[b.p].q} Not yet. Fixed means ${PR[b.p].gloss}.</p>`
+      : `<p class="dxnote wrong" role="status"><strong>Misdiagnosed as ${PR[b.guess].name}.</strong> It’s ${PR[b.p].name} — ${PR[b.p].q.toLowerCase()} Sent to the wrong team; rework adds 25%.</p>`}
+    <button class="fund" data-id="${b.id}" aria-pressed="${f}" ${dx ? "" : "disabled"}><span>${b.fix}</span><span class="chk">${!dx ? "Diagnose first" : f ? "Funded ✓" : "Fund"}</span></button>
+  </li>`;
+}
+function offerCard(o, i) {
+  return `<li class="card offer" style="--i:${i}">
+    <div class="top"><span class="tag gold">Offer</span><span class="cost">${money(o.cost)}</span></div>
+    <h3>${o.title}</h3><p class="src">${o.src}</p><p class="blurb">${o.pitch}</p>
+    <button class="fund" data-id="${o.id}" aria-pressed="false"><span>Accept</span><span class="chk">Fund</span></button>
+  </li>`;
+}
+function investCard(v, i) {
+  return `<li class="card invest" style="--i:${i}">
+    <div class="top"><span class="tag band">Investment</span><span class="cost">${money(v.cost)}</span></div>
+    <h3>${v.title}</h3><p class="src">Proposed by your staff</p><p class="blurb">${v.pitch}</p>
+    <p class="facts"><b>${v.effect}</b></p>
+    <button class="fund" data-id="${v.id}" aria-pressed="false"><span>Approve</span><span class="chk">Fund</span></button>
+  </li>`;
+}
+
+/* ---------- close quarter ---------- */
+function closeQuarter() {
+  const log = [];
+  const tmul = S.event.id === "elect" ? 2 : 1;
+  const trust = d => { S.trust = Math.max(0, Math.min(100, S.trust + d * tmul)); return d * tmul; };
+  S.budget -= allocated();
+
+  // diagnoses this quarter
+  S.open.filter(b => b.dxQ === S.q && b.dx === "wrong").forEach(b => {
+    log.push({ ic: "misdx", head: `${b.title} — misdiagnosed as ${PR[b.guess].name}.`, sub: `It’s ${PR[b.p].name} — ${PR[b.p].q.toLowerCase()} Rework added ${money(cost(b) - Math.round(b.cost * S.costMult / 5) * 5)}${S.funded.has(b.id) ? "" : " — and it is still unfunded"}.` });
+  });
+
+  // fixed
+  const keep = [];
+  S.open.forEach(b => {
+    if (S.funded.has(b.id)) {
+      S.fixed.push(b);
+      const d = trust(2 + b.sev);
+      log.push({ ic: "fixed", head: `${b.title} — cleared.`, sub: `${PR[b.p].name}. ${fmt(b.reach)} residents.`, d });
+    } else keep.push(b);
+  });
+  S.open = keep;
+
+  // investment
+  if (S.inv && S.funded.has(S.inv.id)) {
+    const v = S.inv;
+    if (v.id === "training") { S.costMult = 0.7; log.push({ ic: "invest", head: "Staff training approved.", sub: "Every remaining fix now costs 30% less." }); }
+    if (v.id === "attest") {
+      S.attest = true;
+      const caught = S.deck.filter(b => b.p === "R");
+      S.deck = S.deck.filter(b => b.p !== "R"); S.prevented.push(...caught);
+      S.open.forEach(b => { if (b.p === "R") b.cost = Math.round(b.cost / 2); });
+      log.push({ ic: "invest", head: "Assistive-tech acceptance testing in place.", sub: (caught.length ? `Caught before acceptance: ${caught.map(b => b.title).join("; ")}. ` : "") + "Open vendor defects are now remediated at vendor cost." });
+    }
+    if (v.id === "system") {
+      S.system = true;
+      const ids = ["nav", "labels", "focus", "hover", "lang", "autosub"];
+      const caught = S.deck.filter(b => ids.includes(b.id));
+      S.deck = S.deck.filter(b => !caught.includes(b)); S.prevented.push(...caught);
+      S.open.forEach(b => { if (ids.includes(b.id)) b.cost = Math.round(b.cost / 2); });
+      log.push({ ic: "invest", head: "Shared design system funded.", sub: (caught.length ? `Never shipped: ${caught.map(b => b.title).join("; ")}. ` : "") + "Open template barriers now cost half to fix." });
+    }
+  }
+
+  // offer
+  if (S.offer && S.funded.has(S.offer.id)) {
+    const o = S.offer;
+    if (o.id === "overlay") { S.extra += 8; const d = trust(-6); log.push({ ic: "note", head: "The overlay changed nothing.", sub: "Screen-reader users report it fights their software. Plaintiffs’ firms now search for overlay badges. Permanent exposure added.", d }); }
+    if (o.id === "letter") log.push({ ic: "note", head: "The vendor letter arrived.", sub: "It is not a test. Every barrier it covers is still open, and the letter is now evidence you asked for assurance instead of proof." });
+    if (o.id === "statement") { const d = trust(2); log.push({ ic: "note", head: "Accessibility statement published.", sub: "Residents appreciate it. Barriers unchanged. A statement without fixes documents that you knew.", d }); }
+    if (o.id === "phase2") log.push({ ic: "note", head: "The phase-two plan was filed.", sub: "The complaints were not. Every open barrier escalated on schedule." });
+  }
+
+  // escalation
+  const audit = S.event.id === "audit";
+  S.open.forEach(b => {
+    const before = b.stage;
+    if (Math.random() < ESC_CHANCE[b.sev - 1]) b.stage = Math.min(3, b.stage + 1);
+    if (audit && before >= 1 && b.p === S.event.p) b.stage = Math.min(3, b.stage + 1);
+    b.news = false;
+    if (b.stage > before) {
+      let d = 0;
+      if (b.stage >= 2 && before < 2) d = trust(-4);
+      if (b.stage === 3) { d += trust(-6); S.lawsuits++; }
+      log.push({ ic: "esc", head: `${b.title} — now ${STAGES[b.stage]}.`, sub: `${PR[b.p].name}. Unfunded for ${S.q === 1 ? "a quarter" : "another quarter"}.`, d });
+    } else {
+      log.push({ ic: "same", head: `${b.title} — still ${STAGES[b.stage]}.`, sub: b.dx ? "Unfunded. It will not stay quiet." : "Undiagnosed and unfunded. It will not stay quiet." });
+    }
+  });
+
+  S.log = log;
+  S.budget += Q_BUDGET;   // next quarter's allocation, visible now
+  renderResults();
+}
+
+function renderResults() {
+  renderMeters();
+  dock.hidden = true;
+  const last = S.q === 4;
+  page.innerHTML = `
+    <h2 tabindex="-1" id="focus">Q${S.q} closed</h2>
+    <p style="color:var(--muted)">${last ? "Final quarter. Here is what happened." : `Next quarter’s ${money(Q_BUDGET)} has been added to your budget.`}</p>
+    <ul class="res">${S.log.map((l, i) => `<li style="--i:${i}"><span class="ic ${l.ic}">${l.ic === "esc" ? "Escalated" : l.ic === "same" ? "Open" : l.ic === "note" ? "Offer" : l.ic === "misdx" ? "Misread" : l.ic}</span>
+      <div><p>${l.head}${l.d ? `<span class="delta ${l.d > 0 ? "up" : "dn"}">trust ${l.d > 0 ? "+" : ""}${l.d}</span>` : ""}</p><p class="sub">${l.sub}</p></div></li>`).join("")}</ul>
+    <button class="btn big" id="next">${last ? "Year-end review" : `Open Q${S.q + 1}`}</button>`;
+  $("focus").focus();
+  $("next").addEventListener("click", last ? renderEnd : startQuarter);
+}
+
+/* ---------- year end ---------- */
+function renderEnd(quiet) {
+  renderMeters();
+  dock.hidden = true;
+  qtag.textContent = "Year end";
+  const t = tier(), T = TIERS[t];
+  const e = exposure(), h = heat();
+  const all = S.fixed.concat(S.open);
+  const dxd = all.filter(b => b.dx), ok = dxd.filter(b => b.dx === "ok").length, wrong = dxd.length - ok;
+  const acc = dxd.length ? ok / dxd.length : 0;
+  const undx = S.open.filter(b => !b.dx).length;
+  const missBy = {}; dxd.filter(b => b.dx === "wrong").forEach(b => { const k = b.p + b.guess; missBy[k] = (missBy[k] || 0) + 1; });
+  const worstMiss = Object.keys(missBy).sort((a, b) => missBy[b] - missBy[a])[0];
+  const worst = S.open.slice().sort((a, b) => b.stage - a.stage || b.sev - a.sev);
+  const passed = t <= PASS_TIER && acc >= PASS_ACC && dxd.length > 0;
+  const leftReach = S.open.reduce((s, b) => s + b.reach, 0);
+  const lane = k => {
+    const fx = S.fixed.filter(b => b.p === k), pv = S.prevented.filter(b => b.p === k), op = S.open.filter(b => b.p === k);
+    const mis = b => b.dx === "wrong" ? `<span class="mis">misread as ${PR[b.guess].name}</span>` : "";
+    return `<section class="lane ${k}" aria-labelledby="lane-${k}">
+      <h3 id="lane-${k}">${PR[k].name}</h3><p class="q">${PR[k].q}</p>
+      <div class="heatbar" role="img" aria-label="Exposure ${h[k]}"><span style="width:${Math.min(100, h[k] / (TH[2] / 2) * 100)}%"></span></div>
+      <ul>${fx.map(b => `<li class="c">✓ ${b.title}${mis(b)}</li>`).join("")}${pv.map(b => `<li class="pv">◇ ${b.title} · prevented</li>`).join("")}${op.map(b => `<li class="o">! ${b.title} · ${STAGES[b.stage]}${mis(b)}</li>`).join("")}${!fx.length && !pv.length && !op.length ? `<li class="pv">Nothing reached your desk.</li>` : ""}</ul>
+      <p class="lane-n">${fx.length} cleared · ${pv.length} prevented · ${op.length} open</p>
+    </section>`;
+  };
+
+  page.innerHTML = `
+    <div class="tier t${t}">
+      <span class="kicker">Year-end outcome</span>
+      <h1 tabindex="-1" id="focus">${T.name}</h1>
+      <p>${T.text}</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="k">Diagnosis accuracy</div><div class="v">${dxd.length ? Math.round(acc * 100) + "%" : "—"}</div></div>
+      <div class="stat"><div class="k">Barriers cleared</div><div class="v">${S.fixed.length}</div></div>
+      <div class="stat"><div class="k">Prevented</div><div class="v">${S.prevented.length}</div></div>
+      <div class="stat"><div class="k">Still open</div><div class="v">${S.open.length}</div></div>
+      <div class="stat"><div class="k">Lawsuits</div><div class="v">${S.lawsuits}</div></div>
+      <div class="stat"><div class="k">Exposure</div><div class="v">${e}</div></div>
+      <div class="stat"><div class="k">Public trust</div><div class="v">${S.trust}</div></div>
+    </div>
+    <h2>The year, by principle</h2>
+    <div class="lanes">${KEYS.map(lane).join("")}</div>
+    <div class="debrief">
+      <p><strong>Diagnosis:</strong> ${dxd.length ? `${ok} of ${dxd.length} barriers named correctly.` : "You diagnosed nothing."}${wrong ? ` ${wrong} went to the wrong team first${worstMiss ? ` — most often ${PR[worstMiss[0]].name} mistaken for ${PR[worstMiss[1]].name}` : ""}. Ask: ${PR[worstMiss ? worstMiss[0] : "P"].q.toLowerCase()}` : ""}${undx ? ` ${undx} still undiagnosed at year end.` : ""}</p>
+      ${worst.length ? `<p><strong>What you left on the desk:</strong> ${worst.map(b => `${b.title} (${STAGES[b.stage]})`).join("; ")}. Together they affect <strong>${fmt(leftReach)}</strong> residents.</p>` : `<p><strong>Nothing left on the desk.</strong> Every barrier that reached you was cleared or prevented.</p>`}
+      <p>${S.prevented.length ? `Investments prevented ${S.prevented.length} barrier${S.prevented.length === 1 ? "" : "s"} from ever shipping — the cheapest fixes are the ones you never have to make.` : "You funded no investments. Every barrier arrived at full price."}
+      ${S.extra ? " The overlay is still costing you exposure." : ""}</p>
+      <p>The pattern: severity and reach decide what escalates. A $5k flash fix and a $70k vendor defect can carry the same lawsuit — and naming the principle is what tells you which team can fix it.</p>
+    </div>
+    ${passed ? `
+    <div class="claim">
+      <h3>Certificate — earned at On track or better with ${Math.round(PASS_ACC * 100)}% diagnosis accuracy</h3>
+      <label for="name">Name as it should appear</label>
+      <input id="name" type="text" autocomplete="name" maxlength="80" aria-describedby="name-err">
+      <p class="err" id="name-err" hidden>Enter a name for the certificate.</p>
+      <div class="actions"><button class="btn" id="cert">Prepare certificate</button></div>
+    </div>` : `<div class="claim"><h3>Certificate</h3><p style="margin:0">Issued at On track or better with ${Math.round(PASS_ACC * 100)}% diagnosis accuracy. ${t > PASS_TIER && acc < PASS_ACC ? "Both fell short this year." : t > PASS_TIER ? "The outcome fell short this year." : "Diagnosis accuracy fell short this year."} Run the year again — the draw will be different.</p></div>`}
+    <div class="actions"><button class="btn ghost" id="again">Run the year again</button></div>`;
+  $("focus").focus();
+  $("again").addEventListener("click", renderIntro);
+  if (passed) {
+    $("cert").addEventListener("click", () => {
+      const name = $("name").value.trim();
+      if (!name) { $("name-err").hidden = false; $("name").setAttribute("aria-invalid", "true"); $("name").focus(); return; }
+      renderCert(name, T.name);
+    });
+    if (!quiet) confetti();
+  }
+}
+
+function renderCert(name, outcome) {
+  qtag.textContent = "Certificate";
+  const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  page.innerHTML = `
+    <div class="cert">
+      <p class="eyebrow">Certificate of completion</p>
+      <h1 tabindex="-1" id="focus">The POUR Principles</h1>
+      <div class="sub">${Object.keys(PR).map(k => `<span class="pill ${k}">${PR[k].name}</span>`).join("")}</div>
+      <p class="line">This certifies that</p>
+      <p class="name">${esc(name)}</p>
+      <p class="line">completed <em>Fiscal Year</em> and demonstrated working command of the four principles of WCAG 2.1 Level AA as they apply to public-sector leadership.</p>
+      <div class="facts2">
+        <div>Date<b>${date}</b></div>
+        <div>Outcome<b>${outcome}</b></div>
+        <div>Standard<b>WCAG 2.1 AA</b></div>
+      </div>
+      <div class="seal">Section 508 · ADA Title II</div>
+    </div>
+    <div class="actions" style="margin-top:20px">
+      <button class="btn" id="print">Print or save as PDF</button>
+      <button class="btn ghost" id="back">Back to results</button>
+    </div>`;
+  $("focus").focus();
+  $("print").addEventListener("click", () => window.print());
+  $("back").addEventListener("click", () => renderEnd(true));
+}
+
+/* ---------- confetti: from the bottom, flutters, 4 seconds ---------- */
+function confetti() {
+  if (reduced()) return;
+  const c = $("confetti"), ctx = c.getContext("2d");
+  const W = c.width = innerWidth, H = c.height = innerHeight;
+  c.hidden = false;
+  const colors = ["#0E7C86", "#C2410C", "#6D28D9", "#166534", "#F2C14E", "#23285A"];
+  const ps = [];
+  for (let k = 0; k < 200; k++) {
+    const a = -Math.PI / 2 + (Math.random() - 0.5) * 1.1, v = 16 + Math.random() * 12;
+    ps.push({ x: W * (0.15 + Math.random() * 0.7), y: H + 10, vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+      w: 6 + Math.random() * 5, h: 9 + Math.random() * 7, rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.25,
+      sway: Math.random() * Math.PI * 2, color: colors[k % colors.length], delay: Math.random() * 700 });
+  }
+  const DUR = 4000, t0 = performance.now();
+  function frame(t) {
+    const el = t - t0;
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = el > DUR - 900 ? Math.max(0, (DUR - el) / 900) : 1;
+    for (const p of ps) {
+      if (el < p.delay) continue;
+      p.vy += 0.35; p.vx *= 0.985; p.vy *= 0.985; p.sway += 0.12;
+      p.x += p.vx + Math.sin(p.sway) * 1.6; p.y += p.vy; p.rot += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(1, Math.cos(p.sway));
+      ctx.fillStyle = p.color; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    }
+    if (el < DUR) requestAnimationFrame(frame); else { ctx.clearRect(0, 0, W, H); c.hidden = true; }
+  }
+  requestAnimationFrame(frame);
+}
+
+renderIntro();
+</script>
+</body>
+</html>
