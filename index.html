@@ -25,7 +25,6 @@
       <nav aria-label="Course sections" style="display: flex; align-items: center; gap: 28px;">
         <a href="#outcomes" style="font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none;" style-hover="color: var(--orange-500);">What you practice</a>
         <a href="#exercises" style="font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none;" style-hover="color: var(--orange-500);">Exercises</a>
-        <a href="#logistics" style="font-size: 15px; font-weight: 700; color: var(--white); text-decoration: none;" style-hover="color: var(--orange-500);">Logistics</a>
       </nav>
     </div>
   </header>
@@ -40,7 +39,7 @@
             <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="accessibility" size="{{ 16 }}" hint-size="16px,16px"></x-import>
             <span>Hands-on workshop · WCAG 2.1 AA and Section 508</span>
           </div>
-          <h1 style="font-family: var(--font-display); font-weight: 700; font-size: 64px; line-height: 1.08; letter-spacing: -0.02em; color: var(--white); margin: 0 0 24px;">Digital Accessibility Foundations Exercizes</h1>
+          <h1 style="font-family: var(--font-display); font-weight: 700; font-size: 64px; line-height: 1.08; letter-spacing: -0.02em; color: var(--white); margin: 0 0 24px;">Digital Accessibility Foundations Exercises</h1>
           
         </div>
         
@@ -56,14 +55,14 @@
         <h2 style="font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0 0 16px;">Exercises</h2>
         <p style="font-size: 18px; line-height: 1.6; max-width: 60ch; margin: 0 0 48px;">Exercise pages open in this browser. Work through them with a keyboard first, then a screen reader.</p>
 
-        <div style="display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start;">
+        <div style="display: grid; gap: 24px;">
           <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--orange-10); display: grid; gap: 16px;">
             <div style="display: flex; align-items: center; gap: 12px;">
               <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Exercise 3.1</span>
-              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">Module 3 · Auditing a real page</span>
+              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">Module 3 &middot; Auditing a real page</span>
             </div>
             <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Parks and events listing</h3>
-            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 52ch;">A city parks and events page with a filter panel, a card grid and a registration form. Find the barriers a keyboard-only visitor hits, then write up each one against the success criterion it violates.</p>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 60ch;">A city parks and events page with a filter panel, a card grid and a registration form. Find the barriers a keyboard-only visitor hits, then write up each one against the success criterion it violates.</p>
             <div>
               <a href="{{ exerciseHref }}" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
                 <span>Open exercise 3.1</span>
@@ -73,51 +72,21 @@
             <p style="font-size: 14px; line-height: 1.5; margin: 0; color: var(--charcoal-700);">{{ exerciseHref }}</p>
           </div>
 
-          <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--white); display: grid; gap: 16px;">
-            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1.2; color: var(--deep-space-900); margin: 0;">Before you start</h3>
-            <ul style="margin: 0; padding: 0; list-style: none; display: grid; gap: 14px;">
-              <li style="display: flex; gap: 12px; align-items: start; font-size: 16px; line-height: 1.55;">
-                <span style="color: var(--deep-space-900); margin-top: 2px;"><x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="keyboard" size="{{ 18 }}" hint-size="18px,18px"></x-import></span>
-                <span>Put the mouse away. Tab, shift-tab, enter and space only.</span>
-              </li>
-              <li style="display: flex; gap: 12px; align-items: start; font-size: 16px; line-height: 1.55;">
-                <span style="color: var(--deep-space-900); margin-top: 2px;"><x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="audio-lines" size="{{ 18 }}" hint-size="18px,18px"></x-import></span>
-                <span>Have VoiceOver, NVDA or Narrator ready for the second pass.</span>
-              </li>
-              <li style="display: flex; gap: 12px; align-items: start; font-size: 16px; line-height: 1.55;">
-                <span style="color: var(--deep-space-900); margin-top: 2px;"><x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="notebook-pen" size="{{ 18 }}" hint-size="18px,18px"></x-import></span>
-                <span>Log each finding with the page element, the barrier and the criterion.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div style="margin-top: 24px; border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--white); display: grid; gap: 16px;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Exercise 6.1</span>
-            <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">Module 6 &middot; Reading formatting without a code view</span>
-          </div>
-          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Find the issues</h3>
-          <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 52ch;">A department email that looks completely normal. Nine accessibility issues are embedded in it. Hover over any piece and the inspector tells you how it is actually built &mdash; the tag, the font, the contrast, the alt text. Decide from that description alone, flag what is broken, then open the answers. No dev tools required.</p>
-          <div>
-            <a href="find-the-issues/index.html" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
-              <span>Open exercise 6.1</span>
-              <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 20 }}" hint-size="20px,20px"></x-import>
-            </a>
-          </div>
-          <p style="font-size: 14px; line-height: 1.5; margin: 0; color: var(--charcoal-700);">find-the-issues/index.html</p>
-        </div>
-
-        <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 48px 0 8px;">Games</h3>
-        <p style="font-size: 18px; line-height: 1.6; max-width: 60ch; margin: 0 0 24px;">Reinforce the four principles. No mouse required, no timer, certificate at the end.</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
           <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--orange-10); display: grid; gap: 16px;">
             <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Game 1</span>
-              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">POUR principles · WCAG 2.1 AA</span>
+              <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Exercise 5.7</span>
+              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">Module 5 &middot; The four principles in practice</span>
             </div>
-            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Fiscal Year</h3>
-            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 52ch;">Run a county digital-services budget for four quarters. Diagnose which principle each barrier breaks, fund what you can, and watch what you leave unfunded climb from complaint to DOJ inquiry to lawsuit.</p>
+            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Games</h3>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 60ch;">Reinforce the four principles. No mouse required, no timer, certificate at the end.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+          <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--white); display: grid; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Game 1</span>
+              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">POUR principles &middot; WCAG 2.1 AA</span>
+            </div>
+            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Fiscal Year</h3>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 60ch;">Run a county digital-services budget for four quarters. Diagnose which principle each barrier breaks, fund what you can, and watch what you leave unfunded climb from complaint to DOJ inquiry to lawsuit.</p>
             <div>
               <a href="fiscal-year/index.html" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
                 <span>Play Fiscal Year</span>
@@ -126,13 +95,14 @@
             </div>
             <p style="font-size: 14px; line-height: 1.5; margin: 0; color: var(--charcoal-700);">fiscal-year/index.html</p>
           </div>
+
           <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--white); display: grid; gap: 16px;">
             <div style="display: flex; align-items: center; gap: 12px;">
               <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Game 2</span>
-              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">POUR principles · WCAG 2.1 AA</span>
+              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">POUR principles &middot; WCAG 2.1 AA</span>
             </div>
-            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">The 508 Docket</h3>
-            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 52ch;">Eight situations that land on a public-sector leader’s desk. Name the principle at stake and choose the direction you would give. Each ruling cites the success criterion and names the exposure.</p>
+            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">The 508 Docket</h3>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 60ch;">Eight situations that land on a public-sector leader&rsquo;s desk. Name the principle at stake and choose the direction you would give. Each ruling cites the success criterion and names the exposure.</p>
             <div>
               <a href="docket/index.html" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
                 <span>Open the docket</span>
@@ -140,6 +110,24 @@
               </a>
             </div>
             <p style="font-size: 14px; line-height: 1.5; margin: 0; color: var(--charcoal-700);">docket/index.html</p>
+          </div>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--neutral-line); border-radius: 16px; padding: 24px; background: var(--orange-10); display: grid; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-size: 13px; font-weight: 700;">Exercise 6.1</span>
+              <span style="font-size: 13px; font-weight: 700; color: var(--charcoal-700);">Module 6 &middot; Reading formatting without a code view</span>
+            </div>
+            <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0;">Find the issues</h3>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: var(--charcoal-700); max-width: 60ch;">A department email that looks completely normal. Nine accessibility issues are embedded in it. Hover over any piece and the inspector tells you how it is actually built &mdash; the tag, the font, the contrast, the alt text. Decide from that description alone, flag what is broken, then open the answers. No dev tools required.</p>
+            <div>
+              <a href="find-the-issues/index.html" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 999px; background: var(--orange-500); color: var(--deep-space-900); font-family: var(--font-body); font-weight: 700; font-size: 18px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #E67800; color: var(--deep-space-900);">
+                <span>Open exercise 6.1</span>
+                <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 20 }}" hint-size="20px,20px"></x-import>
+              </a>
+            </div>
+            <p style="font-size: 14px; line-height: 1.5; margin: 0; color: var(--charcoal-700);">find-the-issues/index.html</p>
           </div>
         </div>
 
@@ -159,23 +147,6 @@
             </div>
           </div>
         </sc-if>
-      </div>
-    </section>
-
-    <section id="logistics" style="background: var(--white);">
-      <div style="max-width: 1200px; margin: 0 auto; padding: 96px 32px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: start;">
-        <div>
-          <h2 style="font-family: var(--font-display); font-weight: 700; font-size: 40px; line-height: 1.15; letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0 0 20px;">How the training runs</h2>
-          <p style="font-size: 18px; line-height: 1.65; margin: 0 0 20px; max-width: 60ch; text-wrap: pretty;">We run the sessions against your own pages wherever we can. An audit tells you what is broken; this training hands your team the checks that keep it fixed.</p>
-          <p style="font-size: 18px; line-height: 1.65; margin: 0; max-width: 60ch; text-wrap: pretty;">Sessions cap at 20 participants so everyone gets time in the exercise pages. Recordings, exercise files and the remediation checklist stay with your team afterward.</p>
-        </div>
-        <div style="border: 1px solid var(--neutral-line); border-radius: 24px; padding: 32px; background: var(--plaster-50); display: grid; gap: 20px;">
-          <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.2; color: var(--deep-space-900); margin: 0;">Bring this to your team</h3>
-          <p style="font-size: 16px; line-height: 1.6; margin: 0;">Tell us your platform, your team's roles and the deadline you are working against. We will tell you plainly whether we are the right fit.</p>
-          <div>
-            <a href="https://www.prometsource.com/contact" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 999px; background: var(--deep-space-900); color: var(--white); font-weight: 700; font-size: 16px; line-height: 1.2; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard);" style-hover="background: #241765; color: var(--white);">Start a conversation</a>
-          </div>
-        </div>
       </div>
     </section>
 
