@@ -180,6 +180,20 @@
   .tally li:last-child { border-bottom: 0; }
   .tally b { font-family: var(--mono); }
 
+  /* Confetti: 8 or 9 of 9. Decorative only, hidden from AT, off under reduced motion. */
+  .confetti {
+    position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 999;
+  }
+  .confetti i {
+    position: absolute; top: -12px; width: 9px; height: 14px; opacity: 0;
+    animation: confetti-fall 2.6s linear forwards;
+  }
+  @keyframes confetti-fall {
+    0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(104vh) rotate(760deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
+
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -453,6 +467,25 @@
     });
   });
 
+  function confetti() {
+    // ponytail: DOM spans + one keyframe. No canvas, no library.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var colors = ['#E8730C', '#1F5C3A', '#14213D', '#8A6A12', '#8A2222'];
+    var box = document.createElement('div');
+    box.className = 'confetti';
+    box.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 70; i++) {
+      var bit = document.createElement('i');
+      bit.style.left = Math.random() * 100 + 'vw';
+      bit.style.background = colors[i % colors.length];
+      bit.style.animationDelay = (Math.random() * 0.7).toFixed(2) + 's';
+      bit.style.animationDuration = (2 + Math.random() * 1.4).toFixed(2) + 's';
+      box.appendChild(bit);
+    }
+    document.body.appendChild(box);
+    setTimeout(function () { box.remove(); }, 4600);
+  }
+
   document.getElementById('check').addEventListener('click', function () {
     graded = true;
     var hit = 0, miss = 0, wrong = 0;
@@ -479,6 +512,7 @@
     document.getElementById('scorebox').hidden = false;
     this.disabled = true;
     document.getElementById('scorebox').scrollIntoView({ block: 'nearest' });
+    if (hit >= 8) { confetti(); }
   });
 
   document.getElementById('reset').addEventListener('click', function () {
