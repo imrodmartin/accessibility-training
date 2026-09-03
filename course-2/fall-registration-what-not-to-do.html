@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!--
+  TRAINING ARTIFACT: the anti-pattern.
+  Ten problems, all links, images or color: three "click here" links, two
+  "Read more" links, two identical "Register" buttons, a link whose text is
+  "PDF", a pasted 78-character URL, a hero photo whose alt is a file name,
+  a decorative divider with 45 words of alt, a flyer that is the only copy
+  of the schedule, an infographic marked decorative, and availability shown
+  by color alone. The corrected version is fall-registration-correct-page.html.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fall Registration Opens September 15 | Riverside Parks &amp; Recreation</title>
+<style>
+  :root { --navy: #0d3b4f; --teal: #1a7a6a; --rust: #c84a1a; --sand: #f6f3ee; --ink: #23303a; --line: #d8dfe3; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--sand); color: var(--ink); font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+  :focus-visible { outline: 3px solid #b32020; outline-offset: 2px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 10px 16px; z-index: 10; }
+  .skip:focus { left: 12px; top: 12px; }
+  header.site { background: var(--navy); color: #fff; padding: 18px 24px; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  .brandline { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .seal { width: 44px; height: 44px; border-radius: 50%; background: #ffd166; color: var(--navy); display: grid; place-items: center; font-weight: 700; font-size: 15px; letter-spacing: .5px; flex: 0 0 auto; }
+  .brandline .name { font-size: 1.25rem; margin: 0; font-weight: 700; }
+  .brandline p { margin: 0; font-size: .85rem; color: #bcd4dd; }
+  nav.site { background: var(--teal); }
+  nav.site ul { max-width: 980px; margin: 0 auto; padding: 0 24px; list-style: none; display: flex; flex-wrap: wrap; gap: 4px; }
+  nav.site a { display: block; padding: 12px 16px; color: #fff; text-decoration: none; font-size: .95rem; }
+  nav.site a:hover, nav.site a:focus { background: rgba(0,0,0,.22); text-decoration: underline; }
+  nav.site a[aria-current="page"] { background: rgba(0,0,0,.3); font-weight: 700; }
+  main { padding: 32px 24px 56px; }
+  .crumbs { font-size: .85rem; color: #5b6b76; margin: 0 0 18px; }
+  .crumbs a { color: #145e78; }
+  h1 { font-size: 2rem; margin: 0 0 18px; color: var(--navy); line-height: 1.2; }
+  .hero { display: block; width: 100%; height: auto; border-radius: 10px; margin: 0 0 22px; }
+  .lede { font-size: 1.1rem; margin: 0 0 22px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 24px; }
+  .card h2 { font-size: 1.35rem; color: var(--navy); margin: 0 0 12px; }
+  .card p, .card ul, .card ol { margin: 0 0 14px; }
+  .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+  .card li { margin-bottom: 6px; }
+  .divider { display: block; width: 100%; height: auto; margin: 0 0 24px; }
+  .flyer, .info { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .two > div { border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+  .two h3 { margin: 0 0 6px; font-size: 1.1rem; color: var(--navy); }
+  .btn { font: inherit; font-weight: 700; padding: 12px 20px; border: 0; border-radius: 6px; background: var(--rust); color: #fff; cursor: pointer; }
+  .btn:hover { background: #a63c14; }
+  .avail { list-style: none; padding: 0; }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+  .dot.open { background: #1f8a3c; } .dot.full { background: #c22b2b; }
+  .key { font-size: .9rem; color: #4a5b66; }
+  table { border-collapse: collapse; width: 100%; margin: 0 0 14px; }
+  caption { text-align: left; font-weight: 700; padding: 0 0 8px; color: var(--navy); }
+  th, td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: #eef4f6; }
+  a { color: #145e78; }
+  aside.help { margin-top: 8px; padding: 20px 24px; background: #eef4f6; border-left: 5px solid var(--teal); border-radius: 0 8px 8px 0; }
+  aside.help h2 { margin: 0 0 8px; font-size: 1.05rem; color: var(--navy); }
+  aside.help p { margin: 0; font-size: .95rem; }
+  footer.site { background: var(--navy); color: #cfe0e7; padding: 26px 24px; font-size: .9rem; }
+  footer.site p { margin: 0 0 6px; }
+  footer.site a { color: #ffd166; }
+  @media (max-width: 700px) { h1 { font-size: 1.55rem; } .card { padding: 18px; } .two { grid-template-columns: 1fr; } }
+</style>
+<script src="xray.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site">
+  <div class="wrap brandline">
+    <span class="seal" aria-hidden="true">RPR</span>
+    <div>
+      <p class="name">Riverside Parks &amp; Recreation</p>
+      <p>City of Riverside &middot; Department of Parks &amp; Recreation</p>
+    </div>
+  </div>
+</header>
+
+<nav class="site" aria-label="Main">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Parks &amp; Trails</a></li>
+    <li><a href="#" aria-current="page">Programs</a></li>
+    <li><a href="#">Events</a></li>
+    <li><a href="#">Facility Rentals</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Home</a> &rsaquo; <a href="#">Programs</a> &rsaquo; Fall Registration</nav>
+
+    <h1>Fall Registration Opens September 15</h1>
+
+    <img class="hero" src="img/hero-pool.svg" width="1200" height="480" alt="IMG_4471.jpg">
+
+    <p class="lede">Registration for fall programs opens Monday, September 15 at 8:00 a.m. Youth programs fill quickly, so have your account ready before then.</p>
+
+    <div class="card">
+      <p>To sign up for a program, <a href="#register">click here</a>. Fees are due at registration. To read our fee and refund policy, <a href="#policy">click here</a>. Scholarships cover up to 75 percent of a program fee. To find out whether you qualify, <a href="#scholarship">click here</a>.</p>
+      <p>Scholarship application: <a href="scholarship-application.pdf">PDF</a>.</p>
+    </div>
+
+    <img class="divider" src="img/leaf-divider.svg" width="1240" height="40" alt="A decorative horizontal divider made up of a row of small autumn leaves in shades of orange, red, gold and brown, drawn in a flat illustrated style and spaced evenly across the width of the page to separate the introduction from the fall program schedule.">
+
+    <div class="card">
+      <h2>Fall program schedule</h2>
+      <img class="flyer" src="img/fall-flyer.svg" width="1200" height="820" alt="Fall program flyer" data-xray-text="Fall 2026 Programs|Registration opens Monday, September 15 at 8:00 a.m.|Little Sprouts Play Group, Ages 2 to 4, Tue &amp; Thu 9:30 to 11:00 a.m., $60|Youth Soccer, Grades K to 6, Saturdays Sept 27 to Nov 15, $85|Learn to Swim, Levels 1 to 3, Mon &amp; Wed 4:00 to 4:45 p.m., $70|Adult Lap Swim, 18 and up, Mon to Fri 6:00 to 8:00 a.m., $40 per month|Trailside Yoga, 16 and up, Saturdays 8:00 a.m., $50">
+      <p>See the flyer for dates, ages and fees.</p>
+    </div>
+
+    <div class="card">
+      <h2>Availability</h2>
+      <ul class="avail">
+        <li><span class="dot open"></span>Little Sprouts Play Group</li>
+        <li><span class="dot full"></span>Youth Soccer</li>
+        <li><span class="dot full"></span>Learn to Swim</li>
+        <li><span class="dot open"></span>Adult Lap Swim</li>
+        <li><span class="dot open"></span>Trailside Yoga</li>
+      </ul>
+      <p class="key"><span class="dot open"></span>Green: spots open. <span class="dot full"></span>Red: full.</p>
+    </div>
+
+    <div class="card" id="register">
+      <h2>Register</h2>
+      <div class="two">
+        <div>
+          <h3>Youth programs</h3>
+          <p>Ages 2 to 14. A parent or guardian account is required.</p>
+          <button class="btn" type="button">Register</button>
+        </div>
+        <div>
+          <h3>Adult programs</h3>
+          <p>Ages 16 and up.</p>
+          <button class="btn" type="button">Register</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Volunteer</h2>
+      <p>We need youth soccer coaches for the fall season. No experience required; we train you, and your own child plays free. <a href="#coach">Read more</a></p>
+    </div>
+
+    <div class="card">
+      <h2>Aquatics Center rules</h2>
+      <p>Lap swim and Learn to Swim take place at the Riverside Aquatics Center. Swim caps are required in the lap lanes and children under 8 must be accompanied in the water. <a href="#rules">Read more</a></p>
+    </div>
+
+    <div class="card">
+      <h2>Last year</h2>
+      <img class="info" src="img/by-the-numbers.svg" width="1200" height="360" alt="" data-xray-text="2025 by the numbers|48 programs offered|2,140 residents served|31% enrolled on a scholarship">
+    </div>
+
+    <div class="card">
+      <p>All youth programs meet the state&rsquo;s licensing standards: <a href="https://www.in.gov/fssa/carefinder/youth_program_licensing_standards_2025.html">https://www.in.gov/fssa/carefinder/youth_program_licensing_standards_2025.html</a></p>
+    </div>
+
+    <aside class="help">
+      <h2>Questions?</h2>
+      <p>The Parks &amp; Recreation office is open Monday through Friday, 8:00 a.m. to 4:30 p.m. Call (555) 402-1188.</p>
+    </aside>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>City of Riverside Parks &amp; Recreation &middot; 400 Riverbank Road, Riverside</p>
+    <p><a href="#">Accessibility Statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Site Map</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

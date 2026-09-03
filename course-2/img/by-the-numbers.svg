@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" font-family="Arial, Helvetica, sans-serif">
+<rect width="1200" height="360" fill="#0d3b4f"/>
+<text x="60" y="80" font-size="34" font-weight="bold" fill="#ffd166">2025 BY THE NUMBERS</text>
+<g fill="#ffffff">
+<text x="60" y="220" font-size="110" font-weight="bold">48</text><text x="60" y="270" font-size="28">programs offered</text>
+<text x="440" y="220" font-size="110" font-weight="bold">2,140</text><text x="440" y="270" font-size="28">residents served</text>
+<text x="880" y="220" font-size="110" font-weight="bold">31%</text><text x="880" y="270" font-size="28">enrolled on a scholarship</text>
+</g>
+<circle cx="1120" cy="80" r="40" fill="#1a7a6a"/><rect x="1105" y="40" width="30" height="40" fill="#0d3b4f"/>
+</svg>

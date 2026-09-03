@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course 2 &middot; Links, images and color</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Public+Sans:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F3F1; --sheet: #FFFFFF; --ink: #14213D; --slate: #4E5A68;
+    --rule: #C9CED4; --rule-soft: #E3E6E9; --amber-tint: #F5EED8; --orange: #E8730C;
+    --display: "Libre Caslon Text", "Iowan Old Style", Georgia, serif;
+    --body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "Courier Prime", "Courier New", Courier, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body { margin: 0; font-family: var(--body); font-size: 17px; line-height: 1.55; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--ink); color: #fff; padding: 12px 20px; z-index: 60; font-weight: 700; text-decoration: none; }
+  .skip:focus { left: 12px; top: 12px; }
+
+  .masthead { border-bottom: 2px solid var(--ink); background: var(--sheet); }
+  .masthead-inner { max-width: 900px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: baseline; justify-content: space-between; }
+  .kicker { font-family: var(--mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); margin: 0 0 6px; }
+  .masthead h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; }
+  .backlink { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); text-decoration: none; margin-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  .backlink:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .counter { font-family: var(--mono); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); }
+  .counter strong { color: var(--ink); font-size: 20px; }
+
+  main { max-width: 900px; margin: 0 auto; padding: 28px 24px 80px; }
+  .brief, .panel { background: var(--sheet); border: 1.5px solid var(--rule); padding: 22px 24px; margin-bottom: 24px; }
+  .brief h2, .panel h2 { font-family: var(--display); font-size: 22px; margin: 0 0 10px; }
+  .brief p { margin: 0 0 12px; max-width: 66ch; }
+  .brief p:last-child { margin-bottom: 0; }
+  .brief ol { margin: 0 0 16px; padding-left: 22px; max-width: 66ch; }
+  .brief li { margin-bottom: 8px; }
+  .open { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; padding: 14px 22px; border: 2px solid var(--ink); background: var(--ink); color: #fff; text-decoration: none; }
+  .open:hover { background: #0C1730; }
+
+  .section-h { font-family: var(--display); font-size: 22px; margin: 0 0 14px; }
+  .qs { list-style: none; margin: 0; padding: 0; counter-reset: q; }
+  .qs li { background: var(--sheet); border: 1.5px solid var(--rule); padding: 20px 24px 20px 72px; margin-bottom: 14px; position: relative; }
+  .qs li::before { counter-increment: q; content: counter(q); position: absolute; left: 22px; top: 18px; width: 32px; height: 32px; border-radius: 999px; background: var(--ink); color: #fff; font-family: var(--mono); font-weight: 700; display: grid; place-items: center; }
+  .qs label { display: block; font-weight: 600; margin: 0 0 10px; max-width: 66ch; }
+  .qs textarea { width: 100%; min-height: 96px; font: inherit; font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--rule); background: #FBFBF9; resize: vertical; }
+
+  .qlabel { font-weight: 600; margin: 0 0 12px; max-width: 66ch; }
+  .sort { border: 0; border-top: 1px solid var(--rule-soft); margin: 0; padding: 10px 0; display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; gap: 6px 18px; align-items: center; }
+  .sort legend { float: left; font-weight: 500; padding: 0; margin: 0; }
+  .sort label { white-space: nowrap; }
+  .sort input { width: 20px; height: 20px; margin: 0 6px 0 0; vertical-align: middle; accent-color: var(--ink); }
+  .sort .verdict { grid-column: 1 / -1; font-size: 15px; }
+  .sort .verdict:empty { display: none; }
+  .pick { border-top: 1px solid var(--rule-soft); padding: 10px 0; display: grid; gap: 4px; }
+  .pick label { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; align-items: start; max-width: 66ch; }
+  .pick input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); }
+  .pick .verdict { font-size: 15px; padding-left: 34px; }
+  .pick .verdict:empty { display: none; }
+  .check { font: inherit; font-weight: 700; padding: 10px 18px; border: 2px solid var(--ink); background: var(--sheet); color: var(--ink); cursor: pointer; margin-top: 10px; }
+  .check:hover { background: var(--paper); }
+  @media (max-width: 600px) { .sort { grid-template-columns: 1fr; } .sort legend { float: none; } }
+  .panel summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px; }
+  .panel summary h2 { margin: 0; }
+  .panel summary::-webkit-details-marker { display: none; }
+  .panel summary::before { content: "+"; font-family: var(--mono); width: 28px; height: 28px; border: 1.5px solid var(--ink); display: grid; place-items: center; font-size: 18px; }
+  .panel[open] summary::before { content: "\2013"; }
+  .panel summary small { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+  .key { margin-top: 18px; border-top: 1px solid var(--rule-soft); padding-top: 6px; }
+  .key h3 { font-family: var(--display); font-size: 24px; line-height: 1.25; color: var(--ink); margin: 28px 0 10px; }
+  .key p, .key ul { margin: 0 0 10px; max-width: 70ch; }
+  .key ul { padding-left: 22px; }
+  .key blockquote { margin: 10px 0; padding: 12px 16px; background: var(--amber-tint); border-left: 4px solid var(--orange); max-width: 66ch; }
+  .key blockquote p { margin: 0; }
+  .key table { border-collapse: collapse; width: 100%; margin: 6px 0 12px; font-size: 15px; }
+  .key th, .key td { text-align: left; border-bottom: 1px solid var(--rule-soft); padding: 8px 10px 8px 0; vertical-align: top; }
+  .key th { font-family: var(--mono); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+  .sc { display: block; margin-top: 4px; font-family: var(--mono); font-size: 14px; color: var(--slate); }
+  .status { font-family: var(--mono); font-size: 14px; color: var(--slate); margin: 6px 0 0; text-align: right; }
+  @media (max-width: 600px) { .qs li { padding-left: 24px; padding-top: 60px; } }
+  .field { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); gap: 8px 16px; align-items: center; border-top: 1px solid var(--rule-soft); padding: 8px 0; }
+  .field span { font-weight: 500; }
+  .field small { display: block; font-weight: 400; color: var(--slate); font-size: 14px; }
+  .field input[type=text], .num { font: inherit; font-size: 16px; padding: 8px 10px; border: 1.5px solid var(--rule); background: #FBFBF9; width: 100%; }
+  .num { width: 90px; margin-left: 10px; }
+  .yn { display: flex; gap: 22px; margin: 0 0 10px; }
+  .yn label { font-weight: 500; }
+  .yn input { width: 20px; height: 20px; margin: 0 6px 0 0; vertical-align: middle; accent-color: var(--ink); }
+  .pass { font-family: var(--display); font-size: 22px; margin: 26px 0 14px; }
+  .key table td:first-child { font-weight: 600; }
+  @media (max-width: 600px) { .field { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the exercise</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <a class="backlink" href="../index.html"><span aria-hidden="true">&larr;</span> All exercises</a>
+      <p class="kicker">Accessibility Foundations &middot; Course 2 &middot; Exercise 2</p>
+      <h1>Links, images and color</h1>
+    </div>
+    <p class="counter"><strong>2</strong> passes &middot; solo or in pairs</p>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="brief" aria-labelledby="brief-h">
+    <h2 id="brief-h">The situation</h2>
+    <p>Riverside Parks &amp; Recreation has published its fall registration announcement. It looks finished. <strong>It has ten problems, all of them links, images, or color.</strong></p>
+    <ol>
+      <li>Open the page in a new tab. Keep this tab for your answers.</li>
+      <li>No inspector needed. On the page, choose <strong>Show how this page is built</strong>. Hover or Tab to any link or image and the bubble shows its text out of context, where it goes, and its alt text.</li>
+      <li><strong>Pass one, links only.</strong> Read every link as though it had been pulled out of its sentence and put in a list, which is what a screen reader user can do.</li>
+      <li><strong>Pass two, images and color.</strong></li>
+      <li>Nothing is saved, so copy anything you want to keep before you close the tab. Then open the answer key and compare with the corrected page.</li>
+    </ol>
+    <p><a class="open" href="fall-registration-what-not-to-do.html" target="_blank" rel="noopener">Open the announcement <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&nearr;</span></a></p>
+  </section>
+
+  <h2 class="pass" id="p1-h">Pass one: links</h2>
+  <ol class="qs" aria-labelledby="p1-h">
+    <li>
+      <p class="qlabel" id="q1-h">How many links on this page tell you nothing on their own? Write better text for each.</p>
+      <p><label>How many? <input class="num" type="number" min="0" max="20" autocomplete="off" id="q1n"></label></p>
+      <div role="group" aria-labelledby="q1-h">
+        <div class="field">
+          <span>&ldquo;Click here&rdquo;<small>goes to the registration form</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Click here&rdquo; going to the registration form</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;Click here&rdquo;<small>goes to the fee and refund policy</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Click here&rdquo; going to the fee and refund policy</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;Click here&rdquo;<small>goes to scholarship eligibility</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Click here&rdquo; going to scholarship eligibility</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;Read more&rdquo;<small>goes to volunteering as a youth soccer coach</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Read more&rdquo; going to volunteering as a youth soccer coach</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;Read more&rdquo;<small>goes to the Aquatics Center rules</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Read more&rdquo; going to the Aquatics Center rules</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;Register (button)&rdquo;<small>goes to the youth registration form</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Register (button)&rdquo; going to the youth registration form</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;Register (button)&rdquo;<small>goes to the adult registration form</small></span>
+          <label><span class="sr-only">Better text for &ldquo;Register (button)&rdquo; going to the adult registration form</span><input type="text" autocomplete="off"></label>
+        </div>
+        <div class="field">
+          <span>&ldquo;PDF&rdquo;<small>goes to the scholarship application</small></span>
+          <label><span class="sr-only">Better text for &ldquo;PDF&rdquo; going to the scholarship application</span><input type="text" autocomplete="off"></label>
+        </div>
+      </div>
+    </li>
+    <li>
+      <label for="q2">Two links have identical text and different destinations. Find them.</label>
+      <textarea autocomplete="off" id="q2"></textarea>
+    </li>
+    <li>
+      <label for="q3">One link is a pasted URL. Besides sounding terrible read aloud, what does it do to the page at 320 pixels wide? Shrink your browser and see.</label>
+      <textarea autocomplete="off" id="q3"></textarea>
+    </li>
+    <li>
+      <label for="q4">One link goes to a file. What&rsquo;s missing from it?</label>
+      <textarea autocomplete="off" id="q4"></textarea>
+    </li>
+  </ol>
+
+  <h2 class="pass" id="p2-h">Pass two: images and color</h2>
+  <ol class="qs" aria-labelledby="p2-h" start="5">
+    <li>
+      <label for="q5">The hero photo&rsquo;s alt text is a filename. Write a replacement, then explain what you&rsquo;d need to know about the page to be sure yours is right.</label>
+      <textarea autocomplete="off" id="q5" style="min-height: 120px;"></textarea>
+    </li>
+    <li>
+      <p class="qlabel" id="q6-h">The leaf divider has a 45-word description. Should it have any alt text at all? Why?</p>
+      <div class="yn" role="group" aria-labelledby="q6-h">
+        <label><input type="radio" autocomplete="off" name="q6yn" value="a"> Yes, keep some alt text</label>
+        <label><input type="radio" autocomplete="off" name="q6yn" value="b"> No, mark it decorative</label>
+      </div>
+      <label for="q6" class="sr-only">Why</label>
+      <textarea autocomplete="off" id="q6"></textarea>
+    </li>
+    <li>
+      <label for="q7">The program schedule exists in exactly one place on this page. Where, and why is that the most serious problem here? What&rsquo;s the fix? Note that better alt text is not it.</label>
+      <textarea autocomplete="off" id="q7" style="min-height: 120px;"></textarea>
+    </li>
+    <li>
+      <p class="qlabel" id="q8-h">The infographic is marked decorative. Is that correct? What&rsquo;s actually needed?</p>
+      <div class="yn" role="group" aria-labelledby="q8-h">
+        <label><input type="radio" autocomplete="off" name="q8yn" value="a"> Correct</label>
+        <label><input type="radio" autocomplete="off" name="q8yn" value="b"> Not correct</label>
+      </div>
+      <label for="q8" class="sr-only">What is needed</label>
+      <textarea autocomplete="off" id="q8"></textarea>
+    </li>
+    <li>
+      <label for="q9">Program availability uses a green dot and a red dot with a color key. Name the success criterion this fails and give the minimum fix.</label>
+      <textarea autocomplete="off" id="q9"></textarea>
+    </li>
+  </ol>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <details class="panel">
+    <summary><h2>Answer key</h2> <small>Open when you are done</small></summary>
+    <div class="key">
+
+      <h3>Links</h3>
+      <p>Eight links say nothing on their own. The ninth, the pasted URL, says too much in the wrong way.</p>
+      <table>
+        <thead><tr><th scope="col">Problem</th><th scope="col">Why it breaks</th><th scope="col">Fix</th></tr></thead>
+        <tbody>
+          <tr><td>Three &ldquo;Click here&rdquo; links, three destinations</td><td>The links list reads &ldquo;click here, click here, click here&rdquo;</td><td>&ldquo;Register for a fall program&rdquo;, &ldquo;Read the fee and refund policy&rdquo;, &ldquo;Find out whether you qualify for a scholarship&rdquo;</td></tr>
+          <tr><td>Two &ldquo;Read more&rdquo; links</td><td>Same problem, and the two are indistinguishable from each other</td><td>&ldquo;Volunteer as a youth soccer coach&rdquo;, &ldquo;Read the Aquatics Center rules&rdquo;</td></tr>
+          <tr><td>Two buttons both reading &ldquo;Register&rdquo;</td><td>Different forms, identical text</td><td>&ldquo;Register for a youth program&rdquo;, &ldquo;Register for an adult program&rdquo;</td></tr>
+          <tr><td>A link whose text is &ldquo;PDF&rdquo;</td><td>Names the format and nothing else</td><td>&ldquo;Download the scholarship application (PDF, 240 KB)&rdquo;</td></tr>
+          <tr><td>A pasted URL, 78 characters</td><td>Read character by character by some screen readers, and it forces horizontal scrolling on a 320px screen because a URL has no break points</td><td>&ldquo;Read Indiana&rsquo;s youth program licensing standards&rdquo;</td></tr>
+        </tbody>
+      </table>
+      <p>On question 3: the raw URL is why the announcement overflows at 320 pixels and the corrected page doesn&rsquo;t. A long unbroken string can&rsquo;t wrap. That&rsquo;s a content decision producing a layout failure, which is a useful thing to be able to say to a developer who assumes overflow is always their problem.</p>
+      <span class="sc">WCAG 2.4.4 Link Purpose in Context (A) &middot; 1.4.10 Reflow (AA)</span>
+
+      <h3>Images</h3>
+      <table>
+        <thead><tr><th scope="col">Image</th><th scope="col">Category</th><th scope="col">Answer</th></tr></thead>
+        <tbody>
+          <tr><td>Hero photo, <code>alt="IMG_4471.jpg"</code></td><td>Informative</td><td>&ldquo;Swimmers in the outdoor lap pool at the Riverside Aquatics Center.&rdquo; To be sure yours is right you need to know why the photo is on the page. Here it&rsquo;s setting the scene for a registration announcement, so identifying the facility is the job. On a page about pool renovations you&rsquo;d describe the pool itself.</td></tr>
+          <tr><td>Leaf divider, 45 words of alt</td><td>Decorative</td><td>Empty alt, or the CMS decorative checkbox. Nothing in the page refers to it. The long description is worse than useless: it makes a listener sit through 45 words of nothing.</td></tr>
+          <tr><td>Program flyer image</td><td>Text in an image</td><td>The most serious item on the page. Every date, age range, and fee exists only inside the picture. Not searchable, not translatable, not resizable, not readable. The fix is not better alt text. Publish the schedule as a real table, then keep the flyer as a supporting image with brief alt that says the table above has the same information.</td></tr>
+          <tr><td>Infographic, marked decorative</td><td>Complex, and unnecessary</td><td>Marking it decorative hides three statistics that appear nowhere else. Three numbers is a sentence: &ldquo;In 2025 we ran 48 programs, served 2,140 residents, and 31 percent of participants enrolled on a scholarship.&rdquo; Publish that, then the graphic becomes a visual summary with brief alt.</td></tr>
+        </tbody>
+      </table>
+      <span class="sc">WCAG 1.1.1 Non-text Content (A) &middot; 1.4.5 Images of Text (AA)</span>
+
+      <h3>Color</h3>
+      <p>Availability is shown by a green or red dot with a key. That fails WCAG 1.4.1 Use of Color, Level A. Minimum fix: put the word in the text. The corrected page reads &ldquo;Spots open: Little Sprouts Play Group&rdquo; and keeps the dot as a redundant visual cue with <code>aria-hidden</code>.</p>
+      <span class="sc">WCAG 1.4.1 Use of Color (A)</span>
+
+      <p><a class="open" href="fall-registration-correct-page.html" target="_blank" rel="noopener">Open the corrected page <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&nearr;</span></a></p>
+    </div>
+  </details>
+
+</main>
+
+<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}</style>
+<script>
+(function () {
+  // Answers live only while the page is open. Nothing is stored. Clear anything the browser restored.
+  Array.prototype.forEach.call(document.querySelectorAll('textarea, input[type=text], input[type=number]'), function (t) { t.value = ''; });
+  Array.prototype.forEach.call(document.querySelectorAll('input[type=radio]'), function (r) { r.checked = false; });
+})();
+</script>
+</body>
+</html>

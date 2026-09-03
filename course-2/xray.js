@@ -11,6 +11,7 @@
     '.xray-hint{font-size:.95rem;color:#3e4d57;margin:0 0 22px;max-width:70ch}' +
     '.xray-on [data-xray]{outline:1.5px dashed #0d3b4f;outline-offset:3px;cursor:help}' +
     '.xray-on [data-xray]::before{content:attr(data-xray);content:attr(data-xray) / "";display:inline-block;vertical-align:middle;margin:0 8px 2px 0;padding:2px 7px;border-radius:3px;background:#0d3b4f;color:#fff;font:700 12px/1.3 "Courier New",Courier,monospace;letter-spacing:.06em;white-space:nowrap}' +
+    '.xray-imgchip{display:inline-block;margin:0 0 4px;padding:2px 7px;border-radius:3px;background:#0d3b4f;color:#fff;font:700 12px/1.3 "Courier New",Courier,monospace;letter-spacing:.06em}' +
     '.xray-on ol[data-xray]::before,.xray-on ul[data-xray]::before,.xray-on table[data-xray]::before{display:block;width:max-content;margin:0 0 6px}' +
     '.xray-on [data-xray].xray-active{outline:3px solid #b32020;background:#fff2f0}' +
     '.xray-bubble{position:absolute;z-index:40;max-width:min(460px,calc(100vw - 32px));background:#17242e;color:#f2f6f8;border:2px solid #ffd166;border-radius:10px;padding:14px 16px;font:15px/1.5 "Segoe UI",Roboto,Helvetica,Arial,sans-serif;box-shadow:0 14px 40px rgba(0,0,0,.45)}' +
@@ -23,8 +24,8 @@
   var NAMES = { p: 'an ordinary paragraph', h1: 'a level 1 heading', h2: 'a level 2 heading', h3: 'a level 3 heading',
     h4: 'a level 4 heading', h5: 'a level 5 heading', h6: 'a level 6 heading', strong: 'bold text', a: 'a link',
     li: 'a list item', ol: 'a numbered list', ul: 'a bulleted list', table: 'a data table', caption: 'the table caption',
-    th: 'a header cell', td: 'a data cell', nav: 'a navigation landmark' };
-  var SELECTOR = 'h1,h2,h3,h4,h5,h6,p,li,ol,ul,table,caption,th,td,a,strong';
+    th: 'a header cell', td: 'a data cell', nav: 'a navigation landmark', img: 'an image', button: 'a button' };
+  var SELECTOR = 'h1,h2,h3,h4,h5,h6,p,li,ol,ul,table,caption,th,td,a,strong,img,button';
 
   var main = document.querySelector('main');
   if (!main) return;
@@ -62,10 +63,32 @@
     var tag = '<' + t + (el.getAttribute('scope') ? ' scope="' + el.getAttribute('scope') + '"' : '') + '>';
     if (t === 'strong' && el.parentElement.tagName === 'P') tag += ' inside a <p>';
     var rows = [['Tag', '<code>' + esc(tag) + '</code> — ' + NAMES[t]]];
-    rows.push(['Type', size + 'px, weight ' + weight + (caps ? ', all caps' : '') + (cs.fontStyle === 'italic' ? ', italic' : '')]);
+    if (t !== 'img') rows.push(['Type', size + 'px, weight ' + weight + (caps ? ', all caps' : '') + (cs.fontStyle === 'italic' ? ', italic' : '')]);
 
     var outline, announced;
-    if (/^h[1-6]$/.test(t)) {
+    if (t === 'img') {
+      var alt = el.getAttribute('alt'), file = (el.getAttribute('src') || '').split('/').pop();
+      rows.push(['File', esc(file) + ', ' + (el.naturalWidth || el.width) + ' × ' + (el.naturalHeight || el.height) + ' pixels']);
+      if (alt === null) { rows.push(['Alt', 'Absent. Not alt="", not a caption. Simply missing.']); announced = '“' + esc(file) + ', image” — the file name is read aloud.'; }
+      else if (alt.trim() === '') { rows.push(['Alt', '<code>alt=""</code> — marked decorative.']); announced = 'Nothing. Screen readers skip it entirely. Whatever is in the picture is gone.'; }
+      else { rows.push(['Alt', '<code>alt="' + esc(alt) + '"</code> (' + alt.trim().split(/\s+/).length + ' words)']); announced = '“image, ' + esc(alt) + '”'; }
+      if (el.dataset.xrayText) {
+        var pieces = el.dataset.xrayText.split('|'), body = text(main).toLowerCase(), found = pieces.filter(function (p) { return body.indexOf(p.trim().toLowerCase()) !== -1; }).length;
+        rows.push(['Text in the image', esc(pieces.join(' · '))]);
+        rows.push(['Same text elsewhere on the page', found === pieces.length ? 'Yes, all of it.' : found ? 'Only ' + found + ' of ' + pieces.length + ' pieces.' : 'No. Search finds none of it. The words are pixels: not searchable, not selectable, not translatable, blurry when enlarged.']);
+      } else {
+        rows.push(['Text in the image', 'None.']);
+      }
+      outline = 'Not a heading.';
+    } else if (t === 'a' || t === 'button') {
+      var href = el.getAttribute('href') || '';
+      if (t === 'a') rows.push(['Href', '<code>' + esc(href.length > 64 ? href.slice(0, 61) + '…' : href) + '</code>' + (/\.pdf($|[?#])/i.test(href) ? ' — a PDF file' : '')]);
+      var same = Array.prototype.filter.call(main.querySelectorAll(t), function (o) { return o !== el && text(o) === s; }).length;
+      rows.push(['In the ' + (t === 'a' ? 'links' : 'buttons') + ' list', '“' + esc(s) + '”' + (same ? ' — ' + (same + 1) + (t === 'a' ? ' links' : ' buttons') + ' on this page read exactly this, and go to different places.' : ' — unique on this page.')]);
+      if (/^https?:\/\//.test(s)) rows.push(['Note', s.length + ' characters, no spaces. Some screen readers read a URL letter by letter. Nothing in it can wrap, so on a 320-pixel screen it pushes the page sideways.']);
+      outline = 'Not a heading. Reachable by Tab and listed in the ' + (t === 'a' ? 'links' : 'buttons') + ' list, out of context.';
+      announced = '“' + (t === 'a' ? 'link' : 'button') + ', ' + esc(s) + '”';
+    } else if (/^h[1-6]$/.test(t)) {
       var lvl = +t[1], prev = null, hs = main.querySelectorAll('h1,h2,h3,h4,h5,h6');
       for (var i = 0; i < hs.length; i++) { if (hs[i] === el) break; prev = +hs[i].tagName[1]; }
       outline = 'Heading level ' + lvl + '. Appears in the heading list.';
@@ -84,9 +107,6 @@
       var fake = looksLikeHeading(el.parentElement);
       outline = fake ? 'Nothing. This bold line looks like a heading, but the page has no heading here. It is absent from the heading list.' : 'Not a heading, whatever the size. Contributes nothing.';
       announced = fake ? '“' + esc(s) + '” as plain body text. Bold and size are not announced.' : 'Read as plain text. Most screen readers do not announce bold by default.';
-    } else if (t === 'a') {
-      outline = 'Not a heading. Listed in the links list.';
-      announced = '“link, ' + esc(s) + '”';
     } else if (t === 'ol' || t === 'ul') {
       var n = el.querySelectorAll(':scope > li').length;
       outline = 'Not a heading. A real list: users can skip it or jump through it item by item.';
@@ -143,11 +163,13 @@
       targets.forEach(function (el) {
         var t = el.tagName.toLowerCase();
         el.setAttribute('data-xray', t === 'p' && text(el) === '' ? 'p (empty)' : t);
-        if (t !== 'a') el.setAttribute('tabindex', '0');
+        if (t !== 'a' && t !== 'button') el.setAttribute('tabindex', '0');
+        if (t === 'img') { var c = document.createElement('span'); c.className = 'xray-imgchip'; c.textContent = 'img'; el.parentNode.insertBefore(c, el); }
       });
     } else {
       hide();
-      targets.forEach(function (el) { el.removeAttribute('data-xray'); if (el.tagName !== 'A') el.removeAttribute('tabindex'); });
+      targets.forEach(function (el) { el.removeAttribute('data-xray'); if (!/^(A|BUTTON)$/.test(el.tagName)) el.removeAttribute('tabindex'); });
+      Array.prototype.forEach.call(document.querySelectorAll('.xray-imgchip'), function (c) { c.parentNode.removeChild(c); });
       targets = [];
     }
   }
