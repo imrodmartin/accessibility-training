@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+  TRAINING ARTIFACT: the anti-pattern.
+  Every fact on this page is accurate. Every structural problem was introduced
+  by whoever typed it into the CMS: fake headings, a skipped heading level,
+  one 270-word paragraph carrying nine facts, and empty paragraphs for spacing.
+  Nothing else is wrong on purpose. The corrected version is
+  leaf-collection-correct-page.html.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaf and Yard Waste Collection | Riverside Public Works</title>
+<style>
+  :root { --navy: #0d3b4f; --teal: #1a7a6a; --sand: #f6f3ee; --ink: #23303a; --line: #d8dfe3; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--sand); color: var(--ink); font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+  header.site { background: var(--navy); color: #fff; padding: 18px 24px; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  .brandline { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .seal { width: 44px; height: 44px; border-radius: 50%; background: #ffd166; color: var(--navy); display: grid; place-items: center; font-weight: 700; font-size: 15px; letter-spacing: .5px; flex: 0 0 auto; }
+  .brandline .name { font-size: 1.25rem; margin: 0; font-weight: 700; }
+  .brandline p { margin: 0; font-size: .85rem; color: #bcd4dd; }
+  nav.site { background: var(--teal); }
+  nav.site ul { max-width: 980px; margin: 0 auto; padding: 0 24px; list-style: none; display: flex; flex-wrap: wrap; gap: 4px; }
+  nav.site a { display: block; padding: 12px 16px; color: #fff; text-decoration: none; font-size: .95rem; }
+  nav.site a:hover, nav.site a:focus { background: rgba(0,0,0,.22); text-decoration: underline; }
+  nav.site a[aria-current="page"] { background: rgba(0,0,0,.3); font-weight: 700; }
+  main { padding: 32px 24px 56px; }
+  .crumbs { font-size: .85rem; color: #5b6b76; margin: 0 0 18px; }
+  .crumbs a { color: #145e78; }
+  h1 { font-size: 2rem; margin: 0 0 22px; color: var(--navy); line-height: 1.2; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .card p { margin: 0 0 16px; }
+  h4 { font-size: 1.05rem; color: var(--navy); margin: 0 0 8px; }
+  a { color: #145e78; }
+  footer.site { background: var(--navy); color: #cfe0e7; padding: 26px 24px; font-size: .9rem; }
+  footer.site p { margin: 0 0 6px; }
+  footer.site a { color: #ffd166; }
+  @media (max-width: 700px) { h1 { font-size: 1.55rem; } .card { padding: 18px; } }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap brandline">
+    <span class="seal" aria-hidden="true">RPW</span>
+    <div>
+      <p class="name">Riverside Public Works</p>
+      <p>City of Riverside &middot; Department of Public Works</p>
+    </div>
+  </div>
+</header>
+
+<nav class="site" aria-label="Main">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Streets</a></li>
+    <li><a href="#" aria-current="page">Trash &amp; Recycling</a></li>
+    <li><a href="#">Water &amp; Sewer</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="wrap">
+    <p class="crumbs"><a href="#">Home</a> &rsaquo; <a href="#">Trash &amp; Recycling</a> &rsaquo; Leaf and Yard Waste Collection</p>
+
+    <h1>Leaf and Yard Waste Collection</h1>
+
+    <div class="card">
+
+      <!-- Fake heading 1: bold, enlarged, all caps. A paragraph. -->
+      <p><strong style="font-size: 1.3rem;">NOTICE TO RESIDENTS</strong></p>
+
+      <!-- The opening paragraph: about 270 words, nine facts plus the four-zone schedule. -->
+      <p>The City of Riverside Department of Public Works hereby advises all residents of the City that the annual curbside collection of leaves and yard waste for the fall season will be conducted in accordance with the provisions set forth below, and residents are respectfully requested to review this notice in its entirety prior to placing any material at the curb. Collection will commence on Monday, November 2, 2026 and continue through Thursday, December 31, 2026, with each zone serviced once every two weeks. Because the Westfield neighborhood was annexed effective July 1, zone assignments have been revised and Westfield addresses are now included in Zone 3; collection days are as follows: Zone 1, north of Mill Street, Mondays November 2, 16 and 30 and December 14 and 28; Zone 2, between Mill Street and the river, Tuesdays November 3 and 17 and December 1, 15 and 29; Zone 3, south of the river including Westfield, Wednesdays November 4 and 18 and December 2, 16 and 30; and Zone 4, east of Route 9, Thursdays November 5 and 19 and December 3, 17 and 31. Leaves and yard waste must be placed in biodegradable paper yard waste bags only, as plastic bags will not be collected; paper bags are available at no charge at the Public Works yard at 1200 Industrial Drive or at most hardware stores; bags are to be placed at the curb, not in the street or on the sidewalk, by 7:00 a.m. on the scheduled collection day; and residents are reminded that bags placed in the roadway constitute an obstruction under Ordinance 2024-17 and are subject to citation.</p>
+
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+
+      <p>Please be further advised that collection crews will make one pass through each zone on the scheduled day and will not return for material set out after the crew has passed, and that any material remaining at the curb should be retained by the resident until the next scheduled collection day for that zone. Loose leaves raked into the street will not be collected and may be swept into storm drains, which the Department wishes to avoid.</p>
+
+      <!-- Fake heading 2: bold, enlarged. A paragraph. -->
+      <p><strong style="font-size: 1.2rem;">Accepted Materials</strong></p>
+
+      <p>Leaves, grass clippings, garden trimmings, and small brush cut to lengths of no more than four feet and bundled with twine are accepted; plastic bags, soil, sod, rocks, lumber, construction debris, household trash, and branches exceeding two inches in diameter are not accepted and will be left at the curb.</p>
+
+      <!-- Fake heading 3: bold, enlarged. A paragraph. -->
+      <p><strong style="font-size: 1.2rem;">Additional Information</strong></p>
+
+      <p>Ordinance 2024-17 is available for review at the office of the City Clerk and on the City website. The fine for a first violation is $50. Subsequent violations within the same season are subject to escalating fines as set forth in the ordinance.</p>
+
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+
+      <!-- The one real heading below the title. Level 4, directly under level 1. -->
+      <h4>Questions?</h4>
+
+      <p>Call the Department of Public Works at (555) 013-2200, Monday through Friday, 8:00 a.m. to 4:30 p.m., or email <a href="mailto:publicworks@riverside.example.gov">publicworks@riverside.example.gov</a>.</p>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>City of Riverside Department of Public Works &middot; 1200 Industrial Drive, Riverside</p>
+    <p><a href="#">Accessibility Statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Site Map</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
