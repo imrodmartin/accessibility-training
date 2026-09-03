@@ -48,6 +48,16 @@
   .qs label { display: block; font-weight: 600; margin: 0 0 10px; max-width: 66ch; }
   .qs textarea { width: 100%; min-height: 96px; font: inherit; font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--rule); background: #FBFBF9; resize: vertical; }
 
+  .qlabel { font-weight: 600; margin: 0 0 12px; max-width: 66ch; }
+  .sort { border: 0; border-top: 1px solid var(--rule-soft); margin: 0; padding: 10px 0; display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; gap: 6px 18px; align-items: center; }
+  .sort legend { float: left; font-weight: 500; padding: 0; margin: 0; }
+  .sort label { white-space: nowrap; }
+  .sort input { width: 20px; height: 20px; margin: 0 6px 0 0; vertical-align: middle; accent-color: var(--ink); }
+  .sort .verdict { grid-column: 1 / -1; font-size: 15px; }
+  .sort .verdict:empty { display: none; }
+  .check { font: inherit; font-weight: 700; padding: 10px 18px; border: 2px solid var(--ink); background: var(--sheet); color: var(--ink); cursor: pointer; margin-top: 10px; }
+  .check:hover { background: var(--paper); }
+  @media (max-width: 600px) { .sort { grid-template-columns: 1fr; } .sort legend { float: none; } }
   .panel summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px; }
   .panel summary h2 { margin: 0; }
   .panel summary::-webkit-details-marker { display: none; }
@@ -112,9 +122,52 @@
       <textarea id="q3" data-save="lc-q3"></textarea>
     </li>
     <li>
-      <label for="q4">One paragraph carries nine separate facts. List them, then decide which belong in a table, which belong in a list, and which belong in a sentence.</label>
-      <textarea id="q4" data-save="lc-q4" style="min-height: 160px;"></textarea>
-    </li>
+      <p class="qlabel" id="q4-h">One paragraph carries nine facts. Here they are, grouped. For each group, pick where it belongs: a table, a list, or a sentence.</p>
+      <div class="sortgrid" role="group" aria-labelledby="q4-h">
+        <fieldset class="sort" data-answer="sentence">
+          <legend>Start and end dates, and how often crews come</legend>
+          <label><input type="radio" name="q4a" value="table" data-save="lc-q4a"> Table</label>
+          <label><input type="radio" name="q4a" value="list" data-save="lc-q4a"> List</label>
+          <label><input type="radio" name="q4a" value="sentence" data-save="lc-q4a"> Sentence</label>
+          <span class="verdict" aria-live="polite"></span>
+        </fieldset>
+        <fieldset class="sort" data-answer="sentence">
+          <legend>Westfield has moved to Zone 3</legend>
+          <label><input type="radio" name="q4b" value="table" data-save="lc-q4b"> Table</label>
+          <label><input type="radio" name="q4b" value="list" data-save="lc-q4b"> List</label>
+          <label><input type="radio" name="q4b" value="sentence" data-save="lc-q4b"> Sentence</label>
+          <span class="verdict" aria-live="polite"></span>
+        </fieldset>
+        <fieldset class="sort" data-answer="table">
+          <legend>The four zones and their collection days</legend>
+          <label><input type="radio" name="q4c" value="table" data-save="lc-q4c"> Table</label>
+          <label><input type="radio" name="q4c" value="list" data-save="lc-q4c"> List</label>
+          <label><input type="radio" name="q4c" value="sentence" data-save="lc-q4c"> Sentence</label>
+          <span class="verdict" aria-live="polite"></span>
+        </fieldset>
+        <fieldset class="sort" data-answer="list">
+          <legend>How to bag leaves and set them out</legend>
+          <label><input type="radio" name="q4d" value="table" data-save="lc-q4d"> Table</label>
+          <label><input type="radio" name="q4d" value="list" data-save="lc-q4d"> List</label>
+          <label><input type="radio" name="q4d" value="sentence" data-save="lc-q4d"> Sentence</label>
+          <span class="verdict" aria-live="polite"></span>
+        </fieldset>
+        <fieldset class="sort" data-answer="list">
+          <legend>What is and isn&rsquo;t accepted</legend>
+          <label><input type="radio" name="q4e" value="table" data-save="lc-q4e"> Table</label>
+          <label><input type="radio" name="q4e" value="list" data-save="lc-q4e"> List</label>
+          <label><input type="radio" name="q4e" value="sentence" data-save="lc-q4e"> Sentence</label>
+          <span class="verdict" aria-live="polite"></span>
+        </fieldset>
+        <fieldset class="sort" data-answer="sentence">
+          <legend>Ordinance 2024-17 and the fine</legend>
+          <label><input type="radio" name="q4f" value="table" data-save="lc-q4f"> Table</label>
+          <label><input type="radio" name="q4f" value="list" data-save="lc-q4f"> List</label>
+          <label><input type="radio" name="q4f" value="sentence" data-save="lc-q4f"> Sentence</label>
+          <span class="verdict" aria-live="polite"></span>
+        </fieldset>
+      </div>
+      <button class="check" type="button" id="check4">Check question 4</button>
     <li>
       <label for="q5">A resident wants two things: when collection starts, and whether their zone changed. How far down the page are those, and where should they be?</label>
       <textarea id="q5" data-save="lc-q5"></textarea>
@@ -145,16 +198,16 @@
       <p>The one real heading below the H1 is an H4. That skips levels 2 and 3. A listener hearing &ldquo;heading level 4&rdquo; after &ldquo;heading level 1&rdquo; has to work out whether they missed two sections. Nothing on the page justifies level 4; it was chosen because the author wanted smaller text.</p>
 
       <h3>4. The nine facts in one paragraph</h3>
-      <p>Start date, end date, collection frequency, the Westfield annexation, the zone change, bag type, where to get bags, where to place bags, and the citation risk. Plus the four-zone schedule, which is a tenth.</p>
+      <p>The nine: start date, end date, collection frequency, the Westfield annexation, the zone change, bag type, where to get bags, where to place bags, and the citation risk. Plus the four-zone schedule, which is a tenth. Sorted:</p>
       <table>
         <thead><tr><th scope="col">Content</th><th scope="col">Belongs in</th></tr></thead>
         <tbody>
-          <tr><td>Start date, end date, frequency</td><td>The opening sentence</td></tr>
-          <tr><td>Westfield moved to Zone 3</td><td>Its own section, high on the page</td></tr>
+          <tr><td>Start and end dates, frequency</td><td>A sentence: the opening one</td></tr>
+          <tr><td>Westfield moved to Zone 3</td><td>A sentence, in its own section high on the page</td></tr>
           <tr><td>The four zones and their days</td><td>A table with a caption and header cells</td></tr>
           <tr><td>How to bag and set out</td><td>A numbered list, because order matters</td></tr>
-          <tr><td>What is and isn&rsquo;t accepted</td><td>Two bulleted lists</td></tr>
-          <tr><td>Ordinance 2024-17</td><td>The end of the page</td></tr>
+          <tr><td>What is and isn&rsquo;t accepted</td><td>A list. Two bulleted ones, in fact</td></tr>
+          <tr><td>Ordinance 2024-17 and the fine</td><td>A sentence at the end of the page</td></tr>
         </tbody>
       </table>
 
@@ -188,6 +241,24 @@
     t.addEventListener('input', function () {
       try { localStorage.setItem(t.dataset.save, t.value); status.textContent = 'Saved in this browser'; } catch (e) {}
     });
+  });
+  var radios = document.querySelectorAll('input[type=radio][data-save]');
+  Array.prototype.forEach.call(radios, function (r) {
+    try { if (localStorage.getItem(r.dataset.save) === r.value) r.checked = true; } catch (e) {}
+    r.addEventListener('change', function () {
+      try { localStorage.setItem(r.dataset.save, r.value); status.textContent = 'Saved in this browser'; } catch (e) {}
+    });
+  });
+  var NAMES = { table: 'a table', list: 'a list', sentence: 'a sentence' };
+  document.getElementById('check4').addEventListener('click', function () {
+    var right = 0, sets = document.querySelectorAll('.sort');
+    Array.prototype.forEach.call(sets, function (fs) {
+      var picked = fs.querySelector('input:checked'), v = fs.querySelector('.verdict'), ans = fs.dataset.answer;
+      if (!picked) { v.textContent = 'No answer yet.'; return; }
+      if (picked.value === ans) { right++; v.textContent = 'Right.'; }
+      else { v.textContent = 'Not this one. The key puts it in ' + NAMES[ans] + '.'; }
+    });
+    status.textContent = right + ' of ' + sets.length + ' right on question 4';
   });
 })();
 </script>
