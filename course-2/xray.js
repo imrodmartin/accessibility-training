@@ -27,7 +27,7 @@
     th: 'a header cell', td: 'a data cell', nav: 'a navigation landmark', img: 'an image', button: 'a button' };
   var SELECTOR = 'h1,h2,h3,h4,h5,h6,p,li,ol,ul,table,caption,th,td,a,strong,img,button';
 
-  var main = document.querySelector('main');
+  var main = document.querySelector('[data-xray-root]') || document.querySelector('main');
   if (!main) return;
   var style = document.createElement('style'); style.textContent = CSS; document.head.appendChild(style);
 
@@ -37,7 +37,7 @@
   var hint = document.createElement('p');
   hint.className = 'xray-hint'; hint.hidden = true;
   hint.textContent = 'Every piece of the page now carries the tag it is really built with. Hover over any piece, or press Tab to reach it, to see its type styling, what it adds to the heading outline, and what a screen reader announces. Press Escape to close the bubble.';
-  var host = main.querySelector('.wrap') || main;
+  var host = main.querySelector('[data-xray-host]') || main.querySelector('.wrap') || main;
   host.insertBefore(hint, host.firstChild);
   host.insertBefore(btn, hint);
 
@@ -83,7 +83,7 @@
     } else if (t === 'a' || t === 'button') {
       var href = el.getAttribute('href') || '';
       if (t === 'a') rows.push(['Href', '<code>' + esc(href.length > 64 ? href.slice(0, 61) + '…' : href) + '</code>' + (/\.pdf($|[?#])/i.test(href) ? ' — a PDF file' : '')]);
-      var same = Array.prototype.filter.call(main.querySelectorAll(t), function (o) { return o !== el && text(o) === s; }).length;
+      var same = Array.prototype.filter.call(main.querySelectorAll(t), function (o) { return o !== el && text(o).toLowerCase() === s.toLowerCase(); }).length;
       rows.push(['In the ' + (t === 'a' ? 'links' : 'buttons') + ' list', '“' + esc(s) + '”' + (same ? ' — ' + (same + 1) + (t === 'a' ? ' links' : ' buttons') + ' on this page read exactly this, and go to different places.' : ' — unique on this page.')]);
       if (/^https?:\/\//.test(s)) rows.push(['Note', s.length + ' characters, no spaces. Some screen readers read a URL letter by letter. Nothing in it can wrap, so on a 320-pixel screen it pushes the page sideways.']);
       outline = 'Not a heading. Reachable by Tab and listed in the ' + (t === 'a' ? 'links' : 'buttons') + ' list, out of context.';
