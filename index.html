@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Digital Accessibility Foundations Exercises | Promet Source</title>
+<title>Digital Accessibility Training Exercises | Promet Source</title>
 <script src="support.js"></script>
 </head>
 <body>
@@ -49,7 +49,8 @@
     font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.15;
     letter-spacing: -0.02em; color: var(--deep-space-900); margin: 0 0 4px;
   }
-  .work .hint { font-size: 16px; line-height: 1.6; color: var(--charcoal-700); margin: 0 0 8px; }
+  .work .hint { font-size: 16px; line-height: 1.6; color: var(--charcoal-700); margin: 0 0 8px; max-width: 70ch; }
+  .course + .course { margin-top: 64px; }
 
   .ex-list { list-style: none; margin: 0; padding: 0; }
   .ex {
@@ -130,15 +131,16 @@
         <p class="eyebrow">
           <span>Hands-on workshop &middot; WCAG 2.1 AA and Section 508</span>
         </p>
-        <h1>Digital Accessibility Foundations Exercises</h1>
-        <p class="lede">Every exercise runs in this browser, no install and no account. Work each one with a keyboard first, then again with a screen reader.</p>
+        <h1>Digital Accessibility Training Exercises</h1>
+        <p class="lede">Two courses, six exercises. Every one runs in this browser, no install and no account. Work each with a keyboard first, then again with a screen reader.</p>
       </div>
     </section>
 
     <section id="exercises" class="work">
       <div class="shell">
-        <h2>Exercises</h2>
-        <p class="hint">In course order. Log each finding with the page element, the barrier and the criterion it violates.</p>
+        <section class="course" aria-labelledby="c1-h">
+        <h2 id="c1-h">Course 1 &middot; Digital Accessibility Foundations</h2>
+        <p class="hint">In module order. Log each finding with the page element, the barrier and the criterion it violates.</p>
 
         <ol class="ex-list">
 
@@ -220,10 +222,19 @@
             </a>
           </li>
 
+        </ol>
+        </section>
+
+        <section class="course" aria-labelledby="c2-h">
+        <h2 id="c2-h">Course 2 &middot; Writing Accessible Content</h2>
+        <p class="hint">For the people who type pages into the CMS. No code view and no inspector: every page under review carries a <strong>Show how this page is built</strong> switch that reveals its real structure.</p>
+
+        <ol class="ex-list">
+
           <li class="ex">
             <div class="ex-rail">
-              <span class="badge">Course 2 &middot; 1</span>
-              <span class="ex-meta">Course 2, Exercise 1<br>Content structure</span>
+              <span class="badge">Exercise 1</span>
+              <span class="ex-meta">Course 2<br>Content structure</span>
             </div>
             <div>
               <h3>Restructure a draft page</h3>
@@ -231,7 +242,7 @@
               <p class="path">course-2/restructure-a-draft-page.html</p>
             </div>
             <a class="cta" href="course-2/restructure-a-draft-page.html">
-              <span>Open 2.1</span>
+              <span>Open exercise 1</span>
               <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 20 }}" hint-size="20px,20px"></x-import>
             </a>
           </li>
@@ -239,8 +250,8 @@
 
           <li class="ex">
             <div class="ex-rail">
-              <span class="badge">Course 2 &middot; 2</span>
-              <span class="ex-meta">Course 2, Exercise 2<br>Links, images and color</span>
+              <span class="badge">Exercise 2</span>
+              <span class="ex-meta">Course 2<br>Links, images and color</span>
             </div>
             <div>
               <h3>Links, images and color</h3>
@@ -248,12 +259,13 @@
               <p class="path">course-2/links-images-and-color.html</p>
             </div>
             <a class="cta" href="course-2/links-images-and-color.html">
-              <span>Open 2.2</span>
+              <span>Open exercise 2</span>
               <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 20 }}" hint-size="20px,20px"></x-import>
             </a>
           </li>
 
         </ol>
+        </section>
       </div>
     </section>
 
