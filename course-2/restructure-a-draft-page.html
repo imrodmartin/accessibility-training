@@ -18,7 +18,7 @@
   * { box-sizing: border-box; }
   html { background: var(--paper); }
   body { margin: 0; font-family: var(--body); font-size: 17px; line-height: 1.55; color: var(--ink); -webkit-font-smoothing: antialiased; }
-  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
   .skip { position: absolute; left: -9999px; top: 0; background: var(--ink); color: #fff; padding: 12px 20px; z-index: 60; font-weight: 700; text-decoration: none; }
   .skip:focus { left: 12px; top: 12px; }
 
@@ -41,28 +41,30 @@
   .open { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; padding: 14px 22px; border: 2px solid var(--ink); background: var(--ink); color: #fff; text-decoration: none; }
   .open:hover { background: #0C1730; }
 
+  .section-h { font-family: var(--display); font-size: 22px; margin: 0 0 14px; }
   .qs { list-style: none; margin: 0; padding: 0; counter-reset: q; }
   .qs li { background: var(--sheet); border: 1.5px solid var(--rule); padding: 20px 24px 20px 72px; margin-bottom: 14px; position: relative; }
   .qs li::before { counter-increment: q; content: counter(q); position: absolute; left: 22px; top: 18px; width: 32px; height: 32px; border-radius: 999px; background: var(--ink); color: #fff; font-family: var(--mono); font-weight: 700; display: grid; place-items: center; }
   .qs label { display: block; font-weight: 600; margin: 0 0 10px; max-width: 66ch; }
   .qs textarea { width: 100%; min-height: 96px; font: inherit; font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--rule); background: #FBFBF9; resize: vertical; }
 
-  .panel summary { cursor: pointer; font-family: var(--display); font-size: 22px; font-weight: 700; list-style: none; display: flex; align-items: center; gap: 12px; }
+  .panel summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px; }
+  .panel summary h2 { margin: 0; }
   .panel summary::-webkit-details-marker { display: none; }
   .panel summary::before { content: "+"; font-family: var(--mono); width: 28px; height: 28px; border: 1.5px solid var(--ink); display: grid; place-items: center; font-size: 18px; }
   .panel[open] summary::before { content: "\2013"; }
   .panel summary small { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
   .key { margin-top: 18px; border-top: 1px solid var(--rule-soft); padding-top: 6px; }
-  .key h3 { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); margin: 22px 0 8px; }
+  .key h3 { font-family: var(--display); font-size: 24px; line-height: 1.25; color: var(--ink); margin: 28px 0 10px; }
   .key p, .key ul { margin: 0 0 10px; max-width: 70ch; }
   .key ul { padding-left: 22px; }
   .key blockquote { margin: 10px 0; padding: 12px 16px; background: var(--amber-tint); border-left: 4px solid var(--orange); max-width: 66ch; }
   .key blockquote p { margin: 0; }
   .key table { border-collapse: collapse; width: 100%; margin: 6px 0 12px; font-size: 15px; }
   .key th, .key td { text-align: left; border-bottom: 1px solid var(--rule-soft); padding: 8px 10px 8px 0; vertical-align: top; }
-  .key th { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
-  .sc { display: block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--slate); }
-  .status { font-family: var(--mono); font-size: 12px; color: var(--slate); margin: 6px 0 0; text-align: right; }
+  .key th { font-family: var(--mono); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+  .sc { display: block; margin-top: 4px; font-family: var(--mono); font-size: 14px; color: var(--slate); }
+  .status { font-family: var(--mono); font-size: 14px; color: var(--slate); margin: 6px 0 0; text-align: right; }
   @media (max-width: 600px) { .qs li { padding-left: 24px; padding-top: 60px; } }
 </style>
 </head>
@@ -87,6 +89,7 @@
     <p>Riverside Public Works has posted its leaf collection update. <strong>Everything on the page is accurate.</strong> It is also close to unusable, and every problem on it was introduced by whoever typed it into the CMS.</p>
     <ol>
       <li>Open the page in a new tab. Keep this tab for your answers.</li>
+      <li>No inspector needed. On the page, choose <strong>Show how this page is built</strong>. Every piece gets a chip with its real tag, and hovering or tabbing to it shows what a screen reader announces.</li>
       <li>Work through the seven questions below <strong>without looking at the corrected version</strong>.</li>
       <li>Write down your answers. They save in this browser as you type.</li>
       <li>When you are done, open the answer key at the bottom of this page.</li>
@@ -94,7 +97,7 @@
     <p><a class="open" href="leaf-collection-what-not-to-do.html" target="_blank" rel="noopener">Open the draft page <span class="sr-only">(opens in a new tab)</span><span aria-hidden="true">&nearr;</span></a></p>
   </section>
 
-  <h2 id="qs-h" style="font-family: var(--display); font-size: 22px; margin: 0 0 14px;">Your answers</h2>
+  <h2 id="qs-h" class="section-h">Your answers</h2>
   <ol class="qs" aria-labelledby="qs-h">
     <li>
       <label for="q1">Read only the headings. What outline do you get, and what does that tell a screen reader user who is trying to skim?</label>
@@ -128,7 +131,7 @@
   <p class="status" id="status" role="status" aria-live="polite"></p>
 
   <details class="panel">
-    <summary>Answer key <small>Open when you are done</small></summary>
+    <summary><h2>Answer key</h2> <small>Open when you are done</small></summary>
     <div class="key">
 
       <h3>1. What the headings told you</h3>

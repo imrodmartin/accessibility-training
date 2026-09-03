@@ -15,6 +15,9 @@
 <style>
   :root { --navy: #0d3b4f; --teal: #1a7a6a; --sand: #f6f3ee; --ink: #23303a; --line: #d8dfe3; }
   * { box-sizing: border-box; }
+  :focus-visible { outline: 3px solid #b32020; outline-offset: 2px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 10px 16px; z-index: 10; }
+  .skip:focus { left: 12px; top: 12px; }
   body { margin: 0; background: var(--sand); color: var(--ink); font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
   header.site { background: var(--navy); color: #fff; padding: 18px 24px; }
   .wrap { max-width: 980px; margin: 0 auto; }
@@ -40,8 +43,10 @@
   footer.site a { color: #ffd166; }
   @media (max-width: 700px) { h1 { font-size: 1.55rem; } .card { padding: 18px; } }
 </style>
+<script src="xray.js" defer></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to main content</a>
 
 <header class="site">
   <div class="wrap brandline">
@@ -63,7 +68,7 @@
   </ul>
 </nav>
 
-<main>
+<main id="main">
   <div class="wrap">
     <p class="crumbs"><a href="#">Home</a> &rsaquo; <a href="#">Trash &amp; Recycling</a> &rsaquo; Leaf and Yard Waste Collection</p>
 
