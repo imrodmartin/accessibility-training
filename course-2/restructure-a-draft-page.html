@@ -55,6 +55,11 @@
   .sort input { width: 20px; height: 20px; margin: 0 6px 0 0; vertical-align: middle; accent-color: var(--ink); }
   .sort .verdict { grid-column: 1 / -1; font-size: 15px; }
   .sort .verdict:empty { display: none; }
+  .pick { border-top: 1px solid var(--rule-soft); padding: 10px 0; display: grid; gap: 4px; }
+  .pick label { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; align-items: start; max-width: 66ch; }
+  .pick input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); }
+  .pick .verdict { font-size: 15px; padding-left: 34px; }
+  .pick .verdict:empty { display: none; }
   .check { font: inherit; font-weight: 700; padding: 10px 18px; border: 2px solid var(--ink); background: var(--sheet); color: var(--ink); cursor: pointer; margin-top: 10px; }
   .check:hover { background: var(--paper); }
   @media (max-width: 600px) { .sort { grid-template-columns: 1fr; } .sort legend { float: none; } }
@@ -173,9 +178,34 @@
       <textarea id="q5" data-save="lc-q5"></textarea>
     </li>
     <li>
-      <label for="q6">Rewrite the opening paragraph in plain language. Aim for three sentences.</label>
-      <textarea id="q6" data-save="lc-q6" style="min-height: 120px;"></textarea>
-    </li>
+      <p class="qlabel" id="q6-h">Rewrite the opening paragraph in plain language. Below are six sentences, all accurate. Pick the three that make the opening.</p>
+      <div class="pickgrid" role="group" aria-labelledby="q6-h">
+        <div class="pick" data-answer="no" data-why="Preamble. Twenty-two words and not one fact a resident can act on.">
+          <label><input type="checkbox" name="q6a" data-save="lc-q6a"> The City of Riverside Department of Public Works hereby advises all residents of the annual curbside collection of leaves and yard waste.</label>
+          <span class="verdict" aria-live="polite"></span>
+        </div>
+        <div class="pick" data-answer="yes" data-why="The first thing every resident wants to know.">
+          <label><input type="checkbox" name="q6b" data-save="lc-q6b"> Leaf collection runs November 2 through December 31, 2026.</label>
+          <span class="verdict" aria-live="polite"></span>
+        </div>
+        <div class="pick" data-answer="no" data-why="True, and it belongs at the end of the page, not the top.">
+          <label><input type="checkbox" name="q6c" data-save="lc-q6c"> Bags placed in the roadway constitute an obstruction under Ordinance 2024-17 and are subject to citation.</label>
+          <span class="verdict" aria-live="polite"></span>
+        </div>
+        <div class="pick" data-answer="yes" data-why="Sets up the schedule table in six words.">
+          <label><input type="checkbox" name="q6d" data-save="lc-q6d"> We collect every two weeks by zone.</label>
+          <span class="verdict" aria-live="polite"></span>
+        </div>
+        <div class="pick" data-answer="no" data-why="A set-out instruction. It belongs in the numbered list.">
+          <label><input type="checkbox" name="q6e" data-save="lc-q6e"> Paper bags are available at no charge at the Public Works yard at 1200 Industrial Drive.</label>
+          <span class="verdict" aria-live="polite"></span>
+        </div>
+        <div class="pick" data-answer="yes" data-why="The second thing every resident wants to know, and it tells them what to do about it.">
+          <label><input type="checkbox" name="q6f" data-save="lc-q6f"> Zone assignments changed this year, so check your zone before your first collection day.</label>
+          <span class="verdict" aria-live="polite"></span>
+        </div>
+      </div>
+      <button class="check" type="button" id="check6">Check question 6</button>
     <li>
       <label for="q7">Name one thing the page does to create vertical space that will cost a screen reader user something.</label>
       <textarea id="q7" data-save="lc-q7"></textarea>
@@ -216,7 +246,7 @@
 
       <h3>6. The rewrite</h3>
       <blockquote><p>Leaf collection runs November 2 through December 31, 2026. We collect every two weeks by zone. Zone assignments changed this year, so check your zone before your first collection day.</p></blockquote>
-      <p>Three sentences, 30 words, and a resident can act on it. The original took 270 words to deliver less.</p>
+      <p>Three sentences, 30 words, and a resident can act on it. The original took 270 words to deliver less. The other three sentences on offer are all true: one is preamble with no fact in it, one is a set-out instruction for the numbered list, and one is the ordinance, which goes last.</p>
 
       <h3>7. The spacing problem</h3>
       <p>Empty paragraphs. The original uses four of them to push content down. Some screen readers announce each as &ldquo;blank&rdquo;, and they carry no meaning. Spacing is a visual style, so ask for a style.</p>
@@ -242,11 +272,11 @@
       try { localStorage.setItem(t.dataset.save, t.value); status.textContent = 'Saved in this browser'; } catch (e) {}
     });
   });
-  var radios = document.querySelectorAll('input[type=radio][data-save]');
+  var radios = document.querySelectorAll('input[type=radio][data-save], input[type=checkbox][data-save]');
   Array.prototype.forEach.call(radios, function (r) {
-    try { if (localStorage.getItem(r.dataset.save) === r.value) r.checked = true; } catch (e) {}
+    try { if (localStorage.getItem(r.dataset.save) === (r.type === 'checkbox' ? 'on' : r.value)) r.checked = true; } catch (e) {}
     r.addEventListener('change', function () {
-      try { localStorage.setItem(r.dataset.save, r.value); status.textContent = 'Saved in this browser'; } catch (e) {}
+      try { localStorage.setItem(r.dataset.save, r.type === 'checkbox' ? (r.checked ? 'on' : '') : r.value); status.textContent = 'Saved in this browser'; } catch (e) {}
     });
   });
   var NAMES = { table: 'a table', list: 'a list', sentence: 'a sentence' };
@@ -259,6 +289,15 @@
       else { v.textContent = 'Not this one. The key puts it in ' + NAMES[ans] + '.'; }
     });
     status.textContent = right + ' of ' + sets.length + ' right on question 4';
+  });
+  document.getElementById('check6').addEventListener('click', function () {
+    var right = 0, picks = document.querySelectorAll('.pick');
+    Array.prototype.forEach.call(picks, function (p) {
+      var on = p.querySelector('input').checked, want = p.dataset.answer === 'yes', v = p.querySelector('.verdict');
+      if (on === want) { right++; v.textContent = (want ? 'Right. ' : 'Right to leave it out. ') + p.dataset.why; }
+      else { v.textContent = (want ? 'This one belongs. ' : 'Leave this one out. ') + p.dataset.why; }
+    });
+    status.textContent = right + ' of ' + picks.length + ' right on question 6';
   });
 })();
 </script>
