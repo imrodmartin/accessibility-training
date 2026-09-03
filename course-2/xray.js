@@ -159,7 +159,7 @@
     hint.hidden = !on;
     document.body.classList.toggle('xray-on', on);
     if (on) {
-      targets = Array.prototype.slice.call(main.querySelectorAll(SELECTOR)).filter(function (el) { return !btn.contains(el) && el !== hint; });
+      targets = Array.prototype.slice.call(main.querySelectorAll(SELECTOR)).filter(function (el) { return !btn.contains(el) && el !== hint && !el.closest('[data-xray-skip]'); });
       targets.forEach(function (el) {
         var t = el.tagName.toLowerCase();
         el.setAttribute('data-xray', t === 'p' && text(el) === '' ? 'p (empty)' : t);

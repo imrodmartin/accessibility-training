@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course 2 &middot; Final review before publishing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Public+Sans:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F3F1; --sheet: #FFFFFF; --ink: #14213D; --slate: #4E5A68;
+    --rule: #C9CED4; --rule-soft: #E3E6E9; --amber-tint: #F5EED8; --orange: #E8730C;
+    --display: "Libre Caslon Text", "Iowan Old Style", Georgia, serif;
+    --body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "Courier Prime", "Courier New", Courier, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--paper); }
+  body { margin: 0; font-family: var(--body); font-size: 17px; line-height: 1.55; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--ink); color: #fff; padding: 12px 20px; z-index: 60; font-weight: 700; text-decoration: none; }
+  .skip:focus { left: 12px; top: 12px; }
+
+  .masthead { border-bottom: 2px solid var(--ink); background: var(--sheet); }
+  .masthead-inner { max-width: 900px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: baseline; justify-content: space-between; }
+  .kicker { font-family: var(--mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); margin: 0 0 6px; }
+  .masthead h1 { font-family: var(--display); font-size: 30px; line-height: 1.15; margin: 0; }
+  .backlink { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); text-decoration: none; margin-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  .backlink:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .counter { font-family: var(--mono); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); }
+  .counter strong { color: var(--ink); font-size: 20px; }
+
+  main { max-width: 900px; margin: 0 auto; padding: 28px 24px 80px; }
+  .brief, .panel { background: var(--sheet); border: 1.5px solid var(--rule); padding: 22px 24px; margin-bottom: 24px; }
+  .brief h2, .panel h2 { font-family: var(--display); font-size: 22px; margin: 0 0 10px; }
+  .brief p { margin: 0 0 12px; max-width: 66ch; }
+  .brief p:last-child { margin-bottom: 0; }
+  .brief ol { margin: 0 0 16px; padding-left: 22px; max-width: 66ch; }
+  .brief li { margin-bottom: 8px; }
+  .open { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; padding: 14px 22px; border: 2px solid var(--ink); background: var(--ink); color: #fff; text-decoration: none; }
+  .open:hover { background: #0C1730; }
+
+  .section-h { font-family: var(--display); font-size: 22px; margin: 0 0 14px; }
+  .qs { list-style: none; margin: 0; padding: 0; counter-reset: q; }
+  .qs li { background: var(--sheet); border: 1.5px solid var(--rule); padding: 20px 24px 20px 72px; margin-bottom: 14px; position: relative; }
+  .qs li::before { counter-increment: q; content: counter(q); position: absolute; left: 22px; top: 18px; width: 32px; height: 32px; border-radius: 999px; background: var(--ink); color: #fff; font-family: var(--mono); font-weight: 700; display: grid; place-items: center; }
+  .qs label { display: block; font-weight: 600; margin: 0 0 10px; max-width: 66ch; }
+  .qs textarea { width: 100%; min-height: 96px; font: inherit; font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--rule); background: #FBFBF9; resize: vertical; }
+
+  .qlabel { font-weight: 600; margin: 0 0 12px; max-width: 66ch; }
+  .sort { border: 0; border-top: 1px solid var(--rule-soft); margin: 0; padding: 10px 0; display: grid; grid-template-columns: minmax(0,1fr) auto auto auto; gap: 6px 18px; align-items: center; }
+  .sort legend { float: left; font-weight: 500; padding: 0; margin: 0; }
+  .sort label { white-space: nowrap; }
+  .sort input { width: 20px; height: 20px; margin: 0 6px 0 0; vertical-align: middle; accent-color: var(--ink); }
+  .sort .verdict { grid-column: 1 / -1; font-size: 15px; }
+  .sort .verdict:empty { display: none; }
+  .pick { border-top: 1px solid var(--rule-soft); padding: 10px 0; display: grid; gap: 4px; }
+  .pick label { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; align-items: start; max-width: 66ch; }
+  .pick input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); }
+  .pick .verdict { font-size: 15px; padding-left: 34px; }
+  .pick .verdict:empty { display: none; }
+  .check { font: inherit; font-weight: 700; padding: 10px 18px; border: 2px solid var(--ink); background: var(--sheet); color: var(--ink); cursor: pointer; margin-top: 10px; }
+  .check:hover { background: var(--paper); }
+  @media (max-width: 600px) { .sort { grid-template-columns: 1fr; } .sort legend { float: none; } }
+  .panel summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px; }
+  .panel summary h2 { margin: 0; }
+  .panel summary::-webkit-details-marker { display: none; }
+  .panel summary::before { content: "+"; font-family: var(--mono); width: 28px; height: 28px; border: 1.5px solid var(--ink); display: grid; place-items: center; font-size: 18px; }
+  .panel[open] summary::before { content: "\2013"; }
+  .panel summary small { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+  .key { margin-top: 18px; border-top: 1px solid var(--rule-soft); padding-top: 6px; }
+  .key h3 { font-family: var(--display); font-size: 24px; line-height: 1.25; color: var(--ink); margin: 28px 0 10px; }
+  .key p, .key ul { margin: 0 0 10px; max-width: 70ch; }
+  .key ul { padding-left: 22px; }
+  .key blockquote { margin: 10px 0; padding: 12px 16px; background: var(--amber-tint); border-left: 4px solid var(--orange); max-width: 66ch; }
+  .key blockquote p { margin: 0; }
+  .key table { border-collapse: collapse; width: 100%; margin: 6px 0 12px; font-size: 15px; }
+  .key th, .key td { text-align: left; border-bottom: 1px solid var(--rule-soft); padding: 8px 10px 8px 0; vertical-align: top; }
+  .key th { font-family: var(--mono); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+  .sc { display: block; margin-top: 4px; font-family: var(--mono); font-size: 14px; color: var(--slate); }
+  .status { font-family: var(--mono); font-size: 14px; color: var(--slate); margin: 6px 0 0; text-align: right; }
+  @media (max-width: 600px) { .qs li { padding-left: 24px; padding-top: 60px; } }
+  .layout { max-width: 1220px; margin: 0 auto; padding: 28px 24px 80px; display: grid; grid-template-columns: minmax(0,1fr) 360px; gap: 32px; align-items: start; }
+  .layout main { max-width: none; padding: 0; margin: 0; }
+  .green { --g: #1F5C3A; } .red { --r: #8A2222; }
+  .draft { background: #fff; border: 1.5px solid var(--rule); font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #23303a; line-height: 1.6; }
+  .draft-head { background: #0d3b4f; color: #fff; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
+  .draft-head .seal { width: 36px; height: 36px; border-radius: 50%; background: #ffd166; color: #0d3b4f; display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+  .draft-head p { margin: 0; font-weight: 700; }
+  .draft-head small { display: block; font-weight: 400; font-size: 12px; color: #bcd4dd; }
+  .draft-body { padding: 22px 28px 26px 44px; }
+  .draft-body h1 { font-size: 1.8rem; margin: 0 0 14px; color: #0d3b4f; font-family: inherit; }
+  .draft-body h2 { font-size: 1.3rem; margin: 18px 0 8px; color: #0d3b4f; font-family: inherit; }
+  .draft-body h4 { font-size: 1.05rem; margin: 18px 0 8px; color: #0d3b4f; font-family: inherit; }
+  .draft-body p, .draft-body ul { margin: 0 0 12px; max-width: none; }
+  .draft-body ul { padding-left: 22px; }
+  .draft-body a { color: #145e78; }
+  .hero { display: block; width: 100%; height: auto; border-radius: 8px; margin: 0 0 14px; }
+  .lede { font-size: 1.05rem; }
+  .poster { display: block; max-width: 520px; width: 100%; height: auto; border: 1px solid #d8dfe3; border-radius: 6px; margin: 0 0 12px; }
+  .note { color: #9a9a9a; font-size: .95rem; }
+  .rooms li.closed { color: #c22b2b; }
+  .fakelink { color: #145e78; text-decoration: underline; }
+  .divider { display: block; width: 100%; height: auto; margin: 6px 0 0; }
+  .fees { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+  .fees td, .fees th { border: 1px solid #d8dfe3; padding: 8px 10px; text-align: left; }
+  /* hotspots, as in 6.1 */
+  .spot { position: relative; border: 2px solid transparent; border-radius: 3px; padding: 2px 4px; margin: 0 -4px 4px; }
+  .spot:hover, .spot.active { border-color: var(--rule); background: #FBFBF9; }
+  .spot.flagged { border-color: #8A6A12; background: #F5EED8; }
+  .spot > .mark { position: absolute; left: -34px; top: 4px; width: 26px; height: 26px; padding: 0; border: 1.5px solid var(--rule); background: #fff; color: var(--slate); font-family: var(--mono); font-size: 12px; font-weight: 700; line-height: 1; cursor: pointer; border-radius: 999px; }
+  .spot > .mark:hover { border-color: var(--ink); color: var(--ink); }
+  .spot.flagged > .mark { background: #8A6A12; border-color: #8A6A12; color: #fff; }
+  .spot.graded.hit { border-color: #1F5C3A; background: #E4EFE8; }
+  .spot.graded.miss, .spot.graded.falsealarm { border-color: #8A2222; background: #F5E6E6; }
+  .spot.graded.clean { border-color: #1F5C3A; }
+  .spot.graded.bonus { border-color: #1F5C3A; background: #E4EFE8; }
+  .spot.graded.bonusmiss { border-color: #8A6A12; background: #F5EED8; }
+  .verdict { display: none; margin: 10px 0 4px; padding: 12px 14px; border-left: 4px solid var(--slate); background: var(--paper); font-size: 15px; line-height: 1.5; font-family: var(--body); color: var(--ink); }
+  .graded .verdict { display: block; }
+  .verdict .tag { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; padding: 2px 8px; margin: 0 8px 6px 0; color: #fff; background: var(--slate); }
+  .hit .verdict .tag, .clean .verdict .tag, .bonus .verdict .tag { background: #1F5C3A; }
+  .miss .verdict .tag, .falsealarm .verdict .tag { background: #8A2222; }
+  .bonusmiss .verdict .tag { background: #8A6A12; }
+  .verdict b { display: inline-block; min-width: 60px; }
+  .verdict div + div { margin-top: 4px; }
+  .verdict .sc { display: block; margin-top: 6px; font-family: var(--mono); font-size: 13px; color: var(--slate); }
+  /* rail */
+  .rail { position: sticky; top: 24px; display: grid; gap: 16px; }
+  .rpanel { background: var(--sheet); border: 1.5px solid var(--rule); padding: 20px; }
+  .rpanel h2 { font-family: var(--mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--slate); margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
+  .btn { font-family: var(--body); font-size: 16px; font-weight: 700; line-height: 1.2; padding: 14px 22px; border: 2px solid var(--ink); background: var(--ink); color: #fff; cursor: pointer; width: 100%; }
+  .btn:hover { background: #0C1730; }
+  .btn.secondary { background: var(--sheet); color: var(--ink); }
+  .btn.secondary:hover { background: var(--paper); }
+  .btn + .btn { margin-top: 10px; }
+  .score { margin: 0 0 12px; font-size: 15px; line-height: 1.6; }
+  .score .big { font-family: var(--display); font-size: 34px; display: block; line-height: 1.1; }
+  .tally { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+  .tally li { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px dotted var(--rule-soft); }
+  .tally li:last-child { border-bottom: 0; }
+  .tally b { font-family: var(--mono); }
+  .inbox { list-style: none; margin: 0; padding: 0; }
+  .inbox li { padding: 10px 0; border-bottom: 1px solid var(--rule-soft); font-size: 15px; line-height: 1.5; }
+  .inbox li:last-child { border-bottom: 0; }
+  .inbox .from { display: block; font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--slate); margin-bottom: 2px; }
+  .inbox .fix { display: block; margin-top: 4px; color: var(--ink); }
+  .inbox .fix b { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #1F5C3A; margin-right: 6px; }
+  .scan { font-family: var(--mono); font-size: 14px; line-height: 1.6; background: #0c1a22; color: #d7e5ec; padding: 14px 16px; margin: 0 0 12px; white-space: pre-wrap; }
+  .scan .err { color: #ff9d8a; } .scan .warn { color: #ffd166; } .scan .ok { color: #a8e0d2; }
+  .hintbar { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule-soft); font-size: 14px; color: var(--slate); }
+  .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 999; }
+  .confetti i { position: absolute; top: -12px; width: 9px; height: 14px; opacity: 0; animation: confetti-fall 2.6s linear forwards; }
+  @keyframes confetti-fall { 0% { opacity: 1; transform: translateY(0) rotate(0deg); } 100% { opacity: 0; transform: translateY(104vh) rotate(760deg); } }
+  @media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
+  @media (max-width: 1080px) { .layout { grid-template-columns: minmax(0,1fr); } .rail { position: static; } }
+</style>
+<script src="xray.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#draft">Skip to the draft</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <a class="backlink" href="../index.html"><span aria-hidden="true">&larr;</span> All exercises</a>
+      <p class="kicker">Course 2 &middot; Writing Accessible Content &middot; Exercise 3</p>
+      <h1>Final review before publishing</h1>
+    </div>
+    <p class="counter">Flagged <strong id="flag-count">0</strong> of 15 items &middot; 10 minutes</p>
+  </div>
+</header>
+
+<div class="layout">
+  <main id="main">
+
+    <section class="brief" aria-labelledby="brief-h">
+      <h2 id="brief-h">The situation</h2>
+      <p>This is the real test. A colleague has drafted the Community Center reopening announcement and asked you to look before it goes live. <strong>Nine things are wrong.</strong> Two more are wrong that we&rsquo;re not counting; finding those is extra credit. Four of the marked items are fine, and flagging those costs you.</p>
+      <ol>
+        <li>Run the pre-publish checklist cold: headings, plain language, links, images, tables, color.</li>
+        <li><strong>Flag anything you would send back</strong> by clicking its numbered button. Stuck on one? Choose <strong>Show how this page is built</strong> inside the draft and hover or Tab to it.</li>
+        <li>When you are satisfied, choose <strong>Publish</strong>. Whatever you missed goes live, and Monday&rsquo;s inbox tells you how that went. Every message comes with the fix.</li>
+        <li>Then choose <strong>Run the automated checker</strong> and count how many of the nine it caught. That gap is the reason this course exists.</li>
+      </ol>
+    </section>
+
+    <article class="draft" id="draft" aria-label="The draft announcement under review" data-xray-root>
+      <div class="draft-head">
+        <span class="seal" aria-hidden="true">RPR</span>
+        <p>Riverside Parks &amp; Recreation <small>Draft &middot; not yet published</small></p>
+      </div>
+      <div class="draft-body" data-xray-host>
+        <h1>Community Center Reopening</h1>
+        <div class="spot" id="s1">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">1</span><span class="sr-only">Item 1, Hero photo. Flag for the author</span></button>
+          <img class="hero" src="img/hero-center.svg" width="1200" height="480">
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s2">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">2</span><span class="sr-only">Item 2, Opening paragraph. Flag for the author</span></button>
+          <p class="lede">The Department of Parks and Recreation is pleased to announce that, following the completion of the capital improvement project authorized by the City Council in the 2025 budget cycle and undertaken in phases over the preceding fourteen months, during which time the facility remained closed to the public in the interest of safety, the Riverside Community Center, including the gymnasium, the pool, the fitness room and all meeting rooms, will resume regular operations and reopen its doors to residents and members of the public on Monday, October 6.</p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s3">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">3</span><span class="sr-only">Item 3, &ldquo;What&rsquo;s new&rdquo; heading. Flag for the author</span></button>
+          <h2>What&rsquo;s new</h2>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s4">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">4</span><span class="sr-only">Item 4, List of new amenities. Flag for the author</span></button>
+          <ul><li>A second gym court with a walking track above it</li><li>An accessible family changing room beside the pool</li><li>Automatic doors at every public entrance</li><li>A quiet room off the main lobby</li></ul>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s5">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">5</span><span class="sr-only">Item 5, &ldquo;Hours&rdquo; line. Flag for the author</span></button>
+          <p><strong style="font-size: 1.25rem;">Hours</strong></p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s6">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">6</span><span class="sr-only">Item 6, Hours poster. Flag for the author</span></button>
+          <img class="poster" src="img/hours-poster.svg" width="1200" height="720" alt="Hours poster" data-xray-text="New Hours from October 6|Monday to Thursday, 6:00 a.m. to 9:00 p.m.|Friday, 6:00 a.m. to 7:00 p.m.|Saturday, 8:00 a.m. to 5:00 p.m.|Sunday, noon to 5:00 p.m.|Pool closes 30 minutes before the building">
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s7">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">7</span><span class="sr-only">Item 7, Holiday note. Flag for the author</span></button>
+          <p class="note">Hours are subject to change on holidays.</p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s8">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">8</span><span class="sr-only">Item 8, &ldquo;Room reservations&rdquo; heading. Flag for the author</span></button>
+          <h4>Room reservations</h4>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s9">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">9</span><span class="sr-only">Item 9, Reservation sentence. Flag for the author</span></button>
+          <p>Meeting rooms can be reserved up to 60 days ahead. To reserve a room, <a href="#reserve">click here</a>.</p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s10">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">10</span><span class="sr-only">Item 10, Room list. Flag for the author</span></button>
+          <p>Rooms shown in red are closed for renovation until spring.</p><ul class="rooms"><li>Riverbank Room</li><li class="closed">Mill Street Room</li><li>Oak Room</li><li class="closed">Westfield Room</li><li>Lobby Annex</li></ul>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s11">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">11</span><span class="sr-only">Item 11, Fee table. Flag for the author</span></button>
+          <table class="fees"><tr><td><b>Membership</b></td><td><b>Resident</b></td><td><b>Non-resident</b></td></tr><tr><td>Adult, monthly</td><td>$32</td><td>$48</td></tr><tr><td>Senior, monthly</td><td>$20</td><td>$30</td></tr><tr><td>Family, monthly</td><td>$55</td><td>$80</td></tr><tr><td>Day pass</td><td>$6</td><td>$9</td></tr></table>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s12">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">12</span><span class="sr-only">Item 12, Membership sentence. Flag for the author</span></button>
+          <p>See our <span class="fakelink">membership options</span> for what each level includes.</p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s13">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">13</span><span class="sr-only">Item 13, Schedule link. Flag for the author</span></button>
+          <p>Fall fitness classes start the week of October 13. Download the <a href="fall-schedule.pdf">schedule</a>.</p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s14">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">14</span><span class="sr-only">Item 14, Rules link. Flag for the author</span></button>
+          <p>Before your first visit, <a href="#rules">read the Community Center rules</a>.</p>
+          <div class="verdict" data-xray-skip></div>
+        </div>
+        <div class="spot" id="s15">
+          <button class="mark" type="button" aria-pressed="false" data-xray-skip><span aria-hidden="true">15</span><span class="sr-only">Item 15, Divider. Flag for the author</span></button>
+          <img class="divider" src="img/leaf-divider.svg" width="1240" height="40" alt="">
+          <div class="verdict" data-xray-skip></div>
+        </div>
+      </div>
+    </article>
+
+    <p class="hintbar"><a href="community-center-what-not-to-do.html" target="_blank" rel="noopener">Open the draft as a standalone page <span class="sr-only">(opens in a new tab)</span></a> to run a real automated checker on it, then <a href="community-center-correct-page.html" target="_blank" rel="noopener">compare with the corrected page <span class="sr-only">(opens in a new tab)</span></a>.</p>
+  </main>
+
+  <aside class="rail" aria-label="Your review">
+    <div class="rpanel">
+      <h2>Your review</h2>
+      <div id="scorebox" hidden>
+        <p class="score"><span class="big" id="score-big">0 of 9</span> issues caught before publishing</p>
+        <ul class="tally">
+          <li><span>Issues caught</span> <b id="t-hit">0</b></li>
+          <li><span>Issues that went live</span> <b id="t-miss">0</b></li>
+          <li><span>Extra credit found</span> <b id="t-bonus">0</b> <span class="sr-only">of 2</span></li>
+          <li><span>Sound items wrongly flagged</span> <b id="t-false">0</b></li>
+        </ul>
+      </div>
+      <button class="btn" type="button" id="publish">Publish</button>
+      <button class="btn secondary" type="button" id="scan">Run the automated checker</button>
+      <button class="btn secondary" type="button" id="reset">Start over</button>
+      <p class="hintbar" id="hint">Flag everything you would send back to the author, then publish.</p>
+    </div>
+    <div class="rpanel" id="inboxpanel" hidden>
+      <h2 id="inbox-h">Monday&rsquo;s inbox</h2>
+      <ul class="inbox" id="inbox" aria-labelledby="inbox-h"></ul>
+    </div>
+    <div class="rpanel" id="scanpanel" hidden>
+      <h2>Automated checker</h2>
+      <div class="scan" id="scanout"></div>
+      <p id="scannote" style="font-size:15px;margin:0"></p>
+    </div>
+  </aside>
+</div>
+
+<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}</style>
+<script>
+(function () {
+  var KEY = {"s1": {"kind": "counted", "wrong": "No alt attribute on the hero photo.", "who": "A screen reader user hears the file name, IMG_2291.jpg, and learns nothing.", "fix": "Add alt: &ldquo;The renovated Riverside Community Center entrance.&rdquo;", "sc": "WCAG 1.1.1 Non-text Content (A)", "inbox": "&ldquo;Your page announces something called IMG underscore 2291 dot jpg. What is it?&rdquo;", "auto": true}, "s2": {"kind": "counted", "wrong": "Ninety words of council-minutes English with the one fact a reader wants, the date, in the last line.", "who": "Everyone, and hardest on readers with cognitive disabilities and anyone on a phone. Most people stop reading before the date.", "fix": "Lead with it: &ldquo;The Community Center reopens Monday, October 6.&rdquo; Then one sentence on what was renovated.", "sc": "Plain language &middot; Section 508 program requirement", "inbox": " Twelve calls to the front desk asking when the building opens. It says so, ninety words in.", "auto": false}, "s3": {"kind": "clean", "wrong": "A real h2, in the right place.", "who": "Nothing breaks.", "fix": "Nothing to fix.", "sc": "", "inbox": null, "auto": false}, "s4": {"kind": "clean", "wrong": "A real ul with four li children. Announced as &ldquo;list, 4 items.&rdquo;", "who": "Nothing breaks.", "fix": "Nothing to fix.", "sc": "", "inbox": null, "auto": false}, "s5": {"kind": "counted", "wrong": "&ldquo;Hours&rdquo; is a bold paragraph, not a heading.", "who": "Anyone navigating by headings cannot jump to the hours. The most-wanted section on the page is invisible in the outline.", "fix": "Make it an h2.", "sc": "WCAG 1.3.1 Info and Relationships (A)", "inbox": "&ldquo;I pulled up the headings list to find the hours. There is no hours heading.&rdquo;", "auto": false}, "s6": {"kind": "counted", "wrong": "Every opening hour exists only as pixels in the poster. The alt says &ldquo;Hours poster&rdquo; and nothing else.", "who": "Screen reader users get no hours at all. Nobody can search, translate, copy or enlarge them. The most serious item on the page.", "fix": "Publish the hours as a table. Keep the poster with alt that says the table has the same information. Better alt is not the fix.", "sc": "WCAG 1.1.1 Non-text Content (A) &middot; 1.4.5 Images of Text (AA)", "inbox": "&ldquo;What time do you open? Your page says hours poster and then moves on.&rdquo; Also a request for the hours in Spanish, which the poster cannot give.", "auto": false}, "s7": {"kind": "extra", "wrong": "Grey text at 2.9:1 against the white card.", "who": "Low-vision readers and anyone outdoors on a phone lose the note. Not part of the content checklist, but a real failure.", "fix": "Darken it to at least #767676, or drop the styling.", "sc": "WCAG 1.4.3 Contrast, Minimum (AA)", "inbox": "&ldquo;Nothing said you were closed on Thanksgiving. I drove over.&rdquo; The note was there, in light grey.", "auto": true}, "s8": {"kind": "counted", "wrong": "An h4 directly under the h1. Levels 2 and 3 are skipped.", "who": "A screen reader user hears &ldquo;heading level 4&rdquo; and wonders what they missed. Level 4 was chosen for its size.", "fix": "Make it an h2 like the other sections.", "sc": "WCAG 1.3.1 Info and Relationships (A)", "inbox": "&ldquo;Heading level four, right after the title. Did I skip two sections?&rdquo;", "auto": true}, "s9": {"kind": "counted", "wrong": "&ldquo;Click here&rdquo; is the link text.", "who": "In the links list it reads &ldquo;click here.&rdquo; Nobody knows where it goes without reading the sentence around it.", "fix": "&ldquo;Reserve a meeting room.&rdquo;", "sc": "WCAG 2.4.4 Link Purpose in Context (A)", "inbox": "&ldquo;My links list says click here. Click where?&rdquo;", "auto": false}, "s10": {"kind": "counted", "wrong": "Closed rooms are marked by red text and nothing else.", "who": "Anyone who cannot see the red, including everyone in high-contrast mode or on a printout, sees five open rooms.", "fix": "Put it in words: &ldquo;Mill Street Room (closed until spring).&rdquo; Keep the color as a bonus.", "sc": "WCAG 1.4.1 Use of Color (A)", "inbox": "A resident booked the Mill Street Room for a birthday party. It is a construction site.", "auto": false}, "s11": {"kind": "counted", "wrong": "A data table with no header cells. The top row is bold td, not th.", "who": "A screen reader reads the numbers with no column names attached. &ldquo;32, 48&rdquo; means nothing without &ldquo;Resident, Non-resident.&rdquo;", "fix": "Make the first row th with scope=&quot;col&quot;, the first column th with scope=&quot;row&quot;, and add a caption.", "sc": "WCAG 1.3.1 Info and Relationships (A)", "inbox": "&ldquo;Your fee table reads as a jumble of numbers. Which one is the resident rate?&rdquo;", "auto": false}, "s12": {"kind": "extra", "wrong": "Blue underlined text that is not a link.", "who": "Everyone clicks it. Nothing happens. Keyboard users cannot even reach it. Not on the content checklist, still wrong.", "fix": "Link it, or stop styling it like a link.", "sc": "WCAG 1.3.1 Info and Relationships (A); usability", "inbox": "&ldquo;I clicked membership options a dozen times. Is your site broken?&rdquo;", "auto": false}, "s13": {"kind": "counted", "wrong": "&ldquo;Schedule&rdquo; links to a PDF with no format or size named.", "who": "Phone users on data get a surprise download. Screen reader users get no warning that they are leaving the page for a document.", "fix": "&ldquo;Download the fall fitness schedule (PDF, 6 MB).&rdquo;", "sc": "WCAG 2.4.4 Link Purpose in Context (A)", "inbox": "&ldquo;Your schedule link started a 6 MB download on my phone. No warning.&rdquo;", "auto": false}, "s14": {"kind": "clean", "wrong": "A link that names its destination.", "who": "Nothing breaks.", "fix": "Nothing to fix.", "sc": "", "inbox": null, "auto": false}, "s15": {"kind": "clean", "wrong": "A decorative divider with alt=&quot;&quot;. Screen readers skip it, which is right.", "who": "Nothing breaks.", "fix": "Nothing to fix.", "sc": "", "inbox": null, "auto": false}};
+  var spots = Array.prototype.slice.call(document.querySelectorAll('.spot'));
+  var count = document.getElementById('flag-count'), hint = document.getElementById('hint');
+  var graded = false;
+  function label(spot) { return spot.querySelector('.mark .sr-only').textContent.replace(/^Item \d+, /, '').replace(/\. Flag for the author$/, ''); }
+  function num(spot) { return spot.querySelector('.mark span').textContent; }
+  spots.forEach(function (spot) {
+    spot.querySelector('.mark').addEventListener('click', function () {
+      if (graded) return;
+      var on = spot.classList.toggle('flagged');
+      this.setAttribute('aria-pressed', String(on));
+      count.textContent = document.querySelectorAll('.spot.flagged').length;
+    });
+  });
+  function verdict(spot, cls, tag, k) {
+    spot.classList.add('graded', cls);
+    var v = spot.querySelector('.verdict');
+    v.innerHTML = '<span class="tag">' + tag + '</span><div><b>Wrong</b> ' + k.wrong + '</div>' + (k.kind === 'clean' ? '' : '<div><b>Breaks</b> ' + k.who + '</div><div><b>Fix</b> ' + k.fix + '</div>') + (k.sc ? '<span class="sc">' + k.sc + '</span>' : '');
+  }
+  document.getElementById('publish').addEventListener('click', function () {
+    if (graded) return;
+    graded = true;
+    var hit = 0, miss = 0, bonus = 0, falsealarm = 0, inbox = [];
+    spots.forEach(function (spot) {
+      var k = KEY[spot.id], on = spot.classList.contains('flagged');
+      if (k.kind === 'counted') {
+        if (on) { hit++; verdict(spot, 'hit', 'Caught', k); }
+        else { miss++; verdict(spot, 'miss', 'Went live', k); inbox.push([num(spot), label(spot), k]); }
+      } else if (k.kind === 'extra') {
+        if (on) { bonus++; verdict(spot, 'bonus', 'Extra credit', k); }
+        else { verdict(spot, 'bonusmiss', 'Extra credit, missed', k); inbox.push([num(spot), label(spot), k]); }
+      } else {
+        if (on) { falsealarm++; verdict(spot, 'falsealarm', 'False alarm', k); }
+        else verdict(spot, 'clean', 'Fine', k);
+      }
+    });
+    document.getElementById('score-big').textContent = hit + ' of 9';
+    document.getElementById('t-hit').textContent = hit; document.getElementById('t-miss').textContent = miss;
+    document.getElementById('t-bonus').textContent = bonus + ' of 2'; document.getElementById('t-false').textContent = falsealarm;
+    document.getElementById('scorebox').hidden = false;
+    var ul = document.getElementById('inbox'); ul.innerHTML = '';
+    if (inbox.length) {
+      inbox.forEach(function (m) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span class="from">Item ' + m[0] + ' &middot; ' + m[1] + '</span>' + m[2].inbox + '<span class="fix"><b>Fix</b>' + m[2].fix + '</span>';
+        ul.appendChild(li);
+      });
+    } else {
+      ul.innerHTML = '<li>Nothing. Not one complaint. The page went out clean.</li>';
+    }
+    document.getElementById('inboxpanel').hidden = false;
+    hint.textContent = miss === 0 ? 'Every counted issue caught before it went live.' + (falsealarm ? ' The author spent time on ' + falsealarm + ' item' + (falsealarm > 1 ? 's' : '') + ' that were fine.' : '') : miss + ' issue' + (miss > 1 ? 's' : '') + ' went live. Read the inbox, then start over and try for a clean publish.';
+    document.getElementById('publish').setAttribute('aria-disabled', 'true');
+    if (hit >= 8 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) confetti();
+    document.getElementById('scorebox').scrollIntoView({ block: 'nearest' });
+  });
+  document.getElementById('scan').addEventListener('click', function () {
+    var out = document.getElementById('scanout');
+    out.innerHTML = '<span class="ok">$ a11y-scan community-center-draft.html</span>\n' +
+      '<span class="err">ERROR</span>  img has no alt attribute            img/hero-center.svg\n' +
+      '<span class="err">ERROR</span>  text contrast 2.9:1, needs 4.5:1     p.note\n' +
+      '<span class="warn">WARN </span>  heading level skipped, h1 to h4      h4\n' +
+      '<span class="ok">2 errors, 1 warning. 41 checks passed.</span>';
+    document.getElementById('scannote').innerHTML = 'It caught <strong>2 of the 9</strong> counted issues, one of them only as a warning, plus the grey text. It passed the poster with every opening hour trapped inside it, the click-here link, the bold fake heading, the color-only room list, the header-less fee table, the PDF link and the ninety-word opening. A scanner checks what is there. It cannot judge what the words say or whether the picture is doing the text&rsquo;s job.';
+    document.getElementById('scanpanel').hidden = false;
+    document.getElementById('scanpanel').scrollIntoView({ block: 'nearest' });
+  });
+  document.getElementById('reset').addEventListener('click', function () {
+    graded = false;
+    spots.forEach(function (s) { s.className = 'spot'; s.querySelector('.mark').setAttribute('aria-pressed', 'false'); s.querySelector('.verdict').innerHTML = ''; });
+    count.textContent = '0';
+    ['scorebox', 'inboxpanel', 'scanpanel'].forEach(function (id) { document.getElementById(id).hidden = true; });
+    document.getElementById('publish').removeAttribute('aria-disabled');
+    hint.textContent = 'Flag everything you would send back to the author, then publish.';
+    window.scrollTo({ top: 0 });
+  });
+  function confetti() {
+    var box = document.createElement('div'); box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+    var colors = ['#E8730C', '#1F5C3A', '#14213D', '#8A6A12', '#ffd166'];
+    for (var i = 0; i < 120; i++) {
+      var p = document.createElement('i');
+      p.style.left = Math.random() * 100 + 'vw'; p.style.background = colors[i % colors.length];
+      p.style.animationDelay = Math.random() * 1.2 + 's'; p.style.animationDuration = 2.2 + Math.random() * 1.4 + 's';
+      box.appendChild(p);
+    }
+    document.body.appendChild(box);
+    setTimeout(function () { box.remove(); }, 4500);
+  }
+})();
+</script>
+</body>
+</html>

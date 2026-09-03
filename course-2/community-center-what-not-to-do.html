@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+  TRAINING ARTIFACT: the anti-pattern for Course 2, Exercise 3.
+  Nine counted issues: missing alt on the hero, a 90-word opening with the
+  date last, a bold "Hours" line instead of a heading, opening hours only
+  inside a poster image, an h4 under the h1, a "click here" link, closed
+  rooms marked by color alone, a fee table with no header cells, and a PDF
+  link with no format or size. Two extras not counted: grey text at 2.9:1
+  and underlined blue text that is not a link. Four things are fine.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Community Center Reopening | Riverside Parks &amp; Recreation</title>
+<style>
+  :root { --navy: #0d3b4f; --teal: #1a7a6a; --rust: #c84a1a; --sand: #f6f3ee; --ink: #23303a; --line: #d8dfe3; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--sand); color: var(--ink); font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+  :focus-visible { outline: 3px solid #b32020; outline-offset: 2px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 10px 16px; z-index: 10; }
+  .skip:focus { left: 12px; top: 12px; }
+  header.site { background: var(--navy); color: #fff; padding: 18px 24px; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  .brandline { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .seal { width: 44px; height: 44px; border-radius: 50%; background: #ffd166; color: var(--navy); display: grid; place-items: center; font-weight: 700; font-size: 15px; letter-spacing: .5px; flex: 0 0 auto; }
+  .brandline .name { font-size: 1.25rem; margin: 0; font-weight: 700; }
+  .brandline p { margin: 0; font-size: .85rem; color: #bcd4dd; }
+  nav.site { background: var(--teal); }
+  nav.site ul { max-width: 980px; margin: 0 auto; padding: 0 24px; list-style: none; display: flex; flex-wrap: wrap; gap: 4px; }
+  nav.site a { display: block; padding: 12px 16px; color: #fff; text-decoration: none; font-size: .95rem; }
+  nav.site a:hover, nav.site a:focus { background: rgba(0,0,0,.22); text-decoration: underline; }
+  nav.site a[aria-current="page"] { background: rgba(0,0,0,.3); font-weight: 700; }
+  main { padding: 32px 24px 56px; }
+  .crumbs { font-size: .85rem; color: #5b6b76; margin: 0 0 18px; }
+  .crumbs a { color: #145e78; }
+  h1 { font-size: 2rem; margin: 0 0 18px; color: var(--navy); line-height: 1.2; }
+  .hero { display: block; width: 100%; height: auto; border-radius: 10px; margin: 0 0 22px; }
+  .lede { font-size: 1.1rem; margin: 0 0 22px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 24px; }
+  .card h2 { font-size: 1.35rem; color: var(--navy); margin: 0 0 12px; }
+  .card p, .card ul, .card ol { margin: 0 0 14px; }
+  .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+  .card li { margin-bottom: 6px; }
+  .divider { display: block; width: 100%; height: auto; margin: 0 0 24px; }
+  .flyer, .info { display: block; max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .two > div { border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+  .two h3 { margin: 0 0 6px; font-size: 1.1rem; color: var(--navy); }
+  .btn { font: inherit; font-weight: 700; padding: 12px 20px; border: 0; border-radius: 6px; background: var(--rust); color: #fff; cursor: pointer; }
+  .btn:hover { background: #a63c14; }
+  .avail { list-style: none; padding: 0; }
+  .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+  .dot.open { background: #1f8a3c; } .dot.full { background: #c22b2b; }
+  .key { font-size: .9rem; color: #4a5b66; }
+  table { border-collapse: collapse; width: 100%; margin: 0 0 14px; }
+  caption { text-align: left; font-weight: 700; padding: 0 0 8px; color: var(--navy); }
+  th, td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: #eef4f6; }
+  a { color: #145e78; }
+  aside.help { margin-top: 8px; padding: 20px 24px; background: #eef4f6; border-left: 5px solid var(--teal); border-radius: 0 8px 8px 0; }
+  aside.help h2 { margin: 0 0 8px; font-size: 1.05rem; color: var(--navy); }
+  aside.help p { margin: 0; font-size: .95rem; }
+  footer.site { background: var(--navy); color: #cfe0e7; padding: 26px 24px; font-size: .9rem; }
+  footer.site p { margin: 0 0 6px; }
+  footer.site a { color: #ffd166; }
+  @media (max-width: 700px) { h1 { font-size: 1.55rem; } .card { padding: 18px; } .two { grid-template-columns: 1fr; } }
+  .poster { display: block; max-width: 560px; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; margin: 0 0 14px; }
+  .note { color: #9a9a9a; font-size: .95rem; }
+  .rooms li.closed { color: #c22b2b; }
+  .fakelink { color: #145e78; text-decoration: underline; }
+  .fees td, .fees th { text-align: left; }
+  h4 { font-size: 1.1rem; color: var(--navy); margin: 22px 0 8px; }
+  .card h2 { margin-top: 22px; }
+  .card h2:first-child { margin-top: 0; }
+</style>
+<script src="xray.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site">
+  <div class="wrap brandline">
+    <span class="seal" aria-hidden="true">RPR</span>
+    <div>
+      <p class="name">Riverside Parks &amp; Recreation</p>
+      <p>City of Riverside &middot; Department of Parks &amp; Recreation</p>
+    </div>
+  </div>
+</header>
+
+<nav class="site" aria-label="Main">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Parks &amp; Trails</a></li>
+    <li><a href="#">Programs</a></li>
+    <li><a href="#">Events</a></li>
+    <li><a href="#" aria-current="page">Facility Rentals</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Home</a> &rsaquo; <a href="#">Facility Rentals</a> &rsaquo; Community Center</nav>
+    <h1>Community Center Reopening</h1>
+    <div class="card">
+      <img class="hero" style="margin-bottom:18px" src="img/hero-center.svg" width="1200" height="480">
+      <p class="lede">The Department of Parks and Recreation is pleased to announce that, following the completion of the capital improvement project authorized by the City Council in the 2025 budget cycle and undertaken in phases over the preceding fourteen months, during which time the facility remained closed to the public in the interest of safety, the Riverside Community Center, including the gymnasium, the pool, the fitness room and all meeting rooms, will resume regular operations and reopen its doors to residents and members of the public on Monday, October 6.</p>
+      <h2>What&rsquo;s new</h2>
+      <ul><li>A second gym court with a walking track above it</li><li>An accessible family changing room beside the pool</li><li>Automatic doors at every public entrance</li><li>A quiet room off the main lobby</li></ul>
+      <p><strong style="font-size: 1.25rem;">Hours</strong></p>
+      <img class="poster" src="img/hours-poster.svg" width="1200" height="720" alt="Hours poster" data-xray-text="New Hours from October 6|Monday to Thursday, 6:00 a.m. to 9:00 p.m.|Friday, 6:00 a.m. to 7:00 p.m.|Saturday, 8:00 a.m. to 5:00 p.m.|Sunday, noon to 5:00 p.m.|Pool closes 30 minutes before the building">
+      <p class="note">Hours are subject to change on holidays.</p>
+      <h4>Room reservations</h4>
+      <p>Meeting rooms can be reserved up to 60 days ahead. To reserve a room, <a href="#reserve">click here</a>.</p>
+      <p>Rooms shown in red are closed for renovation until spring.</p><ul class="rooms"><li>Riverbank Room</li><li class="closed">Mill Street Room</li><li>Oak Room</li><li class="closed">Westfield Room</li><li>Lobby Annex</li></ul>
+      <table class="fees"><tr><td><b>Membership</b></td><td><b>Resident</b></td><td><b>Non-resident</b></td></tr><tr><td>Adult, monthly</td><td>$32</td><td>$48</td></tr><tr><td>Senior, monthly</td><td>$20</td><td>$30</td></tr><tr><td>Family, monthly</td><td>$55</td><td>$80</td></tr><tr><td>Day pass</td><td>$6</td><td>$9</td></tr></table>
+      <p>See our <span class="fakelink">membership options</span> for what each level includes.</p>
+      <p>Fall fitness classes start the week of October 13. Download the <a href="fall-schedule.pdf">schedule</a>.</p>
+      <p>Before your first visit, <a href="#rules">read the Community Center rules</a>.</p>
+      <img class="divider" src="img/leaf-divider.svg" width="1240" height="40" alt="">
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>City of Riverside Parks &amp; Recreation &middot; 400 Riverbank Road, Riverside</p>
+    <p><a href="#">Accessibility Statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Site Map</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

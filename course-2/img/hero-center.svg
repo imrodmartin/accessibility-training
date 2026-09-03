@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480">
+<rect width="1200" height="480" fill="#dbeaf3"/><circle cx="1000" cy="90" r="50" fill="#ffd166"/>
+<rect y="330" width="1200" height="150" fill="#9fc7a3"/>
+<rect x="200" y="140" width="800" height="200" fill="#c9a97a"/><rect x="180" y="120" width="840" height="30" fill="#8a5a2b"/>
+<rect x="540" y="230" width="120" height="110" fill="#0d3b4f"/>
+<g fill="#eaf6ff" stroke="#8a5a2b" stroke-width="4"><rect x="260" y="180" width="80" height="80"/><rect x="380" y="180" width="80" height="80"/><rect x="740" y="180" width="80" height="80"/><rect x="860" y="180" width="80" height="80"/></g>
+<rect x="450" y="60" width="300" height="60" rx="8" fill="#0d3b4f"/><text x="600" y="100" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="bold" fill="#ffffff" text-anchor="middle">COMMUNITY CENTER</text>
+</svg>
