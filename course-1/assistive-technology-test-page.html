@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<!--
+  TRAINING ARTIFACT: a reference page built to pass WCAG 2.1 AA in full.
+  Use it to learn what assistive technology sounds and feels like when a page
+  is built correctly: WAVE should report zero errors, zero contrast errors and
+  zero alerts; every control works from the keyboard; every screen reader
+  announcement makes sense on its own.
+
+  One of each, following the WAI-ARIA Authoring Practices: skip link,
+  landmarks, disclosure navigation, search, breadcrumb, data table, tabs,
+  live status region, modal dialog, accordion, validated form with an error
+  summary, language of parts, informative and decorative images.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Riverside Aquatics Center | Riverside Parks &amp; Recreation</title>
+<meta name="description" content="Hours, swim lessons, lap lane reservations and accessibility information for the Riverside Aquatics Center.">
+<style>
+  :root {
+    --navy: #0d3b4f;
+    --teal: #1a7a6a;
+    --teal-dark: #14655a;
+    --rust: #c84a1a;
+    --rust-dark: #a63c14;
+    --sand: #f6f3ee;
+    --ink: #23303a;
+    --muted: #4a5b66;
+    --line: #d8dfe3;
+    --control-line: #6b7a85;
+    --link: #145e78;
+    --yellow: #ffd166;
+    --err: #b3261e;
+    --err-bg: #fdecea;
+    --ok: #125c3f;
+    --ok-bg: #e6f4ec;
+    --thead: #eef4f6;
+    --notice-bg: #fff4d6;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--sand); color: var(--ink);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1rem; line-height: 1.6;
+  }
+
+  /* Focus: 3px ring with a 2px offset. Navy on light surfaces, yellow on the
+     navy and teal bars. Every pair measures at least 3:1 against what it sits on. */
+  :focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; border-radius: 3px; }
+  header.site :focus-visible,
+  nav.site :focus-visible,
+  footer.site :focus-visible { outline-color: var(--yellow); }
+  nav.site .sub a:focus-visible { outline-color: var(--navy); }
+
+  .skip {
+    position: absolute; left: -9999px; top: 0; z-index: 100;
+    background: #fff; color: var(--link); font-weight: 700;
+    padding: 12px 18px; text-decoration: underline;
+  }
+  .skip:focus { left: 8px; top: 8px; }
+
+  a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+  a:hover { color: var(--navy); text-decoration-thickness: 2px; }
+
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  /* Header */
+  header.site { background: var(--navy); color: #fff; padding: 18px 24px; }
+  header.site .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px 32px; flex-wrap: wrap;
+  }
+  .brandline { display: flex; align-items: center; gap: 14px; }
+  .seal {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--yellow); color: var(--navy);
+    display: grid; place-items: center; font-weight: 700; flex: 0 0 auto;
+  }
+  .brandname { color: #fff; font-size: 1.2rem; font-weight: 700; text-decoration: none; }
+  .brandname:hover { color: #fff; text-decoration: underline; }
+  .brandsub { margin: 0; font-size: .9rem; color: #d3e5ec; }
+
+  .searchbox .status { margin: 10px 0 0; }
+  form.search { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; }
+  form.search label { display: block; font-size: .9rem; color: #d3e5ec; margin-bottom: 4px; }
+  form.search input {
+    width: 14rem; max-width: 100%; min-height: 44px; padding: 8px 12px;
+    font: inherit; color: var(--ink); border: 2px solid #fff; border-radius: 5px; background: #fff;
+  }
+  form.search button {
+    min-height: 44px; padding: 8px 18px; font: inherit; font-weight: 700;
+    background: var(--yellow); color: var(--navy); border: 0; border-radius: 5px; cursor: pointer;
+  }
+  form.search button:hover { background: #ffc233; }
+
+  /* Main navigation */
+  nav.site { background: var(--teal); }
+  nav.site > ul {
+    max-width: 980px; margin: 0 auto; padding: 0 24px;
+    list-style: none; display: flex; flex-wrap: wrap; gap: 2px;
+  }
+  nav.site li { position: relative; }
+  nav.site a, nav.site .navbtn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 13px 16px; min-height: 44px; color: #fff; text-decoration: none;
+    font: inherit; background: transparent; border: 0; cursor: pointer;
+  }
+  nav.site a:hover, nav.site .navbtn:hover { background: rgba(0,0,0,.28); text-decoration: underline; color: #fff; }
+  nav.site a[aria-current="page"] { background: rgba(0,0,0,.35); font-weight: 700; }
+  nav.site .navbtn[aria-expanded="true"] { background: rgba(0,0,0,.35); }
+  nav.site .navbtn svg { transition: transform .15s ease; }
+  nav.site .navbtn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  nav.site .sub {
+    position: absolute; left: 0; top: 100%; z-index: 20; min-width: 15rem;
+    margin: 0; padding: 6px 0; list-style: none;
+    background: #fff; border: 1px solid var(--control-line); border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  }
+  nav.site .sub a { color: var(--link); padding: 11px 16px; }
+  nav.site .sub a:hover { background: var(--thead); color: var(--navy); }
+
+  /* Page */
+  main { padding: 32px 24px 56px; }
+  .crumbs { font-size: .9rem; margin: 0 0 18px; }
+  .crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .crumbs .sep { color: var(--muted); }
+  .crumbs [aria-current="page"] { color: var(--muted); }
+
+  h1 { font-size: 2rem; line-height: 1.25; margin: 0 0 12px; color: var(--navy); }
+  h2 { font-size: 1.4rem; line-height: 1.3; margin: 0 0 12px; color: var(--navy); }
+  h3 { font-size: 1.1rem; line-height: 1.35; margin: 0 0 8px; color: var(--navy); }
+  .lede { font-size: 1.1rem; margin: 0 0 22px; max-width: 62ch; }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  .notice {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--notice-bg); border-left: 5px solid var(--rust);
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 0 0 24px;
+  }
+  .notice svg { flex: 0 0 auto; margin-top: 3px; }
+  .notice p { margin: 0; }
+
+  figure { margin: 0 0 26px; }
+  figure img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); }
+  figcaption { font-size: .95rem; color: var(--muted); margin-top: 8px; }
+
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; align-items: start; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    padding: 26px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 24px;
+  }
+  .card > :last-child { margin-bottom: 0; }
+
+  table { border-collapse: collapse; width: 100%; margin: 0 0 14px; }
+  caption { text-align: left; font-weight: 700; padding: 0 0 8px; color: var(--navy); }
+  th, td { border: 1px solid var(--control-line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--thead); }
+
+  .divider { display: block; width: 100%; height: auto; margin: 0 0 24px; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 44px; padding: 10px 22px; font: inherit; font-weight: 700;
+    border: 0; border-radius: 6px; cursor: pointer; text-decoration: none;
+  }
+  .btn-primary { background: var(--teal); color: #fff; }
+  .btn-primary:hover { background: var(--teal-dark); color: #fff; }
+  .btn-accent { background: var(--rust); color: #fff; }
+  .btn-accent:hover { background: var(--rust-dark); color: #fff; }
+  .btn-quiet { background: #fff; color: var(--navy); border: 2px solid var(--navy); }
+  .btn-quiet:hover { background: var(--thead); }
+
+  /* Tabs */
+  [role="tablist"] {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    border-bottom: 2px solid var(--line); margin: 0 0 18px; padding: 0;
+  }
+  [role="tab"] {
+    font: inherit; background: transparent; color: var(--navy);
+    border: 0; border-bottom: 4px solid transparent; margin-bottom: -2px;
+    padding: 10px 14px; min-height: 44px; cursor: pointer;
+  }
+  [role="tab"]:hover { background: var(--thead); }
+  [role="tab"][aria-selected="true"] { border-bottom-color: var(--teal); font-weight: 700; }
+  [role="tabpanel"] > :last-child { margin-bottom: 0; }
+
+  /* Status */
+  .status {
+    border: 2px solid var(--teal); background: var(--ok-bg); color: var(--ink);
+    border-radius: 8px; padding: 12px 16px; margin: 0 0 16px;
+  }
+  .status:empty { border: 0; padding: 0; margin: 0; }
+
+  /* Accordion */
+  .accordion h3 { margin: 0; }
+  .accordion h3 button {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    width: 100%; text-align: left; font: inherit; font-weight: 700; color: var(--navy);
+    background: transparent; border: 0; border-top: 1px solid var(--line);
+    padding: 14px 4px; min-height: 44px; cursor: pointer;
+  }
+  .accordion h3 button:hover { background: var(--thead); }
+  .accordion h3 button svg { flex: 0 0 auto; transition: transform .15s ease; }
+  .accordion h3 button[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .accordion .panel { padding: 0 4px 18px; }
+  .accordion .panel > :last-child { margin-bottom: 0; }
+
+  /* Forms */
+  fieldset { border: 0; padding: 0; margin: 0 0 22px; min-width: 0; }
+  legend { font-weight: 700; color: var(--navy); padding: 0; margin: 0 0 4px; }
+  .field { margin-bottom: 20px; max-width: 34rem; }
+  .field > label { display: block; font-weight: 700; margin-bottom: 4px; }
+  .req { font-weight: 400; color: var(--muted); }
+  .hint { display: block; color: var(--muted); font-size: .95rem; margin: 0 0 6px; }
+  .field input, .field select {
+    width: 100%; padding: 10px 12px; font: inherit; color: var(--ink);
+    border: 2px solid var(--control-line); border-radius: 5px; background: #fff; min-height: 44px;
+  }
+  [aria-invalid="true"] { border-color: var(--err) !important; border-width: 3px !important; }
+  .choice { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .choice input { width: 22px; height: 22px; margin: 4px 0 0; flex: 0 0 auto; accent-color: var(--navy); }
+  .choice label { padding-top: 2px; }
+  .field-error { display: none; color: var(--err); font-weight: 700; margin: 6px 0 0; font-size: .95rem; }
+  .field-error.show { display: block; }
+  fieldset.invalid { border-left: 4px solid var(--err); padding-left: 14px; }
+  fieldset .field-error { margin-bottom: 10px; }
+
+  .summary {
+    display: none; border: 3px solid var(--err); background: var(--err-bg);
+    border-radius: 8px; padding: 18px 20px; margin: 0 0 26px;
+  }
+  .summary.show { display: block; }
+  .summary h3 { color: var(--err); margin-bottom: 6px; }
+  .summary ul { margin: 10px 0 0; padding-left: 22px; }
+  .summary a { color: var(--err); font-weight: 700; }
+
+  .success {
+    display: none; border: 3px solid var(--ok); background: var(--ok-bg);
+    border-radius: 8px; padding: 18px 20px; margin: 0 0 26px; color: var(--ok);
+  }
+  .success.show { display: block; }
+  .success h3 { color: var(--ok); margin-bottom: 4px; }
+
+  /* Sidebar */
+  aside.contact { background: var(--thead); border-left: 5px solid var(--teal); border-radius: 0 8px 8px 0; padding: 20px 22px; }
+  aside.contact h2 { font-size: 1.15rem; }
+  aside.contact address { font-style: normal; margin-bottom: 14px; }
+  aside.contact ul { list-style: none; padding: 0; }
+  aside.contact li { display: flex; align-items: center; gap: 8px; }
+
+  /* Dialog */
+  dialog {
+    width: min(92vw, 30rem); border: 0; border-radius: 12px; padding: 0;
+    color: var(--ink); box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  }
+  dialog::backdrop { background: rgba(13,59,79,.65); }
+  dialog .dialog-head {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    padding: 20px 24px 0;
+  }
+  dialog h2 { margin: 0 0 4px; }
+  dialog .dialog-body { padding: 8px 24px 24px; }
+  dialog .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+
+  /* Trainee notes */
+  details.notes { border-left: 5px solid var(--navy); background: #fff; border-radius: 0 8px 8px 0; margin: 32px 0 0; }
+  details.notes summary { cursor: pointer; padding: 14px 18px; min-height: 44px; }
+  details.notes summary h2 { display: inline; font-size: 1.05rem; margin: 0; }
+  details.notes[open] summary { border-bottom: 1px solid var(--line); }
+  details.notes .body { padding: 16px 22px 18px; }
+  details.notes .body > :last-child { margin-bottom: 0; }
+  kbd {
+    font-family: inherit; font-size: .9em; border: 1px solid var(--control-line);
+    border-bottom-width: 2px; border-radius: 4px; padding: 1px 6px; background: #fff;
+  }
+
+  .totop { display: inline-block; margin-top: 24px; }
+
+  footer.site { background: var(--navy); color: #dbe9ef; padding: 26px 24px; font-size: .95rem; }
+  footer.site p { margin: 0 0 6px; }
+  footer.site a { color: var(--yellow); }
+  footer.site a:hover { color: #fff; }
+
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    h1 { font-size: 1.6rem; }
+    main { padding: 24px 16px 44px; }
+    .card { padding: 18px; }
+    header.site { padding: 16px; }
+    nav.site > ul { padding: 0 8px; }
+    nav.site .sub { position: static; border-radius: 6px; box-shadow: none; margin: 0 0 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; }
+  }
+
+  @media print {
+    .skip, nav.site, form.search, .totop, details.notes, dialog { display: none; }
+    body { background: #fff; }
+    .card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site" id="top">
+  <div class="wrap">
+    <div class="brandline">
+      <span class="seal" aria-hidden="true">RPR</span>
+      <div>
+        <a class="brandname" href="../parks-and-rec-correct-page.html">Riverside Parks &amp; Recreation</a>
+        <p class="brandsub">City of Riverside &middot; Department of Parks &amp; Recreation</p>
+      </div>
+    </div>
+
+    <div class="searchbox">
+      <form class="search" role="search" id="site-search-form">
+        <div>
+          <label for="site-search">Search the parks site</label>
+          <input type="search" id="site-search" name="q" autocomplete="off">
+        </div>
+        <button type="submit">Search</button>
+      </form>
+      <p class="status" id="search-status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</header>
+
+<nav class="site" aria-label="Main">
+  <ul>
+    <li><a href="../parks-and-rec-correct-page.html">Program guide</a></li>
+    <li>
+      <button type="button" class="navbtn" aria-expanded="false" aria-controls="programs-menu" id="programs-button">
+        Programs
+        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <ul class="sub" id="programs-menu" hidden>
+        <li><a href="#lessons">Swim lessons</a></li>
+        <li><a href="../parks-and-rec-correct-page.html#youth">Youth programs</a></li>
+        <li><a href="../parks-and-rec-correct-page.html#active-adults">Active adults</a></li>
+      </ul>
+    </li>
+    <li><a href="#" aria-current="page">Aquatics Center</a></li>
+    <li><a href="../course-2/community-center-correct-page.html">Community Center</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="../parks-and-rec-correct-page.html">Home</a></li>
+        <li><span class="sep" aria-hidden="true">&rsaquo;</span> <a href="../parks-and-rec-correct-page.html#aquatics">Facilities</a></li>
+        <li><span class="sep" aria-hidden="true">&rsaquo;</span> <span aria-current="page">Aquatics Center</span></li>
+      </ol>
+    </nav>
+
+    <h1>Riverside Aquatics Center</h1>
+    <p class="lede">An eight-lane outdoor lap pool and a zero-depth leisure pool at Heron Point Park, open year round.</p>
+
+    <div class="notice">
+      <svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10" fill="none" stroke="#c84a1a" stroke-width="2"/><path d="M11 6v6M11 15v1.5" stroke="#c84a1a" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <p><strong>Notice:</strong> the facility is closed Thursday, November 27 for Thanksgiving. Regular hours resume Friday at 6:00 a.m.</p>
+    </div>
+
+    <figure>
+      <img src="img/aquatics-hero.svg" width="1200" height="480"
+           alt="Eight outdoor lap lanes divided by orange lane ropes, with a starting block at the end of each lane and the sun above.">
+      <figcaption>The outdoor lap pool at Heron Point Park, photographed from the shallow end.</figcaption>
+    </figure>
+
+    <div class="layout">
+      <div>
+
+        <section class="card">
+          <h2>Hours</h2>
+          <table>
+            <caption>Opening hours for each pool</caption>
+            <thead>
+              <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Lap pool</th>
+                <th scope="col">Leisure pool</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Monday to Friday</th><td>5:30 a.m. to 8:00 p.m.</td><td>Noon to 7:00 p.m.</td></tr>
+              <tr><th scope="row">Saturday</th><td>7:00 a.m. to 6:00 p.m.</td><td>10:00 a.m. to 6:00 p.m.</td></tr>
+              <tr><th scope="row">Sunday</th><td>8:00 a.m. to 5:00 p.m.</td><td>Noon to 5:00 p.m.</td></tr>
+            </tbody>
+          </table>
+          <p>Daily admission is $4 for residents and $6 for non-residents. Children under 3 swim free.</p>
+        </section>
+
+        <section class="card" id="lessons">
+          <h2>Swim lessons</h2>
+          <p>Six-week sessions begin September 14 and October 26. Choose an age group.</p>
+
+          <div role="tablist" aria-label="Swim lesson age groups">
+            <button type="button" role="tab" id="tab-preschool" aria-selected="true" aria-controls="panel-preschool">Preschool</button>
+            <button type="button" role="tab" id="tab-youth" aria-selected="false" aria-controls="panel-youth" tabindex="-1">Youth</button>
+            <button type="button" role="tab" id="tab-adult" aria-selected="false" aria-controls="panel-adult" tabindex="-1">Adult</button>
+          </div>
+
+          <div role="tabpanel" id="panel-preschool" aria-labelledby="tab-preschool" tabindex="0">
+            <p>Ages 3 to 5. A caregiver is in the water for the first level. Saturdays at 9:00 a.m., $55 for six weeks.</p>
+          </div>
+          <div role="tabpanel" id="panel-youth" aria-labelledby="tab-youth" tabindex="0" hidden>
+            <p>Ages 6 to 12, levels 1 through 6. Mondays and Wednesdays at 4:30 p.m., $70 for six weeks.</p>
+          </div>
+          <div role="tabpanel" id="panel-adult" aria-labelledby="tab-adult" tabindex="0" hidden>
+            <p>Beginners and returning swimmers. Tuesdays at 7:00 p.m., $85 for six weeks.</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Lap swim</h2>
+          <p>Eight lanes are open during lap pool hours. Members can hold a lane for 60 minutes, up to seven days ahead.</p>
+
+          <p><button type="button" class="btn btn-quiet" id="check-lanes">Check lane availability</button></p>
+          <p class="status" id="lane-status" role="status" aria-live="polite"></p>
+
+          <p><button type="button" class="btn btn-primary" id="open-reserve">Reserve a lap lane</button></p>
+          <p class="status" id="reserve-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <img class="divider" src="img/wave-divider.svg" width="1240" height="40" alt="">
+
+        <section class="card">
+          <h2>Frequently asked questions</h2>
+
+          <div class="accordion">
+            <h3>
+              <button type="button" aria-expanded="false" aria-controls="faq-1" id="faq-1-btn">
+                What happens when there is lightning?
+                <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16"><path d="M2 5.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+            </h3>
+            <div class="panel" id="faq-1" hidden>
+              <p>Lifeguards clear the outdoor water at the first sign of lightning and keep it clear for 30 minutes after the last strike.</p>
+            </div>
+
+            <h3>
+              <button type="button" aria-expanded="false" aria-controls="faq-2" id="faq-2-btn">
+                Is there a quiet time for swimmers who find the pool overwhelming?
+                <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16"><path d="M2 5.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+            </h3>
+            <div class="panel" id="faq-2" hidden>
+              <p>Yes. Sensory-friendly swim runs every Sunday from 8:00 to 10:00 a.m. Music is off and capacity is held to one third of normal.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Sign up for pool updates</h2>
+          <p>Fields marked <strong>(required)</strong> must be completed.</p>
+
+          <div class="summary" id="error-summary" role="alert" tabindex="-1">
+            <h3>There is a problem with your sign-up</h3>
+            <ul id="error-list"></ul>
+          </div>
+
+          <div class="success" id="signup-success" role="status">
+            <h3>You are signed up</h3>
+            <p>A confirmation is on its way to the address you gave.</p>
+          </div>
+
+          <form id="signup" novalidate>
+            <div class="field">
+              <label for="name">Full name <span class="req">(required)</span></label>
+              <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="name-err">
+              <p class="field-error" id="name-err">Enter your full name.</p>
+            </div>
+
+            <div class="field">
+              <label for="email">Email address <span class="req">(required)</span></label>
+              <span class="hint" id="email-hint">We only use it for pool updates.</span>
+              <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="email-hint email-err">
+              <p class="field-error" id="email-err">Enter an email address in the format name@example.com.</p>
+            </div>
+
+            <fieldset id="format-group" aria-describedby="format-err">
+              <legend>How should we reach you? <span class="req">(required)</span></legend>
+              <p class="field-error" id="format-err">Choose email or text message.</p>
+              <div class="choice">
+                <input type="radio" id="format-email" name="format" value="email">
+                <label for="format-email">Email</label>
+              </div>
+              <div class="choice">
+                <input type="radio" id="format-text" name="format" value="text">
+                <label for="format-text">Text message</label>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label for="membership">Your membership <span class="req">(required)</span></label>
+              <select id="membership" name="membership" required aria-required="true" aria-describedby="membership-err">
+                <option value="">Choose one</option>
+                <option value="pass">Season pass</option>
+                <option value="daily">Daily admission</option>
+                <option value="none">Not a member yet</option>
+              </select>
+              <p class="field-error" id="membership-err">Choose the option that describes your membership.</p>
+            </div>
+
+            <button type="submit" class="btn btn-accent">Sign up</button>
+          </form>
+        </section>
+
+        <section class="card" id="accessibility">
+          <h2>Accessibility at the pool</h2>
+          <p>Every pool has a zero-depth entry or a lift. An accessible family changing room has a roll-in shower and an adult-size changing table. Aquatic wheelchairs are free at the front desk.</p>
+          <p>This page was built to meet Web Content Accessibility Guidelines (WCAG) 2.1 at level AA. If anything on it does not
+             work with your assistive technology, email <a href="mailto:parks@riversideparks.gov">parks@riversideparks.gov</a>.</p>
+        </section>
+
+      </div>
+
+      <aside class="contact" id="contact" aria-labelledby="contact-h">
+        <h2 id="contact-h">Contact the pool office</h2>
+        <address>
+          Riverside Aquatics Center<br>
+          400 Riverbank Road<br>
+          Riverside, IN 47001
+        </address>
+        <ul>
+          <li>
+            <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M4 2h3l1.5 4-2 1.5a9 9 0 004 4L12 9.5 16 11v3a2 2 0 01-2 2A12 12 0 012 4a2 2 0 012-2z" fill="#1a7a6a"/></svg>
+            <a href="tel:+15554021188">(555) 402-1188</a>
+          </li>
+        </ul>
+        <p>Office hours are Monday to Friday, 8:00 a.m. to 5:00 p.m.</p>
+        <p>Spanish-language help is available:</p>
+        <p lang="es">Se habla español. Llame al (555) 402-1188 y pida hablar con Marisol.</p>
+      </aside>
+    </div>
+
+    <details class="notes">
+      <summary><h2>For trainees: how to test this page</h2></summary>
+      <div class="body">
+        <p>Nothing here is broken on purpose. Learn what each tool reports when a page is built correctly, then compare against the exercise pages.</p>
+        <ul>
+          <li><strong>WAVE:</strong> expect zero errors, zero contrast errors and zero alerts. The Structure tab shows one first-level heading and seven landmarks.</li>
+          <li><strong>Keyboard:</strong> the first <kbd>Tab</kbd> is the skip link. <kbd>Escape</kbd> closes the Programs menu and the dialog and returns focus to the button that opened them. <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> move between lesson tabs. Sending the form empty moves focus to the error summary, and each link in it lands on the field it names.</li>
+          <li><strong>Screen reader:</strong> headings, landmarks and table headers all read sensibly on their own. Each field announces its label, required state, hint and error. Lane availability is announced without moving focus. The Spanish sentence switches voice if one is installed.</li>
+        </ul>
+      </div>
+    </details>
+
+    <a class="totop" href="#top">Back to top</a>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>City of Riverside Parks &amp; Recreation &middot; 400 Riverbank Road, Riverside, IN 47001</p>
+    <p><a href="#accessibility">Accessibility statement</a></p>
+  </div>
+</footer>
+
+<dialog id="reserve-dialog" aria-labelledby="reserve-title">
+  <div class="dialog-head">
+    <h2 id="reserve-title">Reserve a lap lane</h2>
+    <button type="button" class="btn btn-quiet" id="reserve-close">Close</button>
+  </div>
+  <div class="dialog-body">
+    <p>Reservations hold a lane for 60 minutes. Members only.</p>
+    <form id="reserve-form" novalidate>
+      <div class="field">
+        <label for="reserve-date">Date <span class="req">(required)</span></label>
+        <span class="hint" id="reserve-date-hint">Up to seven days ahead, in the format month/day/year.</span>
+        <input type="date" id="reserve-date" name="date" required aria-required="true" aria-describedby="reserve-date-hint reserve-date-err">
+        <p class="field-error" id="reserve-date-err">Enter the date you want to swim.</p>
+      </div>
+      <div class="field">
+        <label for="reserve-time">Start time <span class="req">(required)</span></label>
+        <select id="reserve-time" name="time" required aria-required="true" aria-describedby="reserve-time-err">
+          <option value="">Choose a time</option>
+          <option>6:00 a.m.</option>
+          <option>Noon</option>
+          <option>6:00 p.m.</option>
+        </select>
+        <p class="field-error" id="reserve-time-err">Choose a start time.</p>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Confirm reservation</button>
+        <button type="button" class="btn btn-quiet" id="reserve-cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Site search: announce instead of navigating ---------- */
+  var searchStatus = document.getElementById('search-status');
+  document.getElementById('site-search-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = document.getElementById('site-search').value.trim();
+    searchStatus.textContent = q
+      ? 'Search is not connected in this training copy. You searched for: ' + q + '.'
+      : 'Enter a word or phrase to search for.';
+  });
+
+  /* ---------- Disclosure navigation (Programs) ---------- */
+  var navBtn = document.getElementById('programs-button');
+  var navMenu = document.getElementById('programs-menu');
+  var navItem = navBtn.parentNode;
+
+  function setMenu(open) {
+    navBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navMenu.hidden = !open;
+  }
+  navBtn.addEventListener('click', function () {
+    setMenu(navBtn.getAttribute('aria-expanded') !== 'true');
+  });
+  navItem.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && navBtn.getAttribute('aria-expanded') === 'true') {
+      e.preventDefault();
+      setMenu(false);
+      navBtn.focus();
+    }
+  });
+  navItem.addEventListener('focusout', function (e) {
+    if (!navItem.contains(e.relatedTarget)) { setMenu(false); }
+  });
+  document.addEventListener('click', function (e) {
+    if (!navItem.contains(e.target)) { setMenu(false); }
+  });
+  navMenu.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') { setMenu(false); }
+  });
+
+  /* ---------- Tabs ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+
+  function activateTab(tab) {
+    tabs.forEach(function (t) {
+      var selected = t === tab;
+      t.setAttribute('aria-selected', selected ? 'true' : 'false');
+      t.tabIndex = selected ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !selected;
+    });
+    tab.focus();
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { activateTab(tab); });
+    tab.addEventListener('keydown', function (e) {
+      var next = null;
+      if (e.key === 'ArrowRight') { next = tabs[(i + 1) % tabs.length]; }
+      else if (e.key === 'ArrowLeft') { next = tabs[(i - 1 + tabs.length) % tabs.length]; }
+      else if (e.key === 'Home') { next = tabs[0]; }
+      else if (e.key === 'End') { next = tabs[tabs.length - 1]; }
+      if (next) { e.preventDefault(); activateTab(next); }
+    });
+  });
+
+  /* ---------- Lane availability: live status region ---------- */
+  var checkBtn = document.getElementById('check-lanes');
+  var laneStatus = document.getElementById('lane-status');
+  var checking = false;
+  checkBtn.addEventListener('click', function () {
+    if (checking) { return; }
+    checking = true;
+    laneStatus.textContent = 'Checking lane availability.';
+    window.setTimeout(function () {
+      var open = 2 + Math.floor(Math.random() * 6);
+      var now = new Date();
+      var h = now.getHours(), m = now.getMinutes();
+      var time = (h % 12 === 0 ? 12 : h % 12) + ':' + (m < 10 ? '0' : '') + m + ' ' + (h >= 12 ? 'p.m.' : 'a.m.');
+      laneStatus.textContent = 'As of ' + time + ', ' + open + ' of 8 lap lanes are open.';
+      checking = false;
+    }, 700);
+  });
+
+  /* ---------- Modal dialog: reserve a lane ---------- */
+  var dialog = document.getElementById('reserve-dialog');
+  var openBtn = document.getElementById('open-reserve');
+  var reserveForm = document.getElementById('reserve-form');
+  var reserveStatus = document.getElementById('reserve-status');
+  var dateEl = document.getElementById('reserve-date');
+  var timeEl = document.getElementById('reserve-time');
+
+  function markInvalid(el, bad) {
+    var err = document.getElementById(el.id + '-err');
+    if (bad) { el.setAttribute('aria-invalid', 'true'); err.classList.add('show'); }
+    else { el.removeAttribute('aria-invalid'); err.classList.remove('show'); }
+  }
+
+  openBtn.addEventListener('click', function () {
+    reserveForm.reset();
+    markInvalid(dateEl, false);
+    markInvalid(timeEl, false);
+    dialog.showModal();
+  });
+  document.getElementById('reserve-close').addEventListener('click', function () { dialog.close(); });
+  document.getElementById('reserve-cancel').addEventListener('click', function () { dialog.close(); });
+  dialog.addEventListener('close', function () { openBtn.focus(); });
+  dialog.addEventListener('click', function (e) {
+    if (e.target === dialog) { dialog.close(); }
+  });
+
+  dateEl.addEventListener('input', function () { markInvalid(dateEl, false); });
+  timeEl.addEventListener('change', function () { markInvalid(timeEl, false); });
+
+  reserveForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var badDate = dateEl.value === '';
+    var badTime = timeEl.value === '';
+    markInvalid(dateEl, badDate);
+    markInvalid(timeEl, badTime);
+    if (badDate) { dateEl.focus(); return; }
+    if (badTime) { timeEl.focus(); return; }
+
+    var parts = dateEl.value.split('-');
+    var when = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    var pretty = when.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    var slot = /\.$/.test(timeEl.value) ? timeEl.value : timeEl.value + '.';
+    dialog.close();
+    reserveStatus.textContent = 'Lane reserved for ' + pretty + ' at ' + slot + ' A confirmation is on its way.';
+  });
+
+  /* ---------- Accordion ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.accordion h3 button'), function (btn) {
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      document.getElementById(btn.getAttribute('aria-controls')).hidden = open;
+    });
+  });
+
+  /* ---------- Sign-up form validation ---------- */
+  var form = document.getElementById('signup');
+  var summary = document.getElementById('error-summary');
+  var list = document.getElementById('error-list');
+  var success = document.getElementById('signup-success');
+  var formatGroup = document.getElementById('format-group');
+
+  var checks = [
+    { id: 'name', label: 'Full name', focusId: 'name',
+      test: function () { return document.getElementById('name').value.trim() !== ''; } },
+    { id: 'email', label: 'Email address', focusId: 'email',
+      test: function () { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value.trim()); } },
+    { id: 'format', label: 'How should we reach you', focusId: 'format-email', group: true,
+      test: function () { return !!form.querySelector('input[name="format"]:checked'); } },
+    { id: 'membership', label: 'Your membership', focusId: 'membership',
+      test: function () { return document.getElementById('membership').value !== ''; } }
+  ];
+
+  function setFieldState(c, bad) {
+    var err = document.getElementById(c.id + '-err');
+    err.classList.toggle('show', bad);
+    if (c.group) {
+      formatGroup.classList.toggle('invalid', bad);
+      Array.prototype.forEach.call(form.querySelectorAll('input[name="format"]'), function (r) {
+        if (bad) { r.setAttribute('aria-invalid', 'true'); } else { r.removeAttribute('aria-invalid'); }
+      });
+      return;
+    }
+    var el = document.getElementById(c.id);
+    if (bad) { el.setAttribute('aria-invalid', 'true'); } else { el.removeAttribute('aria-invalid'); }
+  }
+
+  checks.forEach(function (c) {
+    var targets = c.group ? form.querySelectorAll('input[name="format"]') : [document.getElementById(c.id)];
+    Array.prototype.forEach.call(targets, function (el) {
+      el.addEventListener('input', function () { setFieldState(c, false); });
+      el.addEventListener('change', function () { setFieldState(c, false); });
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    success.classList.remove('show');
+    var bad = [];
+    checks.forEach(function (c) {
+      var ok = c.test();
+      setFieldState(c, !ok);
+      if (!ok) { bad.push({ c: c, msg: document.getElementById(c.id + '-err').textContent.trim() }); }
+    });
+
+    if (bad.length) {
+      list.innerHTML = '';
+      bad.forEach(function (b) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + b.c.focusId;
+        a.textContent = b.c.label + ': ' + b.msg;
+        a.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          document.getElementById(b.c.focusId).focus();
+        });
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+      summary.classList.add('show');
+      summary.focus();
+    } else {
+      summary.classList.remove('show');
+      success.classList.add('show');
+      form.reset();
+      success.scrollIntoView({ block: 'nearest' });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

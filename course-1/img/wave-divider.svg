@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 40" width="1240" height="40">
+  <path d="M0 22 Q77 4 155 22 T310 22 T465 22 T620 22 T775 22 T930 22 T1085 22 T1240 22" fill="none" stroke="#1a7a6a" stroke-width="3"/>
+  <path d="M0 32 Q77 14 155 32 T310 32 T465 32 T620 32 T775 32 T930 32 T1085 32 T1240 32" fill="none" stroke="#0d3b4f" stroke-width="2" opacity=".5"/>
+</svg>
