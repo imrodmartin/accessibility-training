@@ -149,19 +149,47 @@
               <span class="badge">Exercise 3.1</span>
               <span class="ex-meta">Module 3<br>Auditing a real page</span>
             </div>
-            <div>
-              <h3>Parks and events listing</h3>
-              <p>Four Riverside Parks &amp; Recreation pages, each with barriers built in. Find the barriers a keyboard-only visitor hits, then write up each one against the success criterion it violates. Parts B, C and D each have a corrected version with a disclosure at the bottom that names every fix and the criterion it satisfies.</p>
-              <p><strong>Part A, Parks and events listing.</strong> <a href="{{ exerciseHref }}">A parks and events page</a> with a filter panel, a card grid and a registration form. Hover over the flagged pieces to inspect how each is built.</p>
-              <p><strong>Part B, Fall program guide.</strong> <a href="course-1/parks-and-rec-fake-headings.html">The program guide as published</a> looks fully structured, yet not one heading is a heading element. Read it with a screen reader's heading list, then compare <a href="course-1/parks-and-rec-correct-page.html">the corrected program guide</a>.</p>
-              <p><strong>Part C, Employment application.</strong> <a href="course-1/online-application-what-not-to-do.html">The application form as published</a> uses placeholders as labels, marks required fields by color alone, and rejects entries without naming the field or announcing the error. Then compare <a href="course-1/online-application-correct-page.html">the corrected application form</a>.</p>
-              <p><strong>Part D, Services landing page.</strong> <a href="course-1/services-what-not-to-do.html">The Services page as published</a> has five barriers: a hover-only menu, six identical links, light gray text and no focus outline. Then compare <a href="course-1/services-correct-page.html">the corrected Services page</a>.</p>
-              <p class="path">{{ exerciseHref }}</p>
+            <div class="ex-wide">
+              <h3>Four pages, each with barriers built in</h3>
+              <p>Riverside Parks &amp; Recreation pages as published. Find the barriers a keyboard-only visitor hits, then write up each one against the success criterion it violates. Parts B, C and D each have a corrected version with a disclosure at the bottom that names every fix and the criterion it satisfies.</p>
+              <div class="game-grid">
+                <div class="game">
+                  <h4>Part A &middot; Parks and events listing</h4>
+                  <p>A filter panel, a card grid and a registration form. Hover over the flagged pieces to inspect how each is built.</p>
+                  <a class="cta" href="{{ exerciseHref }}">
+                    <span>Open Part A</span>
+                    <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 18 }}" hint-size="18px,18px"></x-import>
+                  </a>
+                </div>
+                <div class="game">
+                  <h4>Part B &middot; Fall program guide</h4>
+                  <p>Looks fully structured, yet not one heading is a heading element. Read it with a screen reader's heading list.</p>
+                  <a class="cta" href="course-1/parks-and-rec-fake-headings.html">
+                    <span>Open Part B</span>
+                    <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 18 }}" hint-size="18px,18px"></x-import>
+                  </a>
+                  <p class="path"><a href="course-1/parks-and-rec-correct-page.html">Compare the corrected program guide</a></p>
+                </div>
+                <div class="game">
+                  <h4>Part C &middot; Employment application</h4>
+                  <p>Placeholders as labels, required fields marked by color alone, and errors that name no field and announce nothing.</p>
+                  <a class="cta" href="course-1/online-application-what-not-to-do.html">
+                    <span>Open Part C</span>
+                    <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 18 }}" hint-size="18px,18px"></x-import>
+                  </a>
+                  <p class="path"><a href="course-1/online-application-correct-page.html">Compare the corrected application form</a></p>
+                </div>
+                <div class="game">
+                  <h4>Part D &middot; Services landing page</h4>
+                  <p>Five barriers: a hover-only menu, six identical links, light gray text and no focus outline.</p>
+                  <a class="cta" href="course-1/services-what-not-to-do.html">
+                    <span>Open Part D</span>
+                    <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 18 }}" hint-size="18px,18px"></x-import>
+                  </a>
+                  <p class="path"><a href="course-1/services-correct-page.html">Compare the corrected Services page</a></p>
+                </div>
+              </div>
             </div>
-            <a class="cta" href="{{ exerciseHref }}">
-              <span>Open 3.1</span>
-              <x-import component-from-global-scope="PrometSourceDesignSystem_b4bce0.Icon" name="external-link" size="{{ 20 }}" hint-size="20px,20px"></x-import>
-            </a>
           </li>
 
           <li class="ex">
