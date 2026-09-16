@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<!--
+  TRAINING ARTIFACT: the corrected version of the Services page.
+  Same visual design as services-what-not-to-do.html, with the five failures
+  fixed: menus that open on click and keyboard, links that say where they go,
+  text that passes contrast, and focus you can see.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Services | Riverside Parks &amp; Recreation</title>
+<style>
+  :root {
+    --navy: #0d3b4f;
+    --teal: #1a7a6a;
+    --teal-dark: #14655a;
+    --sand: #f6f3ee;
+    --ink: #23303a;       /* 13.5:1 on white */
+    --link: #145e78;      /* 7.2:1 on white */
+    --yellow: #ffd166;
+    --ok: #125c3f;
+    --ok-bg: #e6f4ec;
+  }
+  * { box-sizing: border-box; }
+
+  /* Focus: 3px ring with a gap. Navy on the white page, yellow on the navy
+     and teal bars, where a navy ring would fall below 3:1. */
+  :focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; border-radius: 3px; }
+  header.site :focus-visible,
+  nav.site :focus-visible,
+  footer.site :focus-visible { outline-color: var(--yellow); }
+
+  body {
+    margin: 0; background: #fff; color: var(--ink);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  .skip {
+    position: absolute; left: -9999px; top: 0; z-index: 100;
+    background: #fff; color: var(--link); font-weight: 700;
+    padding: 12px 18px; text-decoration: underline;
+  }
+  .skip:focus { left: 8px; top: 8px; }
+
+  header.site { background: var(--navy); color: #fff; padding: 18px 0; }
+  .brandline { display: flex; align-items: center; gap: 14px; }
+  .seal {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--yellow); color: var(--navy);
+    display: grid; place-items: center; font-weight: 700; flex: 0 0 auto;
+  }
+  .brandname { font-size: 1.2rem; font-weight: 700; margin: 0; }
+  .brandsub { margin: 0; font-size: .88rem; color: #bcd4dd; }
+
+  /* Menus open on click, Enter or Space. Submenus stay in the document and
+     in the tab order whenever they are open; Escape closes them. */
+  nav.site { background: var(--teal); }
+  nav.site > ul {
+    max-width: 1000px; margin: 0 auto; padding: 0 24px;
+    list-style: none; display: flex; flex-wrap: wrap; gap: 2px;
+  }
+  nav.site li { position: relative; }
+  nav.site a, nav.site button {
+    display: flex; align-items: center; gap: 6px;
+    padding: 14px 18px; min-height: 44px; color: #fff; text-decoration: none;
+    font: inherit; background: transparent; border: 0; cursor: pointer;
+  }
+  nav.site a:hover, nav.site button:hover { background: rgba(0,0,0,.28); text-decoration: underline; }
+  nav.site button[aria-expanded="true"] { background: rgba(0,0,0,.28); }
+  nav.site button svg { transition: transform .15s ease; }
+  nav.site button[aria-expanded="true"] svg { transform: rotate(180deg); }
+  nav.site ul ul {
+    position: absolute; top: 100%; left: 0; z-index: 40;
+    background: var(--teal-dark); list-style: none; margin: 0; padding: 6px 0;
+    min-width: 240px; box-shadow: 0 8px 20px rgba(0,0,0,.3);
+  }
+  nav.site ul ul a { padding: 10px 18px; font-size: .95rem; }
+  nav.site ul ul a:hover { background: rgba(0,0,0,.3); }
+
+  main { padding: 36px 0 56px; }
+  h1 { font-size: 2rem; margin: 0 0 8px; color: var(--navy); line-height: 1.25; }
+  .lede { margin: 0 0 32px; max-width: 62ch; }
+
+  .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .service h2 { font-size: 1.15rem; margin: 0 0 8px; color: var(--navy); }
+  .service p { margin: 0 0 10px; font-size: .97rem; }
+  .service a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+  .service a:hover { color: var(--navy); text-decoration-thickness: 2px; }
+
+  footer.site { background: var(--navy); color: #cfe0e7; padding: 26px 0; font-size: .9rem; margin-top: 20px; }
+  footer.site a { color: var(--yellow); }
+
+  /* ---------------------------------------------------------------
+     TRAINING NOTES. A disclosure, so it is keyboard operable and never
+     disappears on pointer move. Delete this block and the .fixnote
+     markup for a clean "after" page.
+     --------------------------------------------------------------- */
+  details.fixnote {
+    border-left: 5px solid var(--ok); background: var(--ok-bg);
+    border-radius: 0 8px 8px 0; margin: 30px 0 0; color: var(--ink);
+  }
+  details.fixnote summary {
+    cursor: pointer; padding: 13px 16px; font-weight: 700; color: var(--ok);
+    list-style-position: inside;
+  }
+  details.fixnote[open] summary { border-bottom: 1px solid #b9d8c7; }
+  details.fixnote .body { padding: 14px 20px 18px; }
+  details.fixnote ol { margin: 0; padding-left: 22px; }
+  details.fixnote li { margin-bottom: 13px; }
+  details.fixnote li:last-child { margin-bottom: 0; }
+  details.fixnote code {
+    background: #0d2b22; color: #b9ecd6; padding: 1px 5px; border-radius: 3px; font-size: .85em;
+  }
+  .sc { display: block; font-style: italic; color: #4a5b66; font-size: .9rem; margin-top: 2px; }
+
+  @media (prefers-reduced-motion: reduce) { nav.site button svg { transition: none; } }
+  @media (max-width: 860px) { .services { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) {
+    .services { grid-template-columns: 1fr; }
+    h1 { font-size: 1.6rem; }
+    nav.site ul ul { position: static; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site">
+  <div class="wrap brandline">
+    <span class="seal" aria-hidden="true">RPR</span>
+    <div>
+      <p class="brandname">Riverside Parks &amp; Recreation</p>
+      <p class="brandsub">City of Riverside &middot; Department of Parks &amp; Recreation</p>
+    </div>
+  </div>
+</header>
+
+<nav class="site" aria-label="Main">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li>
+      <button type="button" aria-expanded="false" aria-controls="menu-parks">
+        Parks
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <ul id="menu-parks" hidden>
+        <li><a href="#">Find a Park</a></li>
+        <li><a href="#">Trails &amp; Greenways</a></li>
+        <li><a href="#">Dog Parks</a></li>
+        <li><a href="#">Park Rules</a></li>
+      </ul>
+    </li>
+    <li>
+      <button type="button" aria-expanded="false" aria-controls="menu-programs">
+        Programs
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <ul id="menu-programs" hidden>
+        <li><a href="#">Youth Camps</a></li>
+        <li><a href="#">Adult Leagues</a></li>
+        <li><a href="#">Senior Activities</a></li>
+        <li><a href="#">Swim Lessons</a></li>
+      </ul>
+    </li>
+    <li>
+      <button type="button" aria-expanded="false" aria-controls="menu-services">
+        Services
+        <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <ul id="menu-services" hidden>
+        <li><a href="#">Facility Rentals</a></li>
+        <li><a href="#">Permits</a></li>
+        <li><a href="#">Volunteer</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+    <h1>Our Services</h1>
+    <p class="lede">The Department of Parks &amp; Recreation maintains public green space,
+       runs year-round programming, and supports community events across Riverside.</p>
+
+    <div class="services">
+      <div class="service">
+        <h2>Park Maintenance</h2>
+        <p>Mowing, tree care, playground inspection, and trail upkeep across 41 city parks
+           and more than 300 acres of public land.</p>
+        <p><a href="#">More about park maintenance</a></p>
+      </div>
+
+      <div class="service">
+        <h2>Youth Programs</h2>
+        <p>After-school clubs, summer day camps, and school-break activities for children
+           ages 5 through 17, with sliding-scale fees.</p>
+        <p><a href="#">More about youth programs</a></p>
+      </div>
+
+      <div class="service">
+        <h2>Facility Rentals</h2>
+        <p>Shelters, ball fields, meeting rooms, and the Willow Bend Amphitheater are
+           available for private and community events.</p>
+        <p><a href="#">More about facility rentals</a></p>
+      </div>
+
+      <div class="service">
+        <h2>Senior Recreation</h2>
+        <p>Fitness classes, day trips, and social programming for residents 55 and older
+           at the Riverbank Community Center.</p>
+        <p><a href="#">More about senior recreation</a></p>
+      </div>
+
+      <div class="service">
+        <h2>Aquatics</h2>
+        <p>Two outdoor pools and one indoor lap pool, with swim lessons, lifeguard
+           certification, and open-swim hours.</p>
+        <p><a href="#">More about aquatics</a></p>
+      </div>
+
+      <div class="service">
+        <h2>Volunteer Opportunities</h2>
+        <p>Trail crews, park cleanups, coaching, and event staffing. Individual and group
+           placements are available year-round.</p>
+        <p><a href="#">More about volunteer opportunities</a></p>
+      </div>
+    </div>
+
+    <details class="fixnote">
+      <summary>What changed from the inaccessible version</summary>
+      <div class="body">
+        <ol>
+          <li><strong>The menus open on click, Enter or Space.</strong> Each top-level
+            item that has a submenu is now a <code>&lt;button&gt;</code> with
+            <code>aria-expanded</code> and <code>aria-controls</code>. The submenu is
+            <code>hidden</code> until the button opens it, then every link in it is in
+            the tab order. Tab through this page and count the links you can reach:
+            all of them.
+            <span class="sc">Satisfies 2.1.1 Keyboard (A)</span></li>
+
+          <li><strong>Nothing appears on hover alone, so nothing vanishes on hover.</strong>
+            An open menu stays open until you choose a link, press
+            <code>Escape</code>, move focus out of it, or click elsewhere. Escape also
+            returns focus to the button that opened it.
+            <span class="sc">Satisfies 1.4.13 Content on Hover or Focus (AA)</span></li>
+
+          <li><strong>Every link says where it goes.</strong> "Read more" six times
+            became "More about park maintenance", "More about youth programs", and so on.
+            A screen reader's list of links now reads as a table of contents.
+            <span class="sc">Satisfies 2.4.4 Link Purpose (In Context) (A) and 2.4.9 Link Purpose (Link Only) (AAA)</span></li>
+
+          <li><strong>Contrast was measured, not guessed.</strong> Body text is now
+            <code>#23303a</code> on white, 13.5:1. Links are <code>#145e78</code>, 7.2:1,
+            and underlined so color is not the only cue.
+            <span class="sc">Satisfies 1.4.3 Contrast (Minimum) (AA) and 1.4.1 Use of Color (A)</span></li>
+
+          <li><strong>Focus is visible everywhere.</strong> The
+            <code>*:focus { outline: none; }</code> rule is gone. A 3px ring with a 2px gap
+            shows on every stop: navy on the white page and yellow on the navy and teal
+            bars, where it keeps 3:1 against the background.
+            <span class="sc">Satisfies 2.4.7 Focus Visible (AA) and 1.4.11 Non-text Contrast (AA)</span></li>
+
+          <li><strong>A skip link and landmarks were added.</strong> The header, navigation,
+            main content and footer are real landmarks, and the first Tab stop lets a
+            keyboard user bypass the menu bar.
+            <span class="sc">Satisfies 2.4.1 Bypass Blocks (A)</span></li>
+        </ol>
+      </div>
+    </details>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>City of Riverside Parks &amp; Recreation &middot; 400 Riverbank Road, Riverside</p>
+    <p><a href="#">Accessibility Statement</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Site Map</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var nav = document.querySelector('nav.site');
+  var buttons = Array.prototype.slice.call(nav.querySelectorAll('button[aria-expanded]'));
+
+  function setOpen(btn, open) {
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.getElementById(btn.getAttribute('aria-controls')).hidden = !open;
+  }
+  function closeAll(except) {
+    buttons.forEach(function (b) { if (b !== except) setOpen(b, false); });
+  }
+
+  buttons.forEach(function (btn) {
+    var item = btn.parentNode;
+
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll(btn);
+      setOpen(btn, !open);
+    });
+
+    item.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        e.preventDefault();
+        setOpen(btn, false);
+        btn.focus();
+      }
+    });
+
+    item.addEventListener('focusout', function (e) {
+      if (!item.contains(e.relatedTarget)) setOpen(btn, false);
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!nav.contains(e.target)) closeAll(null);
+  });
+})();
+</script>
+
+</body>
+</html>
